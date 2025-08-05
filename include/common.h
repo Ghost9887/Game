@@ -60,6 +60,7 @@ typedef struct {
   int width;
   int height;
   int health;
+  float speed;
   bool canShoot;
   float invTime;
   float timer;

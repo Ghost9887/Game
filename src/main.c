@@ -37,7 +37,8 @@ int main(void) {
   Weapon weaponArr[10];
   initWeaponArr(weaponArr);
 
-  Player player = createPlayerObject(weaponArr[0]);
+  Player player = createPlayerObject();
+  player.weapon = weaponArr[0]; //the first weapon(pistol)
 
   // start the first round
   startRound(&rnd, enemyArr);

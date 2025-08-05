@@ -5,17 +5,18 @@
 #include <stdio.h>
 #include <string.h>
 
-Player createPlayerObject(Weapon weapon) {
+Player createPlayerObject() {
   Player player;
   player.x = (float) SCREENWIDTH / (float)2;
   player.y = (float) SCREENHEIGHT / (float)2;
   player.width = 30;
   player.height = 50;
   player.health = 100;
+  player.speed = 115.0f;
   player.canShoot = false;
   player.invTime = 0.0f;
   player.timer;
-  player.weapon = weapon; //defualt: pistol
+  player.weapon; //defualt: pistol
   return player;
 }
 
@@ -24,16 +25,15 @@ void drawPlayer(Player *player) {
 }
 
 void playerMovement(Player *player) {
-  float movementSpeed = 115.0f;
   float deltaTime = GetFrameTime();
   if (IsKeyDown(KEY_A) && player->x > 0)
-    player->x -= movementSpeed * deltaTime;
+    player->x -= player->speed * deltaTime;
   if (IsKeyDown(KEY_D) && player->x + player->width < SCREENWIDTH)
-    player->x += movementSpeed * deltaTime;
+    player->x += player->speed * deltaTime;
   if (IsKeyDown(KEY_S) && player->y + player->height < SCREENHEIGHT)
-    player->y += movementSpeed * deltaTime;
+    player->y += player->speed * deltaTime;
   if (IsKeyDown(KEY_W) && player->y > 0)
-    player->y -= movementSpeed * deltaTime;
+    player->y -= player->speed * deltaTime;
 }
 
 void playerShoot(Player *player, Projectile *projectileArr, int indexOfEnemy,
