@@ -2,9 +2,6 @@
 #include "ui.h"
 #include "player.h"
 
-extern const unsigned int SCREENWIDTH;
-extern const unsigned int SCRRENHEIGHT;
-
 void drawUI(int health, int enemyCounter, float invTimer, int lvl, int coins, int spawnedEnemies){
   DrawText(TextFormat("Health: %d", health), 25, 25, 40, BLACK);
   DrawText(TextFormat("Vulnerable: %f", invTimer), 25, 135, 40, BLACK);

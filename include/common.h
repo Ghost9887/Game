@@ -3,6 +3,13 @@
 
 #include <stdbool.h>
 
+#define SCREENWIDTH 1200
+#define SCREENHEIGHT 800
+#define MAXENEMIES 1000
+#define MAXPROJECTILES 200
+#define TARGETFPS 60 
+#define MAXSPAWNENEMIES 40
+
 typedef struct {
   float x;
   float y;

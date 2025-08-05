@@ -5,9 +5,6 @@
 #include <math.h>
 #include <stdio.h>
 
-extern const unsigned int MAXPROJECTILES;
-extern const unsigned int MAXSPAWNENEMIES;
-
 Projectile createProjectile(int indexOfEnemy, Player *player, Weapon *weapon) {
   Projectile projectile;
   projectile.x = player->x;

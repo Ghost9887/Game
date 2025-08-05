@@ -1,8 +1,6 @@
 #include "pistol.h"
 #include <stdbool.h>
 
-extern const unsigned int TARGETFPS;
-
 Weapon createPistol() {
   Weapon pistol;
   pistol.x = 0;

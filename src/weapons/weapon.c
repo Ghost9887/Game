@@ -4,8 +4,6 @@
 #include "raylib.h"
 #include "rocketLauncher.h"
 
-extern const unsigned int TARGETFPS;
-
 void drawWeapon(Player *player, Weapon *weapon) {
   DrawRectangle(player->x, player->y, weapon->width, weapon->height, BLACK);
 }

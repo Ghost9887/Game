@@ -1,7 +1,5 @@
 #include "assaultRifle.h"
 
-extern const unsigned int TARGETFPS;
-
 Weapon createAssaultRifle() {
   Weapon assualtRifle;
   assualtRifle.x = 0;

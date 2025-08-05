@@ -1,8 +1,6 @@
 #include "rocketLauncher.h"
 #include "common.h"
 
-extern const unsigned int TARGETFPS;
-
 Weapon createRocketLauncher() {
   Weapon rocketLauncher;
   rocketLauncher.x = 0;

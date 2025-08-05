@@ -6,15 +6,12 @@
 #include <stdlib.h>
 #include <time.h>
 
-extern unsigned int MAXENEMIES;
 extern unsigned int ENEMYCOUNTER;
-extern const unsigned int SCREENWIDTH;
-extern const unsigned int SCREENHEIGHT;
-extern const unsigned int MAXSPAWNENEMIES;
 extern unsigned int CURRENTSPAWNEDENEMIES;
 
 void enemyMovement(Enemy *enemy, Player *player) {
-  const float movementSpeed = 1.5f;
+  const float movementSpeed = 75.0f;
+  float deltaTime = GetFrameTime();
   float dx = player->x - enemy->x;
   float dy = player->y - enemy->y;
   float length = sqrtf(dx * dx + dy * dy);
@@ -22,8 +19,8 @@ void enemyMovement(Enemy *enemy, Player *player) {
     return;
   float dirX = dx / length;
   float dirY = dy / length;
-  enemy->x += dirX * movementSpeed;
-  enemy->y += dirY * movementSpeed;
+  enemy->x += dirX * movementSpeed * deltaTime;
+  enemy->y += dirY * movementSpeed * deltaTime;
 }
 
 Enemy createEnemyObject(float posX, float posY) {

@@ -12,12 +12,6 @@
 #include <time.h>
 
 // GLOBAL VARIABLES
-const unsigned int SCREENWIDTH = 1800;
-const unsigned int SCREENHEIGHT = 1200;
-const unsigned int TARGETFPS = 60;
-const unsigned int MAXPROJECTILES = 200;
-const unsigned int MAXENEMIES = 500;
-const unsigned int MAXSPAWNENEMIES = 40;
 unsigned int ENEMYCOUNTER = 0;
 unsigned int CURRENTSPAWNEDENEMIES = 0;
 

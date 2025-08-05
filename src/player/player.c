@@ -5,11 +5,6 @@
 #include <stdio.h>
 #include <string.h>
 
-extern const unsigned int SCREENWIDTH;
-extern const unsigned int SCREENHEIGHT;
-extern const unsigned int TARGETFPS;
-extern int MAXPROJECTILES;
-
 Player createPlayerObject(Weapon weapon) {
   Player player;
   player.x = (float)SCREENWIDTH / (float)2;
@@ -29,15 +24,16 @@ void drawPlayer(Player *player) {
 }
 
 void playerMovement(Player *player) {
-  float movementSpeed = 5.0f;
+  float movementSpeed = 115.0f;
+  float deltaTime = GetFrameTime();
   if (IsKeyDown(KEY_A) && player->x > 0)
-    player->x -= movementSpeed;
+    player->x -= movementSpeed * deltaTime;
   if (IsKeyDown(KEY_D) && player->x + player->width < SCREENWIDTH)
-    player->x += movementSpeed;
+    player->x += movementSpeed * deltaTime;
   if (IsKeyDown(KEY_S) && player->y + player->height < SCREENHEIGHT)
-    player->y += movementSpeed;
+    player->y += movementSpeed * deltaTime;
   if (IsKeyDown(KEY_W) && player->y > 0)
-    player->y -= movementSpeed;
+    player->y -= movementSpeed * deltaTime;
 }
 
 void playerShoot(Player *player, Projectile *projectileArr, int indexOfEnemy,
