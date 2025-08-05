@@ -4,8 +4,8 @@
 #include "raylib.h"
 #include "rocketLauncher.h"
 
-void drawWeapon(Player *player, Weapon *weapon) {
-  DrawRectangle(player->x, player->y, weapon->width, weapon->height, BLACK);
+void drawWeapon(Player *player) {
+  DrawRectangle(player->x, player->y, player->weapon.width, player->weapon.height, BLACK);
 }
 
 // refactor this
@@ -36,4 +36,17 @@ void switchWeapons(Player *player, Weapon *weaponArr) {
     weaponArr[0].holding = false;
     player->timer = 1.0f * (float)TARGETFPS;
   }
+}
+
+void updateWeapon(Weapon *weaponArr, Player *player) {
+  int index;
+  for (index = 0; index < 10; index++) {
+    if (weaponArr[index].holding == true)
+      break;
+  }
+  player->weapon = weaponArr[index];
+  weaponArr[index].x = player->x;
+  weaponArr[index].y = player->y;
+  drawWeapon(player);
+  switchWeapons(player, weaponArr); // listens if the player has switched
 }

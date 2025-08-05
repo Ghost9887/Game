@@ -2,6 +2,7 @@
 #include "coins.h"
 #include "player.h"
 #include "raylib.h"
+#include "ui.h"
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
@@ -43,18 +44,20 @@ void updateEnemy(Enemy *enemyArr, Player *player) {
   for (int i = 0; i < MAXSPAWNENEMIES; i++) {
     if (!enemyArr[i].active)
       continue;
+
     enemyMovement(&enemyArr[i], player);
     drawEnemy(&enemyArr[i]);
+
+    //checks collision with player
     if (!isPlayerInvulnerable(player) &&
         checkCollisionWithPlayer(&enemyArr[i], player)) {
       playerLoseHealth(&enemyArr[i], player);
     }
-    // draw the enemy health above their heads
-    DrawText(TextFormat("%d", (int)enemyArr[i].health),
-             enemyArr[i].x + enemyArr[i].width / 2 - 10,
-             enemyArr[i].y + enemyArr[i].height / 2 - 60, 20, RED);
+
+    drawEnemyHealth(&enemyArr[i]);
   }
 }
+
 
 void initEnemyArr(Enemy *enemyArr) {
   // initialize the projectile array

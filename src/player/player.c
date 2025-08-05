@@ -7,15 +7,15 @@
 
 Player createPlayerObject(Weapon weapon) {
   Player player;
-  player.x = (float)SCREENWIDTH / (float)2;
-  player.y = (float)SCREENHEIGHT / (float)2;
+  player.x = (float) SCREENWIDTH / (float)2;
+  player.y = (float) SCREENHEIGHT / (float)2;
   player.width = 30;
   player.height = 50;
   player.health = 100;
   player.canShoot = false;
   player.invTime = 0.0f;
   player.timer;
-  player.weapon = weapon;
+  player.weapon = weapon; //defualt: pistol
   return player;
 }
 
@@ -91,20 +91,6 @@ bool isPlayerInvulnerable(Player *player) {
     return true;
   }
   return false;
-}
-
-void updateWeapon(Weapon *weaponArr, Player *player) {
-  int index;
-  for (index = 0; index < 10; index++) {
-    if (weaponArr[index].holding == true)
-      break;
-  }
-  player->weapon = weaponArr[index];
-  weaponArr[index].x = player->x;
-  weaponArr[index].y = player->y;
-  drawWeapon(player, &player->weapon);
-  switchWeapons(player, weaponArr); // listens if the player has switched
-                                    // weapons
 }
 
 void updatePlayer(Player *player, Weapon *weaponArr) {

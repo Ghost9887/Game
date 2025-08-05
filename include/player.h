@@ -15,6 +15,5 @@ void playerLoseHealth(Enemy *enemy, Player *player);
 bool isPlayerInvulnerable(Player *player);
 void invTimer(Player *player);
 void updatePlayer(Player *player, Weapon *weapon);
-void updateWeapon(Weapon *weaponArr, Player *player);
 
 #endif

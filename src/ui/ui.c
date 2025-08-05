@@ -15,4 +15,9 @@ void showBreakUI(int time){
   DrawText(TextFormat("Time until next round: %d", time), SCREENWIDTH / 2, 40, 20, RED);
 }
 
+void drawEnemyHealth(Enemy *enemy){
+  DrawText(TextFormat("%d", (int) enemy->health), enemy->x + enemy->width / 2 - 10, 
+           enemy->y + enemy->height / 2 - 60, 20, RED);
+}
+
 

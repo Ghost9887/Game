@@ -26,17 +26,23 @@ int main(void) {
   // creating all objects for the game
   Projectile projectileArr[MAXPROJECTILES];
   initProjectileArray(projectileArr);
+
   Enemy enemyArr[MAXENEMIES];
   initEnemyArr(enemyArr);
+
   Round rnd = createRoundObject();
   Coins coins = createCoins();
+
   // houses all the weapons
   Weapon weaponArr[10];
   initWeaponArr(weaponArr);
+
   Player player = createPlayerObject(weaponArr[0]);
+
   // start the first round
   startRound(&rnd, enemyArr);
   // MAIN GAME LOOP
+  
   while (!WindowShouldClose()) {
 
     BeginDrawing();
@@ -59,6 +65,8 @@ void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
 
   // checks if the round should end
   updateBreak(rnd, enemyArr);
+
+  updateWeapon(weaponArr, player);
 
   // drawing
   drawUI(player->health, ENEMYCOUNTER, player->invTime, rnd->round,

@@ -6,5 +6,6 @@
 
 void drawUI(int health, int enemyCounter, float invTimer, int lvl, int coins, int spawnedEnemies);
 void showBreakUI(int time);
+void drawEnemyHealth(Enemy *enemy);
 
 #endif
