@@ -1,7 +1,7 @@
 #include "projectile.h"
-#include "coins.h"
 #include "enemy.h"
 #include "raylib.h"
+#include "player.h"
 #include <math.h>
 #include <stdio.h>
 
@@ -11,7 +11,7 @@ Projectile createProjectile(int indexOfEnemy, Player *player, Weapon *weapon) {
   projectile.y = player->y;
   projectile.damage = weapon->damage;
   projectile.target = indexOfEnemy;
-  projectile.speed = 30;
+  projectile.speed = weapon->projectileSpeed;
   projectile.active = true;
   projectile.lifetime = 10.0f;
   projectile.size = 5.0f;
@@ -24,23 +24,24 @@ void drawProjectile(Projectile *projectile) {
 }
 
 void moveProjectile(Projectile *projectile, Enemy *enemy) {
+  float deltaTime = GetFrameTime();
   float dx = (enemy->x + enemy->width / 2) - projectile->x;
   float dy = (enemy->y + enemy->height / 2) - projectile->y;
   float length = sqrt(dx * dx + dy * dy);
   float dirX = dx / length;
   float dirY = dy / length;
-  projectile->x += dirX * projectile->speed;
-  projectile->y += dirY * projectile->speed;
+  projectile->x += dirX * projectile->speed * deltaTime;
+  projectile->y += dirY * projectile->speed * deltaTime;
 }
 
-void updateProjectiles(Projectile *projectileArr, Enemy *enemyArr,
-                       Coins *coins) {
+void updateProjectiles(Projectile *projectileArr, Enemy *enemyArr, Player *player) {
   for (int i = 0; i < MAXPROJECTILES; i++) {
     if (projectileArr[i].active) {
       if (checkForCollisionWithEnemy(
               &projectileArr[i], &enemyArr[projectileArr[i].target])) {
         destroyProjectile(&projectileArr[i]);
-        addCoins(20, coins);
+        //add money for each hit
+        addMoney(player, 20);
         // check wether the to do splash damage or ballistic damage
         if (projectileArr[i].explosive) {
           explosiveProjectile(&projectileArr[i],

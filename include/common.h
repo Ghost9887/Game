@@ -7,7 +7,7 @@
 #define SCREENHEIGHT 800
 #define MAXENEMIES 1000
 #define MAXPROJECTILES 200
-#define TARGETFPS 60
+#define TARGETFPS 60 
 #define MAXSPAWNENEMIES 40
 
 typedef struct {
@@ -15,7 +15,8 @@ typedef struct {
   float y;
   int width;
   int height;
-  int health;
+  float health;
+  float fakeHealth;
   int damage;
   bool active;
 } Enemy;
@@ -24,7 +25,7 @@ typedef struct {
   float x;
   float y;
   float damage;
-  int speed;
+  float speed;
   int target;
   bool active;
   float lifetime;
@@ -39,10 +40,6 @@ typedef struct {
 } Round;
 
 typedef struct {
-  int coinCounter;
-} Coins;
-
-typedef struct {
   float x;
   float y;
   int width;
@@ -50,6 +47,7 @@ typedef struct {
   float damage;
   float range;
   float fireRate;
+  float projectileSpeed;
   char *type;
   bool holding;
 } Weapon;
@@ -60,6 +58,7 @@ typedef struct {
   int width;
   int height;
   int health;
+  int money;
   float speed;
   bool canShoot;
   float invTime;

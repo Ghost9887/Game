@@ -1,5 +1,4 @@
 #include "enemy.h"
-#include "coins.h"
 #include "player.h"
 #include "raylib.h"
 #include "ui.h"
@@ -31,6 +30,7 @@ Enemy createEnemyObject(float posX, float posY) {
   enemy.width = 30;
   enemy.height = 50;
   enemy.health = 100;
+  enemy.fakeHealth = 100;
   enemy.damage = 10;
   enemy.active = true;
   return enemy;
@@ -71,35 +71,30 @@ void initEnemyArr(Enemy *enemyArr) {
 }
 
 // MAYBE MOVE TO PLAYER FILE ???
-int findClosestEnemyToPlayer(Enemy *enemyArr, Player *player, Coins *coins) {
+int findClosestEnemyToPlayer(Enemy *enemyArr, Player *player) {
   int indexOfEnemy;
   float minDistance = 100000.0f;
   for (int i = 0; i < MAXSPAWNENEMIES; i++) {
     if (!enemyArr[i].active)
       continue;
     float temp = minDistance;
-    checkHealth(&enemyArr[i], coins);
+
+    destroyEnemy(&enemyArr[i], player);
+
     minDistance =
         fabs(fmin(calculateDistance(&enemyArr[i], player), minDistance));
-    if (temp != minDistance && willEnemySurvive(player, &enemyArr[i])) {
+    if (temp != minDistance) {
       indexOfEnemy = i;
     }
   }
   // checks if the player is in range
   Weapon weapon = player->weapon;
-  if (minDistance <= weapon.range) {
+  if (minDistance <= weapon.range && enemyArr[indexOfEnemy].fakeHealth > 0) { 
     return indexOfEnemy;
   }
   return -2;
 }
 
-//figure this out
-bool willEnemySurvive(Player *player, Enemy *enemy){
-  if(enemy->health - player->weapon.damage <= 0){
-    return true;
-  }
-  return true;
-}
 
 float calculateDistance(Enemy *enemy, Player *player) {
   float dx = player->x - enemy->x;
@@ -107,16 +102,18 @@ float calculateDistance(Enemy *enemy, Player *player) {
   return sqrtf(dx * dx + dy * dy);
 }
 
-void checkHealth(Enemy *enemy, Coins *coins) {
-  if (enemy->health <= 0)
-    destroyEnemy(enemy, coins);
+void reduceEnemyFakeHealth(Enemy *enemy, float damage){
+  enemy->fakeHealth -= damage;
 }
 
-void destroyEnemy(Enemy *enemy, Coins *coins) {
-  enemy->active = false;
-  ENEMYCOUNTER--;
-  CURRENTSPAWNEDENEMIES--;
-  addCoins(50, coins);
+
+void destroyEnemy(Enemy *enemy, Player *player) {
+  if(enemy->health <= 0){
+    enemy->active = false;
+    ENEMYCOUNTER--;
+    CURRENTSPAWNEDENEMIES--;
+    addMoney(player, 60);
+  }
 }
 
 //only checks the closest enemy

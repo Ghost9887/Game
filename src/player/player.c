@@ -11,6 +11,7 @@ Player createPlayerObject() {
   player.width = 30;
   player.height = 50;
   player.health = 100;
+  player.money = 0;
   player.speed = 150.0f;
   player.canShoot = false;
   player.invTime = 0.0f;
@@ -35,22 +36,22 @@ void playerMovement(Player *player) {
     player->y -= player->speed * deltaTime;
 }
 
-void playerShoot(Player *player, Projectile *projectileArr, int indexOfEnemy,
-                 Coins *coins) {
+void playerShoot(Player *player, Projectile *projectileArr, int indexOfEnemy) {
   int indexToReplace;
   for (indexToReplace = 0; indexToReplace < MAXPROJECTILES; indexToReplace++) {
     if (!projectileArr[indexToReplace].active) {
       break;
     }
   }
+
   player->canShoot = false;
   Weapon weapon = player->weapon;
   player->timer = weapon.fireRate;
 
   //check wether we can spawn more projectiles
   if (indexToReplace < MAXPROJECTILES) {
-    projectileArr[indexToReplace] =
-        createProjectile(indexOfEnemy, player, &weapon);
+
+    projectileArr[indexToReplace] = createProjectile(indexOfEnemy, player, &weapon);
 
     // check if the weapon has type of explosive!
     if (strcmp(player->weapon.type, "explosive") == 0) {
@@ -92,6 +93,10 @@ bool isPlayerInvulnerable(Player *player) {
     return true;
   }
   return false;
+}
+
+void addMoney(Player *player, int money){
+  player->money += money;
 }
 
 void updatePlayer(Player *player, Weapon *weaponArr) {

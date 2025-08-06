@@ -1,4 +1,3 @@
-#include "coins.h"
 #include "enemy.h"
 #include "player.h"
 #include "projectile.h"
@@ -13,7 +12,7 @@ unsigned int ENEMYCOUNTER = 0;
 unsigned int CURRENTSPAWNEDENEMIES = 0;
 
 void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
-                     Round *rnd, Coins *coins, Weapon *weaponArr);
+                     Round *rnd, Weapon *weaponArr);
 
 int main(void) {
 
@@ -29,7 +28,6 @@ int main(void) {
   initEnemyArr(enemyArr);
 
   Round rnd = createRoundObject();
-  Coins coins = createCoins();
 
   // houses all the weapons
   Weapon weaponArr[10];
@@ -48,7 +46,7 @@ int main(void) {
 
     ClearBackground(RAYWHITE);
     // UPDATE ALL OF THE GAME STATES
-    updateGameState(&player, enemyArr, projectileArr, &rnd, &coins, weaponArr);
+    updateGameState(&player, enemyArr, projectileArr, &rnd, weaponArr);
     EndDrawing();
   }
 
@@ -58,7 +56,7 @@ int main(void) {
 }
 
 void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
-                     Round *rnd, Coins *coins, Weapon *weaponArr) {
+                     Round *rnd, Weapon *weaponArr) {
 
   updatePlayer(player, weaponArr);
 
@@ -68,8 +66,7 @@ void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
   updateWeapon(weaponArr, player);
 
   // drawing
-  drawUI(player->health, ENEMYCOUNTER, player->invTime, rnd->round,
-         getCoins(coins), CURRENTSPAWNEDENEMIES);
+  drawUI(player->health, ENEMYCOUNTER, player->invTime, rnd->round,player->money, CURRENTSPAWNEDENEMIES);
 
   // only do these if there are enemies or the round hasn't ended yet
   if (!inBreak(rnd)) {
@@ -80,12 +77,15 @@ void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
     }
     // check if the player has anything to shoot at if so create the projectile
     // with the target of the indexOfEnemy
-    int indexOfEnemy = findClosestEnemyToPlayer(enemyArr, player, coins);
+    int indexOfEnemy = findClosestEnemyToPlayer(enemyArr, player);
     // check if the closes enemy is in range of shooting
     if (indexOfEnemy != -2 && checkIfPlayerCanShoot(player)) {
-      playerShoot(player, projectileArr, indexOfEnemy, coins);
+      playerShoot(player, projectileArr, indexOfEnemy);
+
+      //this is used for making sure no bullets than needed are created to kill a enemy
+      reduceEnemyFakeHealth(&enemyArr[indexOfEnemy], player->weapon.damage);
     }
-    updateProjectiles(projectileArr, enemyArr, coins);
+    updateProjectiles(projectileArr, enemyArr, player);
   }
 
   updateEnemy(enemyArr, player);

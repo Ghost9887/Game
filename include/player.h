@@ -9,11 +9,11 @@ Player createPlayerObject();
 void drawPlayer(Player *player);
 void playerMovement(Player *player);
 bool checkIfPlayerCanShoot(Player *player);
-void playerShoot(Player *player, Projectile *projectileArr, int indexOfEnemy,
-                 Coins *coins);
+void playerShoot(Player *player, Projectile *projectileArr, int indexOfEnemy);
 void playerLoseHealth(Enemy *enemy, Player *player);
 bool isPlayerInvulnerable(Player *player);
 void invTimer(Player *player);
+void addMoney(Player *player, int money);
 void updatePlayer(Player *player, Weapon *weapon);
 
 #endif

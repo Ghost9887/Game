@@ -9,7 +9,8 @@ Weapon createAssaultRifle() {
   assualtRifle.range = 750.0f;
   assualtRifle.damage = 70.0f;
   assualtRifle.type = "ballistic";
-  assualtRifle.fireRate = 0.05 * (float)TARGETFPS;
+  assualtRifle.fireRate = 0.2 * (float)TARGETFPS;
+  assualtRifle.projectileSpeed = 3000.0f;
   assualtRifle.holding = false;
   return assualtRifle;
 }
