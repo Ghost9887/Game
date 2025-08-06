@@ -46,6 +46,8 @@ void playerShoot(Player *player, Projectile *projectileArr, int indexOfEnemy,
   player->canShoot = false;
   Weapon weapon = player->weapon;
   player->timer = weapon.fireRate;
+
+  //check wether we can spawn more projectiles
   if (indexToReplace < MAXPROJECTILES) {
     projectileArr[indexToReplace] =
         createProjectile(indexOfEnemy, player, &weapon);

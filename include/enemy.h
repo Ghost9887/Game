@@ -18,5 +18,6 @@ bool checkCollisionWithPlayer(Enemy *enemy, Player *player);
 void createEnemies(Enemy *enemArr, int enemyCount);
 bool checkIfAllEnemiesAreDestroyed(Enemy *enemy);
 void enemyLoseHealth(float damage, Enemy *enemy);
+bool willEnemySurvive(Player *player, Enemy *enemy);
 
 #endif

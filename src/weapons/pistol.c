@@ -7,7 +7,7 @@ Weapon createPistol() {
   pistol.y = 0;
   pistol.width = 20;
   pistol.height = 10;
-  pistol.damage = 25.0f;
+  pistol.damage = 40.0f;
   pistol.type = "ballistic";
   pistol.range = 400.0f;
   pistol.fireRate =

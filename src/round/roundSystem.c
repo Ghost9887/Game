@@ -52,8 +52,9 @@ void endRound(bool completed, Round *rnd){
   }
 }
 
-void updateBreak(Round *rnd, Enemy *enemyArr){
+void updateRound(Round *rnd, Enemy *enemyArr){
   if(!inBreak(rnd)){
+    //check wether there are enmies still left
   endRound(checkIfAllEnemiesAreDestroyed(enemyArr), rnd);
   }
   else{

@@ -63,7 +63,7 @@ void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
   updatePlayer(player, weaponArr);
 
   // checks if the round should end
-  updateBreak(rnd, enemyArr);
+  updateRound(rnd, enemyArr);
 
   updateWeapon(weaponArr, player);
 
@@ -87,5 +87,6 @@ void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
     }
     updateProjectiles(projectileArr, enemyArr, coins);
   }
+
   updateEnemy(enemyArr, player);
 }

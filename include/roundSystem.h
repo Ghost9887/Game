@@ -14,7 +14,7 @@ bool inBreak(Round *rnd);
 void reduceBreakTimer(Round *rnd);
 float getBreakTimer(Round *rnd);
 void changeBreak(bool value,  Round *rnd);
-void updateBreak(Round *rnd, Enemy* enemyArr);
+void updateRound(Round *rnd, Enemy* enemyArr);
 
 
 #endif

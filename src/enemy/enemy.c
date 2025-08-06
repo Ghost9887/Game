@@ -81,16 +81,24 @@ int findClosestEnemyToPlayer(Enemy *enemyArr, Player *player, Coins *coins) {
     checkHealth(&enemyArr[i], coins);
     minDistance =
         fabs(fmin(calculateDistance(&enemyArr[i], player), minDistance));
-    if (temp != minDistance) {
+    if (temp != minDistance && willEnemySurvive(player, &enemyArr[i])) {
       indexOfEnemy = i;
     }
   }
-  // checks if the player can shoot or not
+  // checks if the player is in range
   Weapon weapon = player->weapon;
-  if (minDistance < weapon.range) {
+  if (minDistance <= weapon.range) {
     return indexOfEnemy;
   }
   return -2;
+}
+
+//figure this out
+bool willEnemySurvive(Player *player, Enemy *enemy){
+  if(enemy->health - player->weapon.damage <= 0){
+    return true;
+  }
+  return true;
 }
 
 float calculateDistance(Enemy *enemy, Player *player) {
