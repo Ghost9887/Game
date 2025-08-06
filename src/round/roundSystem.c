@@ -42,7 +42,7 @@ void startRound(Round *rnd, Enemy *enemyArr){
   changeBreak(false, rnd);
   ENEMYCOUNTER = getAmountOfEnemies(rnd);
   //spawns the enemies at the start of the round
-  createEnemies(enemyArr, getAmountOfEnemies(rnd));
+  createEnemies(enemyArr, getAmountOfEnemies(rnd), getRound(rnd));
 }
 
 void endRound(bool completed, Round *rnd){

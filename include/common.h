@@ -17,6 +17,7 @@ typedef struct {
   int height;
   float health;
   float fakeHealth;
+  float speed;
   int damage;
   bool active;
 } Enemy;

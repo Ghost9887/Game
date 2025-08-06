@@ -73,7 +73,7 @@ void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
     // only call this if there are more enemies that need to be spawned druring
     // the round
     if (MAXSPAWNENEMIES <= ENEMYCOUNTER) { 
-      createEnemies(enemyArr, getAmountOfEnemies(rnd));
+      createEnemies(enemyArr, getAmountOfEnemies(rnd), getRound(rnd));
     }
     // check if the player has anything to shoot at if so create the projectile
     // with the target of the indexOfEnemy

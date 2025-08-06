@@ -1,16 +1,33 @@
-#include "enemy.h"
 #include "player.h"
-#include "raylib.h"
+#include "enemy.h"
+#include "basicEnemy.h"
+#include "specialEnemy.h"
 #include "ui.h"
 #include <math.h>
-#include <stdlib.h>
 #include <time.h>
+#include <stdlib.h>
+
 
 extern unsigned int ENEMYCOUNTER;
 extern unsigned int CURRENTSPAWNEDENEMIES;
 
+void drawEnemy(Enemy *enemy){
+  DrawRectangle(enemy->x, enemy->y, enemy->width, enemy->height, RED);
+}
+
+void initEnemyArr(Enemy *enemyArr) {
+  // initialize the projectile array
+  for (int i = 0; i < MAXENEMIES; i++) {
+    enemyArr[i].active = false;
+    enemyArr[i].width = 0.0f;
+    enemyArr[i].height = 0;
+    enemyArr[i].health = 0;
+    enemyArr[i].x = 0;
+    enemyArr[i].y = 0;
+  }
+}
+
 void enemyMovement(Enemy *enemy, Player *player) {
-  const float movementSpeed = 75.0f;
   float deltaTime = GetFrameTime();
   float dx = player->x - enemy->x;
   float dy = player->y - enemy->y;
@@ -19,25 +36,8 @@ void enemyMovement(Enemy *enemy, Player *player) {
     return;
   float dirX = dx / length;
   float dirY = dy / length;
-  enemy->x += dirX * movementSpeed * deltaTime;
-  enemy->y += dirY * movementSpeed * deltaTime;
-}
-
-Enemy createEnemyObject(float posX, float posY) {
-  Enemy enemy;
-  enemy.x = posX;
-  enemy.y = posY;
-  enemy.width = 30;
-  enemy.height = 50;
-  enemy.health = 100;
-  enemy.fakeHealth = 100;
-  enemy.damage = 10;
-  enemy.active = true;
-  return enemy;
-}
-
-void drawEnemy(Enemy *enemy) {
-  DrawRectangle(enemy->x, enemy->y, enemy->width, enemy->height, RED);
+  enemy->x += dirX * enemy->speed * deltaTime;
+  enemy->y += dirY * enemy->speed * deltaTime;
 }
 
 void updateEnemy(Enemy *enemyArr, Player *player) {
@@ -56,50 +56,6 @@ void updateEnemy(Enemy *enemyArr, Player *player) {
 
     drawEnemyHealth(&enemyArr[i]);
   }
-}
-
-void initEnemyArr(Enemy *enemyArr) {
-  // initialize the projectile array
-  for (int i = 0; i < MAXENEMIES; i++) {
-    enemyArr[i].active = false;
-    enemyArr[i].width = 0.0f;
-    enemyArr[i].height = 0;
-    enemyArr[i].health = 0;
-    enemyArr[i].x = 0;
-    enemyArr[i].y = 0;
-  }
-}
-
-// MAYBE MOVE TO PLAYER FILE ???
-int findClosestEnemyToPlayer(Enemy *enemyArr, Player *player) {
-  int indexOfEnemy;
-  float minDistance = 100000.0f;
-  for (int i = 0; i < MAXSPAWNENEMIES; i++) {
-    if (!enemyArr[i].active)
-      continue;
-    float temp = minDistance;
-
-    destroyEnemy(&enemyArr[i], player);
-
-    minDistance =
-        fabs(fmin(calculateDistance(&enemyArr[i], player), minDistance));
-    if (temp != minDistance) {
-      indexOfEnemy = i;
-    }
-  }
-  // checks if the player is in range
-  Weapon weapon = player->weapon;
-  if (minDistance <= weapon.range && enemyArr[indexOfEnemy].fakeHealth > 0) { 
-    return indexOfEnemy;
-  }
-  return -2;
-}
-
-
-float calculateDistance(Enemy *enemy, Player *player) {
-  float dx = player->x - enemy->x;
-  float dy = player->y - enemy->y;
-  return sqrtf(dx * dx + dy * dy);
 }
 
 void reduceEnemyFakeHealth(Enemy *enemy, float damage){
@@ -125,7 +81,7 @@ bool checkCollisionWithPlayer(Enemy *enemy, Player *player) {
 }
 
 // spawns the enemies
-void createEnemies(Enemy *enemyArr, int enemyCount) {
+void createEnemies(Enemy *enemyArr, int enemyCount, int rnd) {
   static bool seeded = false;
   if (!seeded) {
     srand(time(NULL));
@@ -137,16 +93,26 @@ void createEnemies(Enemy *enemyArr, int enemyCount) {
     for (int i = 0; i < enemyCount; i++) {
       float randomX = SCREENWIDTH / 2 + rand() % SCREENWIDTH;
       float randomY = SCREENHEIGHT / 2 + rand() % SCREENHEIGHT;
-      enemyArr[i] = createEnemyObject(randomX, randomY);
-      CURRENTSPAWNEDENEMIES++;
+      if(rnd % 5 == 0){
+        enemyArr[i] = createSpecialEnemy(randomX, randomY);
+        CURRENTSPAWNEDENEMIES++;
+      }else{
+        enemyArr[i] = createBasicEnemy(randomX, randomY);
+        CURRENTSPAWNEDENEMIES++;
+      }
     }
   } else {
     for (int i = 0; i < MAXSPAWNENEMIES; i++) {
       if (!enemyArr[i].active) {
         float randomX = rand() % SCREENWIDTH * 2;
         float randomY = rand() % SCREENHEIGHT * 2;
-        enemyArr[i] = createEnemyObject(randomX, randomY);
-        CURRENTSPAWNEDENEMIES++;
+        if(rnd % 5 == 0){
+          enemyArr[i] = createSpecialEnemy(randomX, randomY);
+          CURRENTSPAWNEDENEMIES++;
+        }else{
+          enemyArr[i] = createBasicEnemy(randomX, randomY);
+          CURRENTSPAWNEDENEMIES++;
+        }
       }
     }
   }
@@ -160,3 +126,5 @@ bool checkIfAllEnemiesAreDestroyed(Enemy *enemy) {
 }
 
 void enemyLoseHealth(float damage, Enemy *enemy) { enemy->health -= damage; }
+
+

@@ -2,7 +2,9 @@
 #include "projectile.h"
 #include "raylib.h"
 #include "weapon.h"
+#include "enemy.h"
 #include <string.h>
+#include <math.h>
 
 Player createPlayerObject() {
   Player player;
@@ -61,6 +63,38 @@ void playerShoot(Player *player, Projectile *projectileArr, int indexOfEnemy) {
     }
   }
 }
+
+int findClosestEnemyToPlayer(Enemy *enemyArr, Player *player) {
+  int indexOfEnemy;
+  float minDistance = 100000.0f;
+  for (int i = 0; i < MAXSPAWNENEMIES; i++) {
+    if (!enemyArr[i].active)
+      continue;
+    float temp = minDistance;
+
+    destroyEnemy(&enemyArr[i], player);
+
+    minDistance =
+        fabs(fmin(calculateDistance(&enemyArr[i], player), minDistance));
+    if (temp != minDistance) {
+      indexOfEnemy = i;
+    }
+  }
+  // checks if the player is in range
+  Weapon weapon = player->weapon;
+  if (minDistance <= weapon.range && enemyArr[indexOfEnemy].fakeHealth > 0) {
+    return indexOfEnemy;
+  }
+  return -2;
+}
+
+
+float calculateDistance(Enemy *enemy, Player *player) {
+  float dx = player->x - enemy->x;
+  float dy = player->y - enemy->y;
+  return sqrtf(dx * dx + dy * dy);
+}
+
 
 bool checkIfPlayerCanShoot(Player *player) {
   if (!player->canShoot && player->timer > 0) {

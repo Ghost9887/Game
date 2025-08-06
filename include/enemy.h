@@ -6,15 +6,12 @@
 #include <stdbool.h>
 
 void enemyMovement(Enemy *enemy, Player *player);
-Enemy createEnemyObject(float posX, float posY);
 void drawEnemy(Enemy *enemy);
 void updateEnemy(Enemy *enemyArr, Player *player);
 void initEnemyArr(Enemy *enemyArr);
-int findClosestEnemyToPlayer(Enemy *enemyArr, Player *player);
-float calculateDistance(Enemy *enemy, Player *player);
 void destroyEnemy(Enemy *enemy, Player *player);
 bool checkCollisionWithPlayer(Enemy *enemy, Player *player);
-void createEnemies(Enemy *enemArr, int enemyCount);
+void createEnemies(Enemy *enemArr, int enemyCount, int rnd);
 bool checkIfAllEnemiesAreDestroyed(Enemy *enemy);
 void enemyLoseHealth(float damage, Enemy *enemy);
 void reduceEnemyFakeHealth(Enemy *enemy, float damage);
