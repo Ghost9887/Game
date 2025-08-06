@@ -4,15 +4,25 @@
 #include "raylib.h"
 #include "rocketLauncher.h"
 
+typedef enum{
+  PISTOL = 0,
+  AR = 1,
+  ROCKETLAUNCER = 2
+}WeaponHolding;
+
+WeaponHolding pistol = PISTOL;
+WeaponHolding ar = AR;
+WeaponHolding rocketLauncher = ROCKETLAUNCER;
+
 void drawWeapon(Player *player) {
   DrawRectangle(player->x, player->y, player->weapon.width, player->weapon.height, BLACK);
 }
 
 // refactor this
 void initWeaponArr(Weapon *weaponArr) {
-  weaponArr[0] = createPistol();
-  weaponArr[1] = createAssaultRifle();
-  weaponArr[2] = createRocketLauncher();
+  weaponArr[pistol] = createPistol();
+  weaponArr[ar] = createAssaultRifle();
+  weaponArr[rocketLauncher] = createRocketLauncher();
   for (int i = 3; i < 10; i++) {
     weaponArr[i] = createPistol();
   }
@@ -21,19 +31,19 @@ void initWeaponArr(Weapon *weaponArr) {
 // REFACTOR
 void switchWeapons(Player *player, Weapon *weaponArr) {
   if (IsKeyPressed(KEY_ONE)) {
-    weaponArr[0].holding = true;
-    weaponArr[1].holding = false;
-    weaponArr[2].holding = false;
+    weaponArr[pistol].holding = true;
+    weaponArr[ar].holding = false;
+    weaponArr[rocketLauncher].holding = false;
     player->timer = 1.0f * (float)TARGETFPS;
   } else if (IsKeyPressed(KEY_TWO)) {
-    weaponArr[1].holding = true;
-    weaponArr[0].holding = false;
-    weaponArr[2].holding = false;
+    weaponArr[ar].holding = true;
+    weaponArr[pistol].holding = false;
+    weaponArr[rocketLauncher].holding = false;
     player->timer = 1.0f * (float)TARGETFPS;
   } else if (IsKeyPressed(KEY_THREE)) {
-    weaponArr[2].holding = true;
-    weaponArr[1].holding = false;
-    weaponArr[0].holding = false;
+    weaponArr[rocketLauncher].holding = true;
+    weaponArr[ar].holding = false;
+    weaponArr[pistol].holding = false;
     player->timer = 1.0f * (float)TARGETFPS;
   }
 }
