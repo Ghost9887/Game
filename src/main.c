@@ -7,9 +7,6 @@
 #include "ui.h"
 #include "weapon.h"
 #include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
 
 // GLOBAL VARIABLES
 unsigned int ENEMYCOUNTER = 0;
@@ -19,6 +16,7 @@ void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
                      Round *rnd, Coins *coins, Weapon *weaponArr);
 
 int main(void) {
+
   InitWindow(SCREENWIDTH, SCREENHEIGHT, "raylib game");
 
   SetTargetFPS(TARGETFPS);
@@ -38,12 +36,12 @@ int main(void) {
   initWeaponArr(weaponArr);
 
   Player player = createPlayerObject();
-  player.weapon = weaponArr[0]; //the first weapon(pistol)
+  player.weapon = weaponArr[0]; // the first weapon(pistol)
 
   // start the first round
   startRound(&rnd, enemyArr);
   // MAIN GAME LOOP
-  
+
   while (!WindowShouldClose()) {
 
     BeginDrawing();
@@ -77,7 +75,7 @@ void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
   if (!inBreak(rnd)) {
     // only call this if there are more enemies that need to be spawned druring
     // the round
-    if (MAXSPAWNENEMIES <= ENEMYCOUNTER) {
+    if (MAXSPAWNENEMIES <= ENEMYCOUNTER) { 
       createEnemies(enemyArr, getAmountOfEnemies(rnd));
     }
     // check if the player has anything to shoot at if so create the projectile

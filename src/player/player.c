@@ -2,21 +2,20 @@
 #include "projectile.h"
 #include "raylib.h"
 #include "weapon.h"
-#include <stdio.h>
 #include <string.h>
 
 Player createPlayerObject() {
   Player player;
-  player.x = (float) SCREENWIDTH / (float)2;
-  player.y = (float) SCREENHEIGHT / (float)2;
+  player.x = (float)SCREENWIDTH / (float)2;
+  player.y = (float)SCREENHEIGHT / (float)2;
   player.width = 30;
   player.height = 50;
   player.health = 100;
-  player.speed = 115.0f;
+  player.speed = 150.0f;
   player.canShoot = false;
   player.invTime = 0.0f;
   player.timer;
-  player.weapon; //defualt: pistol
+  player.weapon; // defualt: pistol
   return player;
 }
 

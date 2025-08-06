@@ -38,7 +38,7 @@ void updateProjectiles(Projectile *projectileArr, Enemy *enemyArr,
   for (int i = 0; i < MAXPROJECTILES; i++) {
     if (projectileArr[i].active) {
       if (checkForCollisionWithEnemy(
-              &projectileArr[i], &enemyArr[projectileArr[i].target], coins)) {
+              &projectileArr[i], &enemyArr[projectileArr[i].target])) {
         destroyProjectile(&projectileArr[i]);
         addCoins(20, coins);
         // check wether the to do splash damage or ballistic damage
@@ -74,8 +74,7 @@ void initProjectileArray(Projectile *projectileArr) {
   }
 }
 
-bool checkForCollisionWithEnemy(Projectile *projectile, Enemy *enemy,
-                                Coins *coins) {
+bool checkForCollisionWithEnemy(Projectile *projectile, Enemy *enemy) {
   // create the enemy rectangle from its data
   Rectangle enemyRect = {enemy->x, enemy->y, enemy->width, enemy->height};
   return CheckCollisionCircleRec((Vector2){projectile->x, projectile->y},

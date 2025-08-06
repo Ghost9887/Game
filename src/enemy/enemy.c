@@ -48,7 +48,7 @@ void updateEnemy(Enemy *enemyArr, Player *player) {
     enemyMovement(&enemyArr[i], player);
     drawEnemy(&enemyArr[i]);
 
-    //checks collision with player
+    // checks collision with player
     if (!isPlayerInvulnerable(player) &&
         checkCollisionWithPlayer(&enemyArr[i], player)) {
       playerLoseHealth(&enemyArr[i], player);
@@ -57,7 +57,6 @@ void updateEnemy(Enemy *enemyArr, Player *player) {
     drawEnemyHealth(&enemyArr[i]);
   }
 }
-
 
 void initEnemyArr(Enemy *enemyArr) {
   // initialize the projectile array
@@ -112,6 +111,7 @@ void destroyEnemy(Enemy *enemy, Coins *coins) {
   addCoins(50, coins);
 }
 
+//only checks the closest enemy
 bool checkCollisionWithPlayer(Enemy *enemy, Player *player) {
   // create the enemy rectangle from its data
   Rectangle enemyRect = {enemy->x, enemy->y, enemy->width, enemy->height};
