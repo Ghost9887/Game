@@ -7,7 +7,7 @@
 #define SCREENHEIGHT 800
 #define MAXENEMIES 800 
 #define MAXPROJECTILES 200
-#define TARGETFPS 120
+#define TARGETFPS 60
 #define MAXSPAWNENEMIES 40 
 
 typedef struct {

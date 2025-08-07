@@ -35,33 +35,6 @@ void moveProjectile(Projectile *projectile, Enemy *enemy) {
   projectile->y += dirY * projectile->speed * deltaTime;
 }
 
-void updateProjectiles(Projectile *projectileArr, Enemy *enemyArr, Player *player) {
-  for (int i = 0; i < MAXPROJECTILES; i++) {
-    if (projectileArr[i].active) {
-      if (checkForCollisionWithEnemy(
-              &projectileArr[i], &enemyArr[projectileArr[i].target])) {
-        destroyProjectile(&projectileArr[i]);
-        //add money for each hit
-        addMoney(player, 20);
-        // check wether to do splash damage or ballistic damage
-        if (projectileArr[i].explosive) {
-          splashDamage(&projectileArr[i],
-                              &enemyArr[projectileArr[i].target], enemyArr);
-        } else {
-          enemyLoseHealth(projectileArr[i].damage,
-                          &enemyArr[projectileArr[i].target]);
-        }
-      }
-      moveProjectile(&projectileArr[i], &enemyArr[projectileArr[i].target]);
-      drawProjectile(&projectileArr[i]);
-      projectileArr[i].lifetime -= GetFrameTime();
-      if (projectileArr[i].lifetime <= 0) {
-        destroyProjectile(&projectileArr[i]);
-      }
-    }
-  }
-}
-
 void destroyProjectile(Projectile *projectile) { 
   projectile->speed = 0;
   projectile->active = false; 
@@ -85,3 +58,33 @@ bool checkForCollisionWithEnemy(Projectile *projectile, Enemy *enemy) {
   return CheckCollisionCircleRec((Vector2){projectile->x, projectile->y},
                                  projectile->size, enemyRect);
 }
+
+void updateProjectiles(Projectile *projectileArr, Enemy *enemyArr, Player *player) {
+  for (int i = 0; i < MAXPROJECTILES; i++) {
+    if (!projectileArr[i].active) continue;
+
+    moveProjectile(&projectileArr[i], &enemyArr[projectileArr[i].target]);
+
+    if (checkForCollisionWithEnemy(&projectileArr[i], &enemyArr[projectileArr[i].target])) {
+      destroyProjectile(&projectileArr[i]);
+      addMoney(player, 20);
+
+      if (projectileArr[i].explosive) {
+        splashDamage(&projectileArr[i], &enemyArr[projectileArr[i].target], enemyArr);
+      } else {
+        enemyLoseHealth(projectileArr[i].damage, &enemyArr[projectileArr[i].target]);
+      }
+
+      continue; 
+    }
+    
+    //only do these if the projectile hasnt hit anything
+    drawProjectile(&projectileArr[i]);
+
+    projectileArr[i].lifetime -= GetFrameTime();
+    if (projectileArr[i].lifetime <= 0) {
+      destroyProjectile(&projectileArr[i]);
+    }
+  }
+}
+
