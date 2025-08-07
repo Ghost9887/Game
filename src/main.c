@@ -81,7 +81,7 @@ void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
     // with the target of the indexOfEnemy
     int indexOfEnemy = findClosestEnemyToPlayer(enemyArr, player);
     // check if the closest enemy is in range of shooting
-    if (indexOfEnemy != -2 && checkIfPlayerCanShoot(player) && getMagAmmo(player->weapon) > 0) {
+    if (indexOfEnemy != -2 && checkIfPlayerCanShoot(player) && !isReloading(player->weapon)) {
       playerShoot(player, projectileArr, indexOfEnemy);
       //this is used for making sure no bullets than needed are created to kill a enemy
       reduceEnemyFakeHealth(&enemyArr[indexOfEnemy], player->weapon->damage);

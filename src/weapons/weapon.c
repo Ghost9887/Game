@@ -34,25 +34,34 @@ void initWeaponArr(Weapon *weaponArr) {
   }
 }
 
+bool isReloading(Weapon *weapon){
+  if(weapon->reloadTimer > 0.0f){
+    return true;
+  }
+  return false;
+}
+
 void checkReload(Weapon *weapon, Player *player) {
   //only call when a reload gets initiated
-  if (weapon->currentMagSize <= 0 && weapon->currentReserveSize > 0) {
-    if (weapon->reloadTimer <= 0.0f) {
-      weapon->reloadTimer = weapon->reloadTime;
-      player->canShoot = false;
-    } else {
-      weapon->reloadTimer -= GetFrameTime();
-
+  if(IsKeyPressed(KEY_R) || weapon->reloadTimer > 0.0f || weapon->currentMagSize <= 0){
+    isReloading(weapon);
+    if (weapon->currentReserveSize > 0 && weapon->currentMagSize < weapon->maxMagSize) {
       if (weapon->reloadTimer <= 0.0f) {
-        int ammoToLoad = weapon->maxMagSize;
-        if (weapon->currentReserveSize < ammoToLoad) {
-          ammoToLoad = weapon->currentReserveSize;
+        weapon->reloadTimer = weapon->reloadTime;
+        player->canShoot = false;
+      } else {
+        weapon->reloadTimer -= GetFrameTime();
+        if (weapon->reloadTimer <= 0.0f) {
+          int ammoToLoad = weapon->maxMagSize;
+          if (weapon->currentReserveSize < ammoToLoad) {
+            ammoToLoad = weapon->currentReserveSize;
+          }
+          weapon->currentMagSize = ammoToLoad;
+          weapon->currentReserveSize -= ammoToLoad;
+          weapon->reloadTimer = 0.0f;
+          player->canShoot = true;
+          isReloading(weapon);
         }
-
-        weapon->currentMagSize = ammoToLoad;
-        weapon->currentReserveSize -= ammoToLoad;
-        weapon->reloadTimer = 0.0f;
-        player->canShoot = true;
       }
     }
   }
@@ -74,6 +83,10 @@ int getReserveAmmo(Weapon *weapon){
 // REFACTOR
 void switchWeapons(Player *player, Weapon *weaponArr) {
   if (IsKeyPressed(KEY_ONE)) {
+    //cancel reload
+    if(isReloading(player->weapon)){
+      player->weapon->reloadTimer = 0.0f;
+    }
     for (int i = 0; i < numOfWeapons; i++) {
       if (i == pistol) {
         weaponArr[i].holding = true;
@@ -83,6 +96,9 @@ void switchWeapons(Player *player, Weapon *weaponArr) {
     }
     player->timer = 1.0f * (float)TARGETFPS;
   } else if (IsKeyPressed(KEY_TWO)) {
+    if(isReloading(player->weapon)){
+      player->weapon->reloadTimer = 0.0f;
+    }
     for (int i = 0; i < numOfWeapons; i++) {
       if (i == ar) {
         weaponArr[i].holding = true;
@@ -92,6 +108,9 @@ void switchWeapons(Player *player, Weapon *weaponArr) {
     }
     player->timer = 1.0f * (float)TARGETFPS;
   } else if (IsKeyPressed(KEY_THREE)) {
+    if(isReloading(player->weapon)){
+      player->weapon->reloadTimer = 0.0f;
+    }
     for (int i = 0; i < numOfWeapons; i++) {
       if (i == rocketLauncher) {
         weaponArr[i].holding = true;
@@ -101,6 +120,9 @@ void switchWeapons(Player *player, Weapon *weaponArr) {
     }
     player->timer = 1.0f * (float)TARGETFPS;
   } else if (IsKeyPressed(KEY_FOUR)) {
+    if(isReloading(player->weapon)){
+      player->weapon->reloadTimer = 0.0f;
+    }
     for (int i = 0; i < numOfWeapons; i++) {
       if (i == smg) {
         weaponArr[i].holding = true;
@@ -108,6 +130,7 @@ void switchWeapons(Player *player, Weapon *weaponArr) {
         weaponArr[i].holding = false;
       }
     }
+    //maybe change this???
     player->timer = 1.0f * (float)TARGETFPS;
   }
 }

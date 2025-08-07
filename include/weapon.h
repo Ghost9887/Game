@@ -12,5 +12,6 @@ void checkReload(Weapon *weapon, Player *player);
 int getMagAmmo(Weapon *weapon);
 int getReserveAmmo(Weapon *weapon);
 void reduceAmmo(Weapon *weapon);
+bool isReloading(Weapon *weapon);
 
 #endif
