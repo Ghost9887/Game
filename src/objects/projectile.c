@@ -2,6 +2,7 @@
 #include "enemy.h"
 #include "raylib.h"
 #include "player.h"
+#include "rocketLauncher.h"
 #include <math.h>
 #include <stdio.h>
 
@@ -44,7 +45,7 @@ void updateProjectiles(Projectile *projectileArr, Enemy *enemyArr, Player *playe
         addMoney(player, 20);
         // check wether to do splash damage or ballistic damage
         if (projectileArr[i].explosive) {
-          explosiveProjectile(&projectileArr[i],
+          splashDamage(&projectileArr[i],
                               &enemyArr[projectileArr[i].target], enemyArr);
         } else {
           enemyLoseHealth(projectileArr[i].damage,
@@ -83,23 +84,4 @@ bool checkForCollisionWithEnemy(Projectile *projectile, Enemy *enemy) {
   Rectangle enemyRect = {enemy->x, enemy->y, enemy->width, enemy->height};
   return CheckCollisionCircleRec((Vector2){projectile->x, projectile->y},
                                  projectile->size, enemyRect);
-}
-
-void explosiveProjectile(Projectile *projectile, Enemy *enemy,
-                         Enemy *enemyArr) {
-  float posX = enemy->x + enemy->width / 2.0f;
-  float posY = enemy->y + enemy->height / 2.0f;
-  float damage = (float)projectile->damage;
-  float radius = 200.0f;
-  for (int i = 0; i < MAXSPAWNENEMIES; i++) {
-    float dx = posX - enemyArr[i].x;
-    float dy = posY - enemyArr[i].y;
-    float length = fabs(sqrtf(dx * dx + dy * dy));
-    if (length <= radius) {
-      float actualDamage = damage * (1.0f - (length / radius));
-      enemyLoseHealth(actualDamage, &enemyArr[i]);
-    }
-  }
-  enemyLoseHealth(damage, enemy);
-  DrawCircle(posX, posY, radius, YELLOW);
 }

@@ -5,6 +5,6 @@
 #include "raylib.h"
 
 Weapon createRocketLauncher();
-void splashDamage();
+void splashDamage(Projectile *projectile, Enemy *enemy, Enemy *enemyArr);
 
 #endif

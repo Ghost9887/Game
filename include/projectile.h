@@ -10,6 +10,5 @@ void updateProjectiles(Projectile *projectileArr, Enemy *enemyArr, Player *playe
 void destroyProjectile(Projectile *projectile);
 void initProjectileArray(Projectile *projectileArr);
 bool checkForCollisionWithEnemy(Projectile *projectile, Enemy *enemy);
-void explosiveProjectile(Projectile *projectile, Enemy *enemy, Enemy *enemyArr);
 
 #endif
