@@ -5,10 +5,10 @@
 
 #define SCREENWIDTH 1200
 #define SCREENHEIGHT 800
-#define MAXENEMIES 1000
+#define MAXENEMIES 800 
 #define MAXPROJECTILES 200
 #define TARGETFPS 120 
-#define MAXSPAWNENEMIES 40
+#define MAXSPAWNENEMIES 40 
 
 typedef struct {
   float x;

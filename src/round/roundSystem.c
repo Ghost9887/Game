@@ -30,6 +30,9 @@ float getBreakTimer(Round *rnd){
 }
 
 int getAmountOfEnemies(Round *rnd){
+  if(rnd->round % 5 == 0){
+    return 2 * getRound(rnd);
+  }
   return 6 * getRound(rnd);
 }
 
