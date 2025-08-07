@@ -42,7 +42,7 @@ void updateProjectiles(Projectile *projectileArr, Enemy *enemyArr, Player *playe
         destroyProjectile(&projectileArr[i]);
         //add money for each hit
         addMoney(player, 20);
-        // check wether the to do splash damage or ballistic damage
+        // check wether to do splash damage or ballistic damage
         if (projectileArr[i].explosive) {
           explosiveProjectile(&projectileArr[i],
                               &enemyArr[projectileArr[i].target], enemyArr);
@@ -61,7 +61,10 @@ void updateProjectiles(Projectile *projectileArr, Enemy *enemyArr, Player *playe
   }
 }
 
-void destroyProjectile(Projectile *projectile) { projectile->active = false; }
+void destroyProjectile(Projectile *projectile) { 
+  projectile->speed = 0;
+  projectile->active = false; 
+}
 
 void initProjectileArray(Projectile *projectileArr) {
   // initialize the projectile array

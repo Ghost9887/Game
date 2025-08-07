@@ -66,7 +66,7 @@ void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
   updateWeapon(weaponArr, player);
 
   // drawing
-  drawUI(player->health, ENEMYCOUNTER, player->invTime, rnd->round,player->money, CURRENTSPAWNEDENEMIES);
+  drawUI(player->health, ENEMYCOUNTER, player->invTime, rnd->round,player->money, CURRENTSPAWNEDENEMIES, GetFPS());
 
   // only do these if there are enemies or the round hasn't ended yet
   if (!inBreak(rnd)) {
