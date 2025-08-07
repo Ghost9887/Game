@@ -1,18 +1,24 @@
 #include "weapon.h"
 #include "assaultRifle.h"
 #include "pistol.h"
+#include "smg.h"
 #include "raylib.h"
 #include "rocketLauncher.h"
 
 typedef enum{
   PISTOL = 0,
   AR = 1,
-  ROCKETLAUNCER = 2
+  ROCKETLAUNCER = 2,
+  SMG = 3
 }WeaponHolding;
 
+//create the enums objects
 WeaponHolding pistol = PISTOL;
 WeaponHolding ar = AR;
 WeaponHolding rocketLauncher = ROCKETLAUNCER;
+WeaponHolding smg = SMG;
+
+const unsigned int numOfWeapons = 4;
 
 void drawWeapon(Player *player) {
   DrawRectangle(player->x, player->y, player->weapon.width, player->weapon.height, BLACK);
@@ -23,7 +29,10 @@ void initWeaponArr(Weapon *weaponArr) {
   weaponArr[pistol] = createPistol();
   weaponArr[ar] = createAssaultRifle();
   weaponArr[rocketLauncher] = createRocketLauncher();
-  for (int i = 3; i < 10; i++) {
+  weaponArr[smg] = createSMG(); 
+  //creates the weapons that don't exist yet so the array doesnt have random data 
+  for (int i = 4; i < 10; i++) {
+    //place holder
     weaponArr[i] = createPistol();
   }
 }
@@ -31,19 +40,40 @@ void initWeaponArr(Weapon *weaponArr) {
 // REFACTOR
 void switchWeapons(Player *player, Weapon *weaponArr) {
   if (IsKeyPressed(KEY_ONE)) {
-    weaponArr[pistol].holding = true;
-    weaponArr[ar].holding = false;
-    weaponArr[rocketLauncher].holding = false;
+    for(int i = 0; i < numOfWeapons; i++){
+      if(i == pistol){
+        weaponArr[i].holding = true;
+      }else{
+        weaponArr[i].holding = false;
+      }
+    }
     player->timer = 1.0f * (float)TARGETFPS;
   } else if (IsKeyPressed(KEY_TWO)) {
-    weaponArr[ar].holding = true;
-    weaponArr[pistol].holding = false;
-    weaponArr[rocketLauncher].holding = false;
+    for(int i = 0; i < numOfWeapons; i++){
+      if(i == ar){
+        weaponArr[i].holding = true;
+      }else{
+        weaponArr[i].holding = false;
+      }
+    }
     player->timer = 1.0f * (float)TARGETFPS;
   } else if (IsKeyPressed(KEY_THREE)) {
-    weaponArr[rocketLauncher].holding = true;
-    weaponArr[ar].holding = false;
-    weaponArr[pistol].holding = false;
+     for(int i = 0; i < numOfWeapons; i++){
+      if(i == rocketLauncher){
+        weaponArr[i].holding = true;
+      }else{
+        weaponArr[i].holding = false;
+      }
+    }
+    player->timer = 1.0f * (float)TARGETFPS;
+  }else if(IsKeyPressed(KEY_FOUR)){
+    for(int i = 0; i < numOfWeapons; i++){
+      if(i == smg){
+        weaponArr[i].holding = true;
+      }else{
+        weaponArr[i].holding = false;
+      }
+    }   
     player->timer = 1.0f * (float)TARGETFPS;
   }
 }
