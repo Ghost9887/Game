@@ -8,6 +8,12 @@ Weapon createPistol() {
   pistol.width = 20;
   pistol.height = 10;
   pistol.damage = 30.0f;
+  pistol.maxMagSize = 6;
+  pistol.maxReserveSize = 42; //should always be divisible by the mag size
+  pistol.currentMagSize = pistol.maxMagSize;
+  pistol.currentReserveSize = pistol.maxReserveSize;
+  pistol.reloadTime = 2.2f;
+  pistol.reloadTimer = 0.0f;
   pistol.type = "ballistic";
   pistol.range = 350.0f;
   pistol.projectileSpeed = 1250.0f;

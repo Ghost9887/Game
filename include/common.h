@@ -5,10 +5,10 @@
 
 #define SCREENWIDTH 1200
 #define SCREENHEIGHT 800
-#define MAXENEMIES 800 
+#define MAXENEMIES 800
 #define MAXPROJECTILES 200
 #define TARGETFPS 60
-#define MAXSPAWNENEMIES 40 
+#define MAXSPAWNENEMIES 40
 
 typedef struct {
   float x;
@@ -49,6 +49,12 @@ typedef struct {
   float range;
   float fireRate;
   float projectileSpeed;
+  int maxMagSize;
+  int maxReserveSize;
+  int currentMagSize;
+  int currentReserveSize;
+  float reloadTime;
+  float reloadTimer;
   char *type;
   bool holding;
 } Weapon;
@@ -64,7 +70,7 @@ typedef struct {
   bool canShoot;
   float invTime;
   float timer;
-  Weapon weapon;
+  Weapon *weapon;
 } Player;
 
 #endif

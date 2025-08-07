@@ -15,6 +15,12 @@ Weapon createRocketLauncher() {
   rocketLauncher.type = "explosive";
   rocketLauncher.range = 900.0f;
   rocketLauncher.damage = 300;
+  rocketLauncher.maxMagSize = 1;
+  rocketLauncher.currentMagSize = rocketLauncher.maxMagSize;
+  rocketLauncher.maxReserveSize = 4;
+  rocketLauncher.currentReserveSize = rocketLauncher.maxReserveSize;
+  rocketLauncher.reloadTime = 4.0f;
+  rocketLauncher.reloadTimer = 0.0f;
   rocketLauncher.holding = false;
   return rocketLauncher;
 }

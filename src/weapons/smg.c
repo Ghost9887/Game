@@ -8,6 +8,12 @@ Weapon createSMG() {
   smg.width = 30;
   smg.height = 10;
   smg.damage = 20.0f;
+  smg.maxMagSize = 40;
+  smg.currentMagSize = smg.maxMagSize;
+  smg.maxReserveSize = 200;
+  smg.currentReserveSize = smg.maxReserveSize;
+  smg.reloadTime = 2.0f;
+  smg.reloadTimer = 0.0f;
   smg.type = "ballistic";
   smg.range = 250.0f;
   smg.projectileSpeed = 1700.0f;

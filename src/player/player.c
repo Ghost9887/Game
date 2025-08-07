@@ -47,16 +47,16 @@ void playerShoot(Player *player, Projectile *projectileArr, int indexOfEnemy) {
   }
 
   player->canShoot = false;
-  Weapon weapon = player->weapon;
-  player->timer = weapon.fireRate;
+  player->timer = player->weapon->fireRate;
 
   //check wether we can spawn more projectiles
   if (indexToReplace < MAXPROJECTILES) {
+    
+    reduceAmmo(player->weapon);
 
-    projectileArr[indexToReplace] = createProjectile(indexOfEnemy, player, &weapon);
-
+    projectileArr[indexToReplace] = createProjectile(indexOfEnemy, player, player->weapon);
     // check if the weapon has type of explosive!
-    if (strcmp(player->weapon.type, "explosive") == 0) {
+    if (strcmp(player->weapon->type, "explosive") == 0) {
       projectileArr[indexToReplace].explosive = true;
     } else {
       projectileArr[indexToReplace].explosive = false;
@@ -81,8 +81,7 @@ int findClosestEnemyToPlayer(Enemy *enemyArr, Player *player) {
     }
   }
   // checks if the player is in range
-  Weapon weapon = player->weapon;
-  if (minDistance <= weapon.range && enemyArr[indexOfEnemy].fakeHealth > 0) {
+  if (minDistance <= player->weapon->range && enemyArr[indexOfEnemy].fakeHealth > 0) {
     return indexOfEnemy;
   }
   return -2;
@@ -133,9 +132,8 @@ void addMoney(Player *player, int money){
   player->money += money;
 }
 
-void updatePlayer(Player *player, Weapon *weaponArr) {
+void updatePlayer(Player *player) {
   playerMovement(player);
   drawPlayer(player);
   invTimer(player);
-  updateWeapon(weaponArr, player);
 }

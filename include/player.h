@@ -14,7 +14,7 @@ void playerLoseHealth(Enemy *enemy, Player *player);
 bool isPlayerInvulnerable(Player *player);
 void invTimer(Player *player);
 void addMoney(Player *player, int money);
-void updatePlayer(Player *player, Weapon *weapon);
+void updatePlayer(Player *player);
 int findClosestEnemyToPlayer(Enemy *enemyArr, Player *player);
 float calculateDistance(Enemy *enemy, Player *player);
 #endif
