@@ -1,9 +1,9 @@
 #include "ammoPickup.h"
 
-Pickup createAmmoPickup(){
+Pickup createAmmoPickup(float x, float y){
   Pickup ammoPickup;
-  ammoPickup.x = 700;
-  ammoPickup.y = 700;
+  ammoPickup.x = x;
+  ammoPickup.y = y;
   ammoPickup.data = 10;
   ammoPickup.colour = YELLOW;
   ammoPickup.active = true;

@@ -1,10 +1,10 @@
 #include "healthPickup.h"
 
 
-Pickup createHealthPickup(){
+Pickup createHealthPickup(float x, float y){
   Pickup healthPickup;
-  healthPickup.x = 600;
-  healthPickup.y = 600;
+  healthPickup.x = x;
+  healthPickup.y = y;
   healthPickup.data = 20;
   healthPickup.colour = GREEN;
   healthPickup.active = true;

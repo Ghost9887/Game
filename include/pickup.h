@@ -10,5 +10,6 @@
   void spawnPickup(Pickup *pickupArr);
   bool checkPickupCollisionWithPlayer(Pickup *pickup, Player *player);
   void addPickupData(Pickup *pickup, Player *player);
+  void lifetimeOfPickup(Pickup *pickup);
 
 #endif

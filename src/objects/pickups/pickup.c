@@ -8,7 +8,7 @@ void drawPickup(Pickup *pickup){
 }
 
 void initPickupArray(Pickup *pickupArr){
-  for(int i = 2; i < MAXPICKUPS; i++){
+  for(int i = 0; i < MAXPICKUPS; i++){
     Pickup pickup;
     pickup.x = 0;
     pickup.y = 0;
@@ -20,27 +20,37 @@ void initPickupArray(Pickup *pickupArr){
 }
 
 void spawnPickup(Pickup *pickupArr){
-  if(IsKeyPressed(KEY_H)){
-    pickupArr[0] = createHealthPickup();
+ if(IsKeyPressed(KEY_H)){
+  float x = (float)GetRandomValue(0, SCREENWIDTH);
+  float y = (float)GetRandomValue(0, SCREENHEIGHT);
+    for(int i = 0; i < MAXPICKUPS; i++){
+      if(!pickupArr[i].active){
+        pickupArr[i] = createHealthPickup(x, y);
+        break;
+      }
+    }
   }
   if(IsKeyPressed(KEY_O)){
-    pickupArr[1] = createAmmoPickup();
+    float x = (float)GetRandomValue(0, SCREENWIDTH);
+    float y = (float)GetRandomValue(0, SCREENHEIGHT);
+    for(int i = 0; i < MAXPICKUPS; i++){
+      if(!pickupArr[i].active){
+        pickupArr[i] = createAmmoPickup(x, y);
+        break;
+      }
+    }
   }
 }
 
-void updatePickups(Pickup *pickupArr, Player *player){
-    spawnPickup(pickupArr);
-    for(int i = 0; i < MAXPICKUPS; i++){
-      if(pickupArr[i].active){
-        if(checkPickupCollisionWithPlayer(&pickupArr[i], player)){
-          addPickupData(&pickupArr[i], player);
-          pickupArr[i].active = false;
-          continue;
-        }
-        drawPickup(&pickupArr[i]);
-      }
-    }
+void lifetimeOfPickup(Pickup *pickup){
+  if(pickup->lifetime <= 0 && pickup->active){
+    pickup->active = false;
+  }
+  else{
+    pickup->lifetime -= GetFrameTime();
+  }
 }
+
 
 void addPickupData(Pickup *pickup, Player *player){
   if(strcmp(pickup->type, "health") == 0){
@@ -61,5 +71,24 @@ void addPickupData(Pickup *pickup, Player *player){
 bool checkPickupCollisionWithPlayer(Pickup *pickup, Player *player){
    Rectangle playerRect = {player->x, player->y, player->width, player->height};
     return CheckCollisionCircleRec((Vector2){pickup->x, pickup->y},30, playerRect);
+}
+
+void updatePickups(Pickup *pickupArr, Player *player){
+    spawnPickup(pickupArr);
+    for(int i = 0; i < MAXPICKUPS; i++){
+      
+      //check collision and do appropriate action
+      if(pickupArr[i].active){
+        if(checkPickupCollisionWithPlayer(&pickupArr[i], player)){
+          addPickupData(&pickupArr[i], player);
+          pickupArr[i].active = false;
+          continue;
+        }
+        drawPickup(&pickupArr[i]);
+      }
+      
+      //counts down the pickup lifetime or destroys it
+      lifetimeOfPickup(&pickupArr[i]);
+    }
 }
 

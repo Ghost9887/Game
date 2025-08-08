@@ -4,6 +4,6 @@
   #include "raylib.h"
   #include "common.h"
 
-  Pickup createHealthPickup();
+  Pickup createHealthPickup(float x, float y);
 
 #endif

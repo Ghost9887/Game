@@ -4,6 +4,6 @@
 #include "raylib.h"
 #include "common.h"
 
-  Pickup createAmmoPickup();
+  Pickup createAmmoPickup(float x, float y);
 
 #endif
