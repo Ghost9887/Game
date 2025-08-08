@@ -56,7 +56,7 @@ void checkReload(Weapon *weapon, Player *player) {
           if (weapon->currentReserveSize < ammoToLoad) {
             ammoToLoad = weapon->currentReserveSize;
           }
-          weapon->currentMagSize = ammoToLoad;
+          weapon->currentMagSize += ammoToLoad;
           weapon->currentReserveSize -= ammoToLoad;
           weapon->reloadTimer = 0.0f;
           player->canShoot = true;
