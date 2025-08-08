@@ -5,6 +5,7 @@
 #include "roundSystem.h"
 #include "ui.h"
 #include "weapon.h"
+#include "pickup.h"
 #include <stdbool.h>
 
 // GLOBAL VARIABLES
@@ -12,7 +13,7 @@ unsigned int ENEMYCOUNTER = 0;
 unsigned int CURRENTSPAWNEDENEMIES = 0;
 
 void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
-                     Round *rnd, Weapon *weaponArr);
+                     Round *rnd, Weapon *weaponArr, Pickup *pickupArr);
 
 int main(void) {
 
@@ -33,6 +34,10 @@ int main(void) {
   Weapon weaponArr[10];
   initWeaponArr(weaponArr);
 
+  //houses all pickups
+  Pickup pickupArr[MAXPICKUPS];
+  initPickupArray(pickupArr);
+
   Player player = createPlayerObject();
   player.weapon = &weaponArr[0]; // the first weapon(pistol)
 
@@ -46,7 +51,7 @@ int main(void) {
 
     ClearBackground(RAYWHITE);
     // UPDATE ALL OF THE GAME STATES
-    updateGameState(&player, enemyArr, projectileArr, &rnd, weaponArr);
+    updateGameState(&player, enemyArr, projectileArr, &rnd, weaponArr, pickupArr);
     EndDrawing();
   }
 
@@ -56,7 +61,7 @@ int main(void) {
 }
 
 void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
-                     Round *rnd, Weapon *weaponArr) {
+                     Round *rnd, Weapon *weaponArr, Pickup *pickupArr) {
 
   updatePlayer(player);
 
@@ -64,6 +69,8 @@ void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
   updateRound(rnd, enemyArr);
 
   updateWeapon(weaponArr, player);
+
+  updatePickups(pickupArr);
 
   // drawing
   drawUI(player->health, ENEMYCOUNTER, player->invTime, rnd->round,player->money,

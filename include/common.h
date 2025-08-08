@@ -2,6 +2,7 @@
 #define COMMON_H
 
 #include <stdbool.h>
+#include "raylib.h"
 
 #define SCREENWIDTH 1200
 #define SCREENHEIGHT 800
@@ -9,6 +10,7 @@
 #define MAXPROJECTILES 200
 #define TARGETFPS 60
 #define MAXSPAWNENEMIES 40
+#define MAXPICKUPS 10
 
 typedef struct {
   float x;
@@ -72,5 +74,12 @@ typedef struct {
   float timer;
   Weapon *weapon;
 } Player;
+
+typedef struct{
+  float x;
+  float y;
+  int data;
+  Color colour;
+} Pickup;
 
 #endif
