@@ -4,16 +4,18 @@
 #include "raylib.h"
 #include "rocketLauncher.h"
 #include "smg.h"
+#include "shotgun.h"
 
-typedef enum { PISTOL = 0, AR = 1, ROCKETLAUNCER = 2, SMG = 3 } WeaponHolding;
+typedef enum { PISTOL = 0, AR = 1, ROCKETLAUNCER = 2, SMG = 3, SHOTGUN = 4 } WeaponHolding;
 
 // create the enums objects
 WeaponHolding pistol = PISTOL;
 WeaponHolding ar = AR;
 WeaponHolding rocketLauncher = ROCKETLAUNCER;
 WeaponHolding smg = SMG;
+WeaponHolding shotgun = SHOTGUN;
 
-const unsigned int numOfWeapons = 4;
+const unsigned int numOfWeapons = 5;
 
 void drawWeapon(Player *player) {
   DrawRectangle(player->x, player->y, player->weapon->width,
@@ -26,9 +28,10 @@ void initWeaponArr(Weapon *weaponArr) {
   weaponArr[ar] = createAssaultRifle();
   weaponArr[rocketLauncher] = createRocketLauncher();
   weaponArr[smg] = createSMG();
+  weaponArr[shotgun] = createShotgun();
   // creates the weapons that don't exist yet so the array doesnt have random
   // data
-  for (int i = 4; i < 10; i++) {
+  for (int i = numOfWeapons; i < 10; i++) {
     // place holder
     weaponArr[i] = createPistol();
   }
@@ -129,10 +132,24 @@ void switchWeapons(Player *player, Weapon *weaponArr) {
       } else {
         weaponArr[i].holding = false;
       }
-    }
+      }
+    player->timer = 1.0f * (float)TARGETFPS;
+    }else if (IsKeyPressed(KEY_FIVE)){
+      if(isReloading(player->weapon)){
+        player->weapon->reloadTimer = 0.0f;
+      }
+      for(int i = 0; i < numOfWeapons; i++){
+        if(i == shotgun){
+          weaponArr[i].holding = true;
+        }else{
+          weaponArr[i].holding = false;
+        }
+      }
+      
     //maybe change this???
     player->timer = 1.0f * (float)TARGETFPS;
-  }
+    }
+  
 }
 
 void updateWeapon(Weapon *weaponArr, Player *player) {
