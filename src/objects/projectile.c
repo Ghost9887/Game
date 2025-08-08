@@ -5,6 +5,7 @@
 #include "rocketLauncher.h"
 #include <math.h>
 #include <stdio.h>
+#include <string.h>
 
 Projectile createProjectile(int indexOfEnemy, Player *player, Weapon *weapon) {
   Projectile projectile;
@@ -69,7 +70,7 @@ void updateProjectiles(Projectile *projectileArr, Enemy *enemyArr, Player *playe
       destroyProjectile(&projectileArr[i]);
       addMoney(player, 20);
 
-      if (projectileArr[i].explosive) {
+      if (strcmp(player->weapon->type, "explosive") == 0) {
         splashDamage(&projectileArr[i], &enemyArr[projectileArr[i].target], enemyArr);
       } else {
         enemyLoseHealth(projectileArr[i].damage, &enemyArr[projectileArr[i].target]);

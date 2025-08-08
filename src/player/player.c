@@ -55,12 +55,6 @@ void playerShoot(Player *player, Projectile *projectileArr, int indexOfEnemy) {
     reduceAmmo(player->weapon);
 
     projectileArr[indexToReplace] = createProjectile(indexOfEnemy, player, player->weapon);
-    // check if the weapon has type of explosive!
-    if (strcmp(player->weapon->type, "explosive") == 0) {
-      projectileArr[indexToReplace].explosive = true;
-    } else {
-      projectileArr[indexToReplace].explosive = false;
-    }
   }
 }
 
