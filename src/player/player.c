@@ -64,15 +64,16 @@ void playerShoot(Player *player, Projectile *projectileArr, int indexOfEnemy) {
   }
 }
 
-int findClosestEnemyToPlayer(Enemy *enemyArr, Player *player) {
+int findClosestEnemyToPlayer(Enemy *enemyArr, Player *player, Pickup *pickupArr) {
   int indexOfEnemy;
   float minDistance = 100000.0f;
   for (int i = 0; i < MAXSPAWNENEMIES; i++) {
     if (!enemyArr[i].active)
       continue;
     float temp = minDistance;
-
-    destroyEnemy(&enemyArr[i], player);
+  
+    //why is this here?????
+    destroyEnemy(&enemyArr[i], player, pickupArr);
 
     minDistance =
         fabs(fmin(calculateDistance(&enemyArr[i], player), minDistance));

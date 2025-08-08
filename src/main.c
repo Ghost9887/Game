@@ -86,7 +86,7 @@ void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
     }
     // check if the player has anything to shoot at if so create the projectile
     // with the target of the indexOfEnemy
-    int indexOfEnemy = findClosestEnemyToPlayer(enemyArr, player);
+    int indexOfEnemy = findClosestEnemyToPlayer(enemyArr, player, pickupArr);
     // check if the closest enemy is in range of shooting
     if (indexOfEnemy != -2 && checkIfPlayerCanShoot(player) && !isReloading(player->weapon)) {
       playerShoot(player, projectileArr, indexOfEnemy);

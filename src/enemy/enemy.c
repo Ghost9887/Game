@@ -3,6 +3,7 @@
 #include "basicEnemy.h"
 #include "specialEnemy.h"
 #include "ui.h"
+#include "pickup.h"
 #include <math.h>
 #include <time.h>
 #include <stdlib.h>
@@ -63,12 +64,24 @@ void reduceEnemyFakeHealth(Enemy *enemy, float damage){
 }
 
 
-void destroyEnemy(Enemy *enemy, Player *player) {
+void destroyEnemy(Enemy *enemy, Player *player, Pickup *pickupArr) {
   if(enemy->health <= 0){
     enemy->active = false;
     ENEMYCOUNTER--;
     CURRENTSPAWNEDENEMIES--;
     addMoney(player, 60);
+    //chance to drop a pickup test refactor later
+  //10% chance
+  int randomNumber = GetRandomValue(1, 10);
+  if(randomNumber == 3){
+    int randomPickup = GetRandomValue(1, 2);
+    if(randomPickup == 1){
+      spawnPickup(pickupArr, enemy->x, enemy->y, "health");
+    }
+    else if(randomPickup == 2){
+      spawnPickup(pickupArr, enemy->x, enemy->y, "ammo");
+    }
+  }
   }
 }
 

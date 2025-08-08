@@ -19,10 +19,8 @@ void initPickupArray(Pickup *pickupArr){
   }
 }
 
-void spawnPickup(Pickup *pickupArr){
- if(IsKeyPressed(KEY_H)){
-  float x = (float)GetRandomValue(0, SCREENWIDTH);
-  float y = (float)GetRandomValue(0, SCREENHEIGHT);
+void spawnPickup(Pickup *pickupArr, float x, float y, char *type){
+ if(strcmp(type, "health") == 0){
     for(int i = 0; i < MAXPICKUPS; i++){
       if(!pickupArr[i].active){
         pickupArr[i] = createHealthPickup(x, y);
@@ -30,9 +28,7 @@ void spawnPickup(Pickup *pickupArr){
       }
     }
   }
-  if(IsKeyPressed(KEY_O)){
-    float x = (float)GetRandomValue(0, SCREENWIDTH);
-    float y = (float)GetRandomValue(0, SCREENHEIGHT);
+  if(strcmp(type, "ammo") == 0){
     for(int i = 0; i < MAXPICKUPS; i++){
       if(!pickupArr[i].active){
         pickupArr[i] = createAmmoPickup(x, y);
@@ -74,7 +70,6 @@ bool checkPickupCollisionWithPlayer(Pickup *pickup, Player *player){
 }
 
 void updatePickups(Pickup *pickupArr, Player *player){
-    spawnPickup(pickupArr);
     for(int i = 0; i < MAXPICKUPS; i++){
       
       //check collision and do appropriate action
