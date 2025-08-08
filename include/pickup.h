@@ -6,6 +6,9 @@
   
   void drawPickup(Pickup *pickup);
   void initPickupArray(Pickup *pickupArr);
-  void updatePickups(Pickup *pickupArr);
+  void updatePickups(Pickup *pickupArr, Player *player);
+  void spawnPickup(Pickup *pickupArr);
+  bool checkPickupCollisionWithPlayer(Pickup *pickup, Player *player);
+  void addPickupData(Pickup *pickup, Player *player);
 
 #endif

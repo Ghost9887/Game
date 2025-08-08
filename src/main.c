@@ -70,7 +70,7 @@ void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
 
   updateWeapon(weaponArr, player);
 
-  updatePickups(pickupArr);
+  updatePickups(pickupArr, player);
 
   // drawing
   drawUI(player->health, ENEMYCOUNTER, player->invTime, rnd->round,player->money,

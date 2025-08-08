@@ -80,6 +80,9 @@ typedef struct{
   float y;
   int data;
   Color colour;
+  bool active;
+  float lifetime;
+  char *type;
 } Pickup;
 
 #endif
