@@ -2,6 +2,7 @@
 --TODO--
 
 --
+--DOING--
 Redo the shooting so the projectiles move in a straight line instead of targeting a enemy
 (gun follows the mouse and on click it shoots a projectile to that direction)
 --
