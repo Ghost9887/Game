@@ -75,7 +75,6 @@ void updateProjectiles(Projectile *projectileArr, Enemy *enemyArr, Player *playe
       } else {
         enemyLoseHealth(projectileArr[i].damage, &enemyArr[projectileArr[i].target]);
       }
-
       continue; 
     }
     
