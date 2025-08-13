@@ -54,10 +54,10 @@ void destroyEnemy(Enemy *enemy, Player *player, Pickup *pickupArr) {
   if(randomNumber == 3){
     int randomPickup = GetRandomValue(1, 2);
     if(randomPickup == 1){
-      spawnPickup(pickupArr, enemy->x, enemy->y, "health");
+      spawnPickup(pickupArr, enemy->x, enemy->y, "health", player);
     }
     else if(randomPickup == 2){
-      spawnPickup(pickupArr, enemy->x, enemy->y, "ammo");
+      spawnPickup(pickupArr, enemy->x, enemy->y, "ammo", player);
     }
   }
   }

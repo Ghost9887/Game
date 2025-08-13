@@ -19,7 +19,7 @@ void initPickupArray(Pickup *pickupArr){
   }
 }
 
-void spawnPickup(Pickup *pickupArr, float x, float y, char *type){
+void spawnPickup(Pickup *pickupArr, float x, float y, char *type, Player *player){
  if(strcmp(type, "health") == 0){
     for(int i = 0; i < MAXPICKUPS; i++){
       if(!pickupArr[i].active){
@@ -31,7 +31,7 @@ void spawnPickup(Pickup *pickupArr, float x, float y, char *type){
   if(strcmp(type, "ammo") == 0){
     for(int i = 0; i < MAXPICKUPS; i++){
       if(!pickupArr[i].active){
-        pickupArr[i] = createAmmoPickup(x, y);
+        pickupArr[i] = createAmmoPickup(x, y, player);
         break;
       }
     }
