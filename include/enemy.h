@@ -11,8 +11,10 @@ void updateEnemy(Enemy *enemyArr, Player *player, Pickup *pickupArr);
 void initEnemyArr(Enemy *enemyArr);
 void destroyEnemy(Enemy *enemy, Player *player, Pickup *pickupArr);
 bool checkCollisionWithPlayer(Enemy *enemy, Player *player);
-void createEnemies(Enemy *enemArr, int enemyCount, int rnd);
+void createEnemies(Enemy *enemArr, int totalToSpawn, int rnd);
 bool checkIfAllEnemiesAreDestroyed(Enemy *enemy);
 void enemyLoseHealth(float damage, Enemy *enemy);
+void resetBigEnemyCounter();
+int getActiveEnemyCount(Enemy *enemyArr);
 
 #endif

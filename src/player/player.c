@@ -65,13 +65,15 @@ void playerShoot(Player *player, Projectile *projectileArr) {
   }
 }
 
-
 bool checkIfPlayerCanShoot(Player *player) {
-  if (!player->canShoot && player->timer > 0) {
+  if (player->timer >= 0) {
     player->timer--;
     return false;
   }
-  if (player->timer <= 0) {
+  else if(getMagAmmo(player->weapon) <= 0){
+    return false;
+  }
+  else if (player->timer <= 0) {
     player->canShoot = true;
   }
   return true;

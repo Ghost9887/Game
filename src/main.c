@@ -11,6 +11,7 @@
 // GLOBAL VARIABLES
 unsigned int ENEMYCOUNTER = 0;
 unsigned int CURRENTSPAWNEDENEMIES = 0;
+unsigned int BIGENEMYCOUNTER = 0;
 
 void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
                      Round *rnd, Weapon *weaponArr, Pickup *pickupArr);
@@ -89,11 +90,16 @@ void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
 
   // only do these if there are enemies or the round hasn't ended yet
   if (!inBreak(rnd)) {
+    resetBigEnemyCounter();
     // only call this if there are more enemies that need to be spawned druring
-    // the round
-    if (MAXSPAWNENEMIES <= ENEMYCOUNTER) { 
-      createEnemies(enemyArr, getAmountOfEnemies(rnd), getRound(rnd));
+    int remainingToSpawn = ENEMYCOUNTER - CURRENTSPAWNEDENEMIES;
+    if (remainingToSpawn > 0) {
+      createEnemies(enemyArr, remainingToSpawn, getRound(rnd));
     }
+
+    //this fixes a bug when multiple enemies are destroyed and the ENEMYCOUNTER 
+    //drops below MAXSPAWNENEMIES we still want to create more
+   
    }
 
   updateEnemy(enemyArr, player, pickupArr);

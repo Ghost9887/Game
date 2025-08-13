@@ -18,7 +18,7 @@ Weapon createSMG() {
   smg.range = 250.0f;
   smg.projectileSpeed = 1700.0f;
   smg.fireRate =
-      0.10f *
+      0.05f *
       (float)TARGETFPS; // 1.0f == every second ; 0.5 == every 1/2 second
   smg.holding = true;
   return smg;

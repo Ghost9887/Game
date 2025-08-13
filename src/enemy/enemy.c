@@ -2,6 +2,7 @@
 #include "enemy.h"
 #include "basicEnemy.h"
 #include "specialEnemy.h"
+#include "bigEnemy.h"
 #include "ui.h"
 #include "pickup.h"
 #include <math.h>
@@ -11,6 +12,7 @@
 
 extern unsigned int ENEMYCOUNTER;
 extern unsigned int CURRENTSPAWNEDENEMIES;
+extern unsigned int BIGENEMYCOUNTER;
 
 void drawEnemy(Enemy *enemy){
   DrawRectangle(enemy->x, enemy->y, enemy->width, enemy->height, RED);
@@ -71,44 +73,51 @@ bool checkCollisionWithPlayer(Enemy *enemy, Player *player) {
   return CheckCollisionRecs(enemyRect, playerRect);
 }
 
-// spawns the enemies
-void createEnemies(Enemy *enemyArr, int enemyCount, int rnd) {
+//checks how many enemies are spawned
+int getActiveEnemyCount(Enemy *enemyArr) {
+  int count = 0;
+  for (int i = 0; i < MAXSPAWNENEMIES; i++) {
+    if (enemyArr[i].active) {
+      count++;
+    }
+  }
+  return count;
+}
+
+//spawns enemies
+void createEnemies(Enemy *enemyArr, int totalToSpawn, int rnd) {
   static bool seeded = false;
   if (!seeded) {
     srand(time(NULL));
     seeded = true;
   }
-  // if there are less enemies we dont have to check if there is a available
-  // slot
-  if (enemyCount <= MAXSPAWNENEMIES) {
-    for (int i = 0; i < enemyCount; i++) {
-      if(!enemyArr[i].active){
+
+  int activeCount = getActiveEnemyCount(enemyArr);
+  int spawnable = MAXSPAWNENEMIES - activeCount;
+  int spawnCount = (totalToSpawn < spawnable) ? totalToSpawn : spawnable;
+
+  for (int i = 0; i < MAXSPAWNENEMIES && spawnCount > 0; i++) {
+    if (!enemyArr[i].active) {
       float randomX = SCREENWIDTH / 2 + rand() % SCREENWIDTH;
       float randomY = SCREENHEIGHT / 2 + rand() % SCREENHEIGHT;
-      if(rnd % 5 == 0){
+
+      if (rnd % 5 == 0) {
         enemyArr[i] = createSpecialEnemy(randomX, randomY);
-        CURRENTSPAWNEDENEMIES++;
-      }else{
+      } else if (rnd > 8 && BIGENEMYCOUNTER < (int)(rnd / 4)) {
+        enemyArr[i] = createBigEnemy(randomX, randomY);
+        BIGENEMYCOUNTER++;
+      } else {
         enemyArr[i] = createBasicEnemy(randomX, randomY);
-        CURRENTSPAWNEDENEMIES++;
       }
-      }
-    }
-  } else {
-    for (int i = 0; i < MAXSPAWNENEMIES; i++) {
-      if (!enemyArr[i].active) {
-        float randomX = rand() % SCREENWIDTH * 2;
-        float randomY = rand() % SCREENHEIGHT * 2;
-        if(rnd % 5 == 0){
-          enemyArr[i] = createSpecialEnemy(randomX, randomY);
-          CURRENTSPAWNEDENEMIES++;
-        }else{
-          enemyArr[i] = createBasicEnemy(randomX, randomY);
-          CURRENTSPAWNEDENEMIES++;
-        }
-      }
+      CURRENTSPAWNEDENEMIES++;
+      spawnCount--;
     }
   }
+}
+
+
+void resetBigEnemyCounter(){
+  BIGENEMYCOUNTER = 0;
 }
 
 bool checkIfAllEnemiesAreDestroyed(Enemy *enemy) {

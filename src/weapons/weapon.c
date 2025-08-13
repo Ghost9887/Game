@@ -65,11 +65,9 @@ void checkReload(Weapon *weapon, Player *player) {
   //only call when a reload gets initiated
   //MAYBE CHANGE TO AFFECT THE PLAYER TIMER INSTEAD OF HAVING A SPERATE RELOAD TIMER?
   if(IsKeyPressed(KEY_R) || weapon->reloadTimer > 0.0f || weapon->currentMagSize <= 0){
-    isReloading(weapon);
-    if (weapon->currentReserveSize > 0 && weapon->currentMagSize < weapon->maxMagSize) {
+   if (weapon->currentReserveSize > 0 && weapon->currentMagSize < weapon->maxMagSize) {
       if (weapon->reloadTimer <= 0.0f) {
         weapon->reloadTimer = weapon->reloadTime;
-        player->canShoot = false;
       } else {
         weapon->reloadTimer -= GetFrameTime();
         if (weapon->reloadTimer <= 0.0f) {
@@ -80,8 +78,6 @@ void checkReload(Weapon *weapon, Player *player) {
           weapon->currentMagSize += ammoToLoad;
           weapon->currentReserveSize -= ammoToLoad;
           weapon->reloadTimer = 0.0f;
-          player->canShoot = true;
-          isReloading(weapon);
         }
       }
     }
