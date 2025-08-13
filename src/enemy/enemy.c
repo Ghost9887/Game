@@ -20,7 +20,7 @@ void drawEnemy(Enemy *enemy){
 
 void initEnemyArr(Enemy *enemyArr) {
   // initialize the projectile array
-  for (int i = 0; i < MAXENEMIES; i++) {
+  for (int i = 0; i < MAXSPAWNENEMIES; i++) {
     enemyArr[i].active = false;
     enemyArr[i].width = 0.0f;
     enemyArr[i].height = 0;

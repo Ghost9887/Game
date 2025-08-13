@@ -159,7 +159,6 @@ void switchWeapons(Player *player, Weapon *weaponArr) {
           weaponArr[i].holding = false;
         }
       }
-      
     //maybe change this???
     player->timer = 1.0f * (float)TARGETFPS;
     }

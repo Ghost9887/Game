@@ -10,7 +10,7 @@ Weapon createSMG() {
   smg.damage = 20.0f;
   smg.maxMagSize = 40;
   smg.currentMagSize = smg.maxMagSize;
-  smg.maxReserveSize = 200;
+  smg.maxReserveSize = 240;
   smg.currentReserveSize = smg.maxReserveSize;
   smg.reloadTime = 2.0f;
   smg.reloadTimer = 0.0f;

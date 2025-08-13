@@ -31,7 +31,7 @@ int main(void) {
   Projectile projectileArr[MAXPROJECTILES];
   initProjectileArray(projectileArr);
 
-  Enemy enemyArr[MAXENEMIES];
+  Enemy enemyArr[MAXSPAWNENEMIES];
   initEnemyArr(enemyArr);
 
   Round rnd = createRoundObject();

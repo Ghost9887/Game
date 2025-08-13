@@ -56,6 +56,7 @@ void addPickupData(Pickup *pickup, Player *player){
       player->health += pickup->data;
     }
   }else if(strcmp(pickup->type, "ammo") == 0){
+    pickup->data = player->weapon->maxMagSize * 2;
     if(player->weapon->currentReserveSize + pickup->data >= player->weapon->maxReserveSize){
       player->weapon->currentReserveSize = player->weapon->maxReserveSize;
     }else{
