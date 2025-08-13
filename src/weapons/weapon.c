@@ -24,11 +24,12 @@ void drawWeapon(Player *player) {
     player->y + player->height / 2.0f,
     player->weapon->width,
     player->weapon->height
-};
+  };
 
   Vector2 pivot = {player->weapon->width / 2.0f, player->weapon->height / 2.0f};
   float rotation = getRotationOfWeapon(player);
-    DrawRectanglePro(weaponRect, pivot, rotation, BLACK);
+  player->weapon->rotation = rotation;
+  DrawRectanglePro(weaponRect, pivot, rotation, BLACK);
 }
 
 // refactor this

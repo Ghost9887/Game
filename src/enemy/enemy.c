@@ -41,28 +41,6 @@ void enemyMovement(Enemy *enemy, Player *player) {
   enemy->y += dirY * enemy->speed * deltaTime;
 }
 
-void updateEnemy(Enemy *enemyArr, Player *player) {
-  for (int i = 0; i < MAXSPAWNENEMIES; i++) {
-    if (!enemyArr[i].active)
-      continue;
-
-    enemyMovement(&enemyArr[i], player);
-    drawEnemy(&enemyArr[i]);
-
-    // checks collision with player
-    if (!isPlayerInvulnerable(player) &&
-        checkCollisionWithPlayer(&enemyArr[i], player)) {
-      playerLoseHealth(&enemyArr[i], player);
-    }
-
-    drawEnemyHealth(&enemyArr[i]);
-  }
-}
-
-void reduceEnemyFakeHealth(Enemy *enemy, float damage){
-  enemy->fakeHealth -= damage;
-}
-
 
 void destroyEnemy(Enemy *enemy, Player *player, Pickup *pickupArr) {
   if(enemy->health <= 0){
@@ -104,6 +82,7 @@ void createEnemies(Enemy *enemyArr, int enemyCount, int rnd) {
   // slot
   if (enemyCount <= MAXSPAWNENEMIES) {
     for (int i = 0; i < enemyCount; i++) {
+      if(!enemyArr[i].active){
       float randomX = SCREENWIDTH / 2 + rand() % SCREENWIDTH;
       float randomY = SCREENHEIGHT / 2 + rand() % SCREENHEIGHT;
       if(rnd % 5 == 0){
@@ -112,6 +91,7 @@ void createEnemies(Enemy *enemyArr, int enemyCount, int rnd) {
       }else{
         enemyArr[i] = createBasicEnemy(randomX, randomY);
         CURRENTSPAWNEDENEMIES++;
+      }
       }
     }
   } else {
@@ -139,5 +119,27 @@ bool checkIfAllEnemiesAreDestroyed(Enemy *enemy) {
 }
 
 void enemyLoseHealth(float damage, Enemy *enemy) { enemy->health -= damage; }
+
+void updateEnemy(Enemy *enemyArr, Player *player, Pickup *pickupArr) {
+  for (int i = 0; i < MAXSPAWNENEMIES; i++) {
+    if (!enemyArr[i].active)
+      continue;
+
+    enemyMovement(&enemyArr[i], player);
+    drawEnemy(&enemyArr[i]);
+
+    //checks if the enemy should die (bad naming)
+    destroyEnemy(&enemyArr[i], player, pickupArr);
+
+    // checks collision with player
+    if (!isPlayerInvulnerable(player) &&
+        checkCollisionWithPlayer(&enemyArr[i], player)) {
+      playerLoseHealth(&enemyArr[i], player);
+    }
+
+    drawEnemyHealth(&enemyArr[i]);
+  }
+}
+
 
 

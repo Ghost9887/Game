@@ -8,7 +8,6 @@ Enemy createBasicEnemy(float posX, float posY) {
   enemy.width = 30;
   enemy.height = 50;
   enemy.health = 100;
-  enemy.fakeHealth = 100;
   enemy.damage = 40;
   enemy.speed = 70.0f;
   enemy.active = true;

@@ -7,12 +7,18 @@
 #include <stdio.h>
 #include <string.h>
 
-Projectile createProjectile(int indexOfEnemy, Player *player, Weapon *weapon) {
+Projectile createProjectile(Player *player, Weapon *weapon) {
   Projectile projectile;
-  projectile.x = player->x;
-  projectile.y = player->y;
+  projectile.x = player->x + player->width / 2;
+  projectile.y = player->y + player->height / 2;
+  
+  //calculate the directional vector
+  float angleDeg = player->weapon->rotation;
+  float angleRad = angleDeg * (3.14 / 180.0f);
+
+  projectile.dX = cosf(angleRad);
+  projectile.dY = sinf(angleRad);
   projectile.damage = weapon->damage;
-  projectile.target = indexOfEnemy;
   projectile.speed = weapon->projectileSpeed;
   projectile.active = true;
   projectile.lifetime = 10.0f;
@@ -25,15 +31,14 @@ void drawProjectile(Projectile *projectile) {
   DrawCircle(projectile->x, projectile->y, projectile->size, BLACK);
 }
 
-void moveProjectile(Projectile *projectile, Enemy *enemy) {
+void moveProjectile(Projectile *projectile) {
+  
   float deltaTime = GetFrameTime();
-  float dx = (enemy->x + enemy->width / 2) - projectile->x;
-  float dy = (enemy->y + enemy->height / 2) - projectile->y;
-  float length = sqrt(dx * dx + dy * dy);
-  float dirX = dx / length;
-  float dirY = dy / length;
-  projectile->x += dirX * projectile->speed * deltaTime;
-  projectile->y += dirY * projectile->speed * deltaTime;
+  
+  projectile->previousPos = (Vector2){projectile->x, projectile->y};
+
+  projectile->x += projectile->dX * projectile->speed * deltaTime;
+  projectile->y += projectile->dY * projectile->speed * deltaTime;
 }
 
 void destroyProjectile(Projectile *projectile) { 
@@ -53,27 +58,53 @@ void initProjectileArray(Projectile *projectileArr) {
   }
 }
 
-bool checkForCollisionWithEnemy(Projectile *projectile, Enemy *enemy) {
-  // create the enemy rectangle from its data
-  Rectangle enemyRect = {enemy->x, enemy->y, enemy->width, enemy->height};
-  return CheckCollisionCircleRec((Vector2){projectile->x, projectile->y},
-                                 projectile->size, enemyRect);
+//helper function
+bool CheckLineRectCollision(Vector2 start, Vector2 end, Rectangle rect) {
+    Vector2 topLeft = {rect.x, rect.y};
+    Vector2 topRight = {rect.x + rect.width, rect.y};
+    Vector2 bottomLeft = {rect.x, rect.y + rect.height};
+    Vector2 bottomRight = {rect.x + rect.width, rect.y + rect.height};
+
+    return CheckCollisionLines(start, end, topLeft, topRight, NULL) ||
+           CheckCollisionLines(start, end, topRight, bottomRight, NULL) ||
+           CheckCollisionLines(start, end, bottomRight, bottomLeft, NULL) ||
+           CheckCollisionLines(start, end, bottomLeft, topLeft, NULL);
+}
+
+
+int checkForCollisionWithEnemy(Projectile *projectile, Enemy *enemyArr) {
+    Vector2 previousPos = projectile->previousPos;
+    Vector2 currentPos = {projectile->x, projectile->y};
+
+    for (int i = 0; i < MAXSPAWNENEMIES; i++) {
+        if (!enemyArr[i].active) continue;
+
+        Rectangle enemyRect = {enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height};
+
+        if (CheckLineRectCollision(previousPos, currentPos, enemyRect)) {
+            return i;
+        }
+    }
+
+    return -1;
 }
 
 void updateProjectiles(Projectile *projectileArr, Enemy *enemyArr, Player *player) {
   for (int i = 0; i < MAXPROJECTILES; i++) {
     if (!projectileArr[i].active) continue;
 
-    moveProjectile(&projectileArr[i], &enemyArr[projectileArr[i].target]);
+    moveProjectile(&projectileArr[i]);
 
-    if (checkForCollisionWithEnemy(&projectileArr[i], &enemyArr[projectileArr[i].target])) {
+    int indexOfEnemy = checkForCollisionWithEnemy(&projectileArr[i], enemyArr);
+
+    if (indexOfEnemy != -1) {
       destroyProjectile(&projectileArr[i]);
       addMoney(player, 20);
 
       if (strcmp(player->weapon->type, "explosive") == 0) {
-        splashDamage(&projectileArr[i], &enemyArr[projectileArr[i].target], enemyArr);
+        splashDamage(&projectileArr[i], &enemyArr[indexOfEnemy], enemyArr);
       } else {
-        enemyLoseHealth(projectileArr[i].damage, &enemyArr[projectileArr[i].target]);
+        enemyLoseHealth(projectileArr[i].damage, &enemyArr[indexOfEnemy]);
       }
       continue; 
     }

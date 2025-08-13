@@ -1,20 +1,14 @@
 
 --TODO--
 
---
 --DOING--
-Redo the shooting so the projectiles move in a straight line instead of targeting a enemy
-(gun follows the mouse and on click it shoots a projectile to that direction)
---
-Refactor the projectiles the same way i have the enemies and weapon
-(one main class and different subclasses)
---
+
 Create the shotgun with the new shooting so it shoots a spread shot
 --
 Create boss enemies that have a chance to spawn from a specific round 
 (limit to x per round)
 --
-Create a buy mechanic either like in zombies(wall buys) or a csgo system 
+Create a buy mechanic either like in zombies(wall buys/box) or a csgo/shop system 
 --
 Create buyable perks that increase the player stats 
 --
@@ -26,3 +20,6 @@ Draw some basic sprites as concepts for the look of the game
 
 --DONE--
 
+Redo the shooting so the projectiles move in a straight line instead of targeting a enemy
+(gun follows the mouse and on click it shoots a projectile to that direction)
+-

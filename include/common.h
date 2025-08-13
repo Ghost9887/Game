@@ -18,7 +18,6 @@ typedef struct {
   int width;
   int height;
   float health;
-  float fakeHealth;
   float speed;
   int damage;
   bool active;
@@ -27,6 +26,9 @@ typedef struct {
 typedef struct {
   float x;
   float y;
+  Vector2 previousPos;
+  float dX;
+  float dY;
   float damage;
   float speed;
   int target;

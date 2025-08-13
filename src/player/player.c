@@ -38,60 +38,26 @@ void playerMovement(Player *player) {
     player->y -= player->speed * deltaTime;
 }
 
-void playerShoot(Player *player, Projectile *projectileArr, int indexOfEnemy) {
-  int indexToReplace;
-  for (indexToReplace = 0; indexToReplace < MAXPROJECTILES; indexToReplace++) {
-    if (!projectileArr[indexToReplace].active) {
-      break;
+void playerShoot(Player *player, Projectile *projectileArr) {
+  if(IsMouseButtonDown(MOUSE_LEFT_BUTTON)){
+    int indexToReplace;
+    for (indexToReplace = 0; indexToReplace < MAXPROJECTILES; indexToReplace++) {
+      if (!projectileArr[indexToReplace].active) {
+        break;
+      }
     }
-  }
+ 
 
-  
-
-  player->canShoot = false;
-  player->timer = player->weapon->fireRate;
+    player->canShoot = false;
+    player->timer = player->weapon->fireRate;
 
   //check wether we can spawn more projectiles
-  if (indexToReplace < MAXPROJECTILES) {
-    
-    reduceAmmo(player->weapon);
-
-    projectileArr[indexToReplace] = createProjectile(indexOfEnemy, player, player->weapon);
-  }
-}
-
-
-
-int findClosestEnemyToPlayer(Enemy *enemyArr, Player *player, Pickup *pickupArr) {
-  int indexOfEnemy;
-  float minDistance = 100000.0f;
-  for (int i = 0; i < MAXSPAWNENEMIES; i++) {
-    if (!enemyArr[i].active)
-      continue;
-    float temp = minDistance;
-  
-
-    //why is this here?????
-    destroyEnemy(&enemyArr[i], player, pickupArr);
-
-    minDistance =
-        fabs(fmin(calculateDistance(&enemyArr[i], player), minDistance));
-    if (temp != minDistance) {
-      indexOfEnemy = i;
+    if (indexToReplace < MAXPROJECTILES) {
+         
+      reduceAmmo(player->weapon);
+      projectileArr[indexToReplace] = createProjectile(player, player->weapon);
     }
   }
-  // checks if the player is in range
-  if (minDistance <= player->weapon->range && enemyArr[indexOfEnemy].fakeHealth > 0) {
-    return indexOfEnemy;
-  }
-  return -2;
-}
-
-
-float calculateDistance(Enemy *enemy, Player *player) {
-  float dx = player->x - enemy->x;
-  float dy = player->y - enemy->y;
-  return sqrtf(dx * dx + dy * dy);
 }
 
 

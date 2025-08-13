@@ -19,6 +19,11 @@ int main(void) {
 
   InitWindow(SCREENWIDTH, SCREENHEIGHT, "raylib game");
 
+  /*
+  //hide the cursor
+  HideCursor();
+  */
+
   SetTargetFPS(TARGETFPS);
 
   // creating all objects for the game
@@ -44,12 +49,12 @@ int main(void) {
   // start the first round
   startRound(&rnd, enemyArr);
   // MAIN GAME LOOP
-
+  
   while (!WindowShouldClose()) {
 
     BeginDrawing();
 
-    ClearBackground(RAYWHITE);
+     ClearBackground(RAYWHITE);
     // UPDATE ALL OF THE GAME STATES
     updateGameState(&player, enemyArr, projectileArr, &rnd, weaponArr, pickupArr);
     EndDrawing();
@@ -84,17 +89,11 @@ void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
     if (MAXSPAWNENEMIES <= ENEMYCOUNTER) { 
       createEnemies(enemyArr, getAmountOfEnemies(rnd), getRound(rnd));
     }
-    // check if the player has anything to shoot at if so create the projectile
-    // with the target of the indexOfEnemy
-    int indexOfEnemy = findClosestEnemyToPlayer(enemyArr, player, pickupArr);
-    // check if the closest enemy is in range of shooting
-    if (indexOfEnemy != -2 && checkIfPlayerCanShoot(player) && !isReloading(player->weapon)) {
-      playerShoot(player, projectileArr, indexOfEnemy);
-      //this is used for making sure no bullets than needed are created to kill a enemy
-      reduceEnemyFakeHealth(&enemyArr[indexOfEnemy], player->weapon->damage);
+    if (checkIfPlayerCanShoot(player) && !isReloading(player->weapon)) {
+      playerShoot(player, projectileArr);
     }
     updateProjectiles(projectileArr, enemyArr, player);
   }
 
-  updateEnemy(enemyArr, player);
+  updateEnemy(enemyArr, player, pickupArr);
 }
