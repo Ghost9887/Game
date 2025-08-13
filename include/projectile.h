@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-Projectile createProjectile(Player *player, Weapon *weapon);
+Projectile createProjectile(Player *player, Weapon *weapon, float offset);
 void drawProjectile(Projectile *projectile);
 void moveProjectile(Projectile *projectile);
 void updateProjectiles(Projectile *projectileArr, Enemy *enemyArr, Player *player);

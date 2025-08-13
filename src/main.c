@@ -77,10 +77,15 @@ void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
 
   updatePickups(pickupArr, player);
 
-  // drawing
   drawUI(player->health, ENEMYCOUNTER, player->invTime, rnd->round,player->money,
          CURRENTSPAWNEDENEMIES, GetFPS(),
          player->weapon->currentMagSize, player->weapon->currentReserveSize, player->weapon->reloadTimer);
+  
+  if (checkIfPlayerCanShoot(player) && !isReloading(player->weapon)) {
+    playerShoot(player, projectileArr);
+  }
+  updateProjectiles(projectileArr, enemyArr, player);
+
 
   // only do these if there are enemies or the round hasn't ended yet
   if (!inBreak(rnd)) {
@@ -89,11 +94,7 @@ void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
     if (MAXSPAWNENEMIES <= ENEMYCOUNTER) { 
       createEnemies(enemyArr, getAmountOfEnemies(rnd), getRound(rnd));
     }
-    if (checkIfPlayerCanShoot(player) && !isReloading(player->weapon)) {
-      playerShoot(player, projectileArr);
-    }
-    updateProjectiles(projectileArr, enemyArr, player);
-  }
+   }
 
   updateEnemy(enemyArr, player, pickupArr);
 }

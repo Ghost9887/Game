@@ -1,4 +1,5 @@
 #include "shotgun.h"
+#include "projectile.h"
 
 
 Weapon createShotgun(){
@@ -7,14 +8,14 @@ Weapon createShotgun(){
   shotgun.y = 0;
   shotgun.width = 50;
   shotgun.height = 20;
-  shotgun.damage = 100.0f;
+  shotgun.damage = 25.0f;
   shotgun.maxMagSize = 4;
   shotgun.maxReserveSize = 24; //should always be divisible by the mag size
   shotgun.currentMagSize = shotgun.maxMagSize;
   shotgun.currentReserveSize = shotgun.maxReserveSize;
   shotgun.reloadTime = 2.2f;
   shotgun.reloadTimer = 0.0f;
-  shotgun.type = "ballistic";
+  shotgun.type = "spreadshot";
   shotgun.range = 350.0f;
   shotgun.projectileSpeed = 1250.0f;
   shotgun.fireRate =
@@ -23,3 +24,20 @@ Weapon createShotgun(){
   shotgun.holding = true;
   return shotgun;
 }
+
+void spreadShot(Projectile *projectileArr, Player *player) {
+    float spreadAngle = 5.0f; 
+    int shots = 5;
+    int center = shots / 2;
+    for (int i = 0; i < shots; i++) {
+        float angleOffset = (i - center) * spreadAngle;
+        for (int j = 0; j < MAXPROJECTILES; j++) {
+            if (!projectileArr[j].active) {
+                projectileArr[j] = createProjectile(player, player->weapon, angleOffset);
+                break;
+            }
+        }
+    }
+}
+
+

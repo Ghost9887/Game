@@ -3,6 +3,7 @@
 #include "raylib.h"
 #include "weapon.h"
 #include "enemy.h"
+#include "shotgun.h"
 #include <string.h>
 #include <math.h>
 
@@ -46,16 +47,20 @@ void playerShoot(Player *player, Projectile *projectileArr) {
         break;
       }
     }
- 
-
     player->canShoot = false;
     player->timer = player->weapon->fireRate;
 
   //check wether we can spawn more projectiles
     if (indexToReplace < MAXPROJECTILES) {
-         
-      reduceAmmo(player->weapon);
-      projectileArr[indexToReplace] = createProjectile(player, player->weapon);
+       reduceAmmo(player->weapon);
+
+      //dont like it here havent found a better place for it yet
+      if(strcmp(player->weapon->type, "spreadshot") == 0){
+        spreadShot(projectileArr, player);
+      }else{
+        projectileArr[indexToReplace] = createProjectile(player, player->weapon, 0);
+      }
+      
     }
   }
 }

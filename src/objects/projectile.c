@@ -7,13 +7,13 @@
 #include <stdio.h>
 #include <string.h>
 
-Projectile createProjectile(Player *player, Weapon *weapon) {
+Projectile createProjectile(Player *player, Weapon *weapon, float offset) {
   Projectile projectile;
   projectile.x = player->x + player->width / 2;
   projectile.y = player->y + player->height / 2;
   
   //calculate the directional vector
-  float angleDeg = player->weapon->rotation;
+  float angleDeg = player->weapon->rotation + offset;
   float angleRad = angleDeg * (3.14 / 180.0f);
 
   projectile.dX = cosf(angleRad);
@@ -103,7 +103,8 @@ void updateProjectiles(Projectile *projectileArr, Enemy *enemyArr, Player *playe
 
       if (strcmp(player->weapon->type, "explosive") == 0) {
         splashDamage(&projectileArr[i], &enemyArr[indexOfEnemy], enemyArr);
-      } else {
+      }
+      else {
         enemyLoseHealth(projectileArr[i].damage, &enemyArr[indexOfEnemy]);
       }
       continue; 

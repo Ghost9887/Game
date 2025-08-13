@@ -5,5 +5,6 @@
   #include "common.h"
   
   Weapon createShotgun();
+  void spreadShot(Projectile *projectileArr, Player *player);
 
 #endif
