@@ -23,7 +23,6 @@ Projectile createProjectile(Player *player, Weapon *weapon, float offset) {
   projectile.active = true;
   projectile.lifetime = 10.0f;
   projectile.size = 5.0f;
-  projectile.explosive = false;
   return projectile;
 }
 

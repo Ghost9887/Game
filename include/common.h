@@ -35,7 +35,6 @@ typedef struct {
   bool active;
   float lifetime;
   float size;
-  bool explosive;
 } Projectile;
 
 typedef struct {

@@ -63,6 +63,7 @@ bool isReloading(Weapon *weapon){
 
 void checkReload(Weapon *weapon, Player *player) {
   //only call when a reload gets initiated
+  //MAYBE CHANGE TO AFFECT THE PLAYER TIMER INSTEAD OF HAVING A SPERATE RELOAD TIMER?
   if(IsKeyPressed(KEY_R) || weapon->reloadTimer > 0.0f || weapon->currentMagSize <= 0){
     isReloading(weapon);
     if (weapon->currentReserveSize > 0 && weapon->currentMagSize < weapon->maxMagSize) {
