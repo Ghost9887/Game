@@ -47,6 +47,7 @@ typedef struct {
   float y;
   int width;
   int height;
+  float rotation;
   float damage;
   float range;
   float fireRate;

@@ -46,14 +46,7 @@ void playerShoot(Player *player, Projectile *projectileArr, int indexOfEnemy) {
     }
   }
 
-/*
-float getRotationOfWeapon(Player *player){
-  Vector2 mousePosition = GetMousePosition();
-  float rad = atan2(mousePosition.x - player->x, mousePosition.y - player->y);
-  float degree = rad;
-  return degree;
-}
-  */
+  
 
   player->canShoot = false;
   player->timer = player->weapon->fireRate;

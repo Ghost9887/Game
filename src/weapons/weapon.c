@@ -5,6 +5,7 @@
 #include "rocketLauncher.h"
 #include "smg.h"
 #include "shotgun.h"
+#include <math.h>
 
 typedef enum { PISTOL = 0, AR = 1, ROCKETLAUNCER = 2, SMG = 3, SHOTGUN = 4 } WeaponHolding;
 
@@ -18,8 +19,16 @@ WeaponHolding shotgun = SHOTGUN;
 const unsigned int numOfWeapons = 5;
 
 void drawWeapon(Player *player) {
-  DrawRectangle(player->x, player->y, player->weapon->width,
-                player->weapon->height, BLACK);
+  Rectangle weaponRect = {
+    player->x + player->width / 2.0f,
+    player->y + player->height / 2.0f,
+    player->weapon->width,
+    player->weapon->height
+};
+
+  Vector2 pivot = {player->weapon->width / 2.0f, player->weapon->height / 2.0f};
+  float rotation = getRotationOfWeapon(player);
+    DrawRectanglePro(weaponRect, pivot, rotation, BLACK);
 }
 
 // refactor this
@@ -35,6 +44,13 @@ void initWeaponArr(Weapon *weaponArr) {
     // place holder
     weaponArr[i] = createPistol();
   }
+}
+
+float getRotationOfWeapon(Player *player){
+  Vector2 mousePosition = GetMousePosition();
+  float rad = atan2(mousePosition.y - player->y, mousePosition.x - player->x);
+  float degree = rad * (180.0f / 3.14);
+  return degree;
 }
 
 bool isReloading(Weapon *weapon){

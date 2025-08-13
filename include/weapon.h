@@ -13,5 +13,6 @@ int getMagAmmo(Weapon *weapon);
 int getReserveAmmo(Weapon *weapon);
 void reduceAmmo(Weapon *weapon);
 bool isReloading(Weapon *weapon);
+float getRotationOfWeapon(Player *player);
 
 #endif
