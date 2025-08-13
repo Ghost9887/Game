@@ -103,7 +103,8 @@ void createEnemies(Enemy *enemyArr, int totalToSpawn, int rnd) {
 
       if (rnd % 5 == 0) {
         enemyArr[i] = createSpecialEnemy(randomX, randomY);
-      } else if (rnd > 8 && BIGENEMYCOUNTER < (int)(rnd / 4)) {
+      } 
+      else if (rnd > 8 && BIGENEMYCOUNTER <= (int)(rnd / 7)) {
         enemyArr[i] = createBigEnemy(randomX, randomY);
         BIGENEMYCOUNTER++;
       } else {

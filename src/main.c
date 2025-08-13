@@ -90,7 +90,6 @@ void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
 
   // only do these if there are enemies or the round hasn't ended yet
   if (!inBreak(rnd)) {
-    resetBigEnemyCounter();
     // only call this if there are more enemies that need to be spawned druring
     int remainingToSpawn = ENEMYCOUNTER - CURRENTSPAWNEDENEMIES;
     if (remainingToSpawn > 0) {
@@ -100,7 +99,10 @@ void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
     //this fixes a bug when multiple enemies are destroyed and the ENEMYCOUNTER 
     //drops below MAXSPAWNENEMIES we still want to create more
    
-   }
+   }else{
+    //reset the big enemy counter once the round is over
+    resetBigEnemyCounter();
+  }
 
   updateEnemy(enemyArr, player, pickupArr);
 }

@@ -7,8 +7,8 @@ Weapon createSMG() {
   smg.y = 0;
   smg.width = 30;
   smg.height = 10;
-  smg.damage = 20.0f;
-  smg.maxMagSize = 40;
+  smg.damage = 200.0f;
+  smg.maxMagSize = 4000;
   smg.currentMagSize = smg.maxMagSize;
   smg.maxReserveSize = 240;
   smg.currentReserveSize = smg.maxReserveSize;
