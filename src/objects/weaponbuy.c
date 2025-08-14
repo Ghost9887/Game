@@ -5,6 +5,7 @@
 #include "rocketLauncher.h"
 #include "smg.h"
 #include "shotgun.h"
+#include "ui.h"
 #include <string.h>
 
 
@@ -66,8 +67,7 @@ void buyWeapon(WeaponBuy *weaponBuyArr, Player *player, Weapon *weaponArr, int *
     if (alreadyOwned) {
       //determine what colour the text should be if the player has enough money
       textColour = (player->money >= newWeapon->ammoCost) ? GREEN : RED;
-      DrawText(TextFormat("(%s Ammo)", newWeapon->name), weaponBuyArr[index].x, weaponBuyArr[index].y - 60, 20, BLACK);
-      DrawText(TextFormat("%d$", newWeapon->ammoCost), weaponBuyArr[index].x, weaponBuyArr[index].y - 30, 20, textColour);
+      drawAmmoBuyText(textColour, newWeapon, weaponBuyArr[index].x, weaponBuyArr[index].y);
       if (IsKeyPressed(KEY_E) && player->money >= newWeapon->ammoCost) {
         player->money -= newWeapon->ammoCost;
         replenishAmmo(player, newWeapon);
@@ -75,8 +75,7 @@ void buyWeapon(WeaponBuy *weaponBuyArr, Player *player, Weapon *weaponArr, int *
       return;
     } else {
       textColour = (player->money >= newWeapon->weaponCost) ? GREEN : RED;
-      DrawText(TextFormat("(%s)", newWeapon->name), weaponBuyArr[index].x, weaponBuyArr[index].y - 60, 20, BLACK);
-      DrawText(TextFormat("%d$", newWeapon->weaponCost), weaponBuyArr[index].x, weaponBuyArr[index].y - 30, 20, textColour);
+      drawWeaponBuyText(textColour, newWeapon, weaponBuyArr[index].x, weaponBuyArr[index].y);
     }
     if (IsKeyPressed(KEY_E) && player->money >= newWeapon->weaponCost) {
       int currentWeaponId = player->weapon->id;

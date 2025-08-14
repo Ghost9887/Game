@@ -26,4 +26,16 @@ void drawEnemyHealth(Enemy *enemy){
            enemy->y + enemy->height / 2 - 60, 20, RED);
 }
 
+void drawWeaponBuyText(Color colour, Weapon *weapon, float x, float y){
+  DrawText(TextFormat("(%s)", weapon->name), x, y - 60, 20, BLACK);
+  DrawText(TextFormat("%d$", weapon->weaponCost), x, y - 30, 20, colour);
+}
+
+void drawAmmoBuyText(Color colour, Weapon *weapon, float x, float y){
+  DrawText(TextFormat("(%s Ammo)", weapon->name), x, y - 60, 20, BLACK);
+  DrawText(TextFormat("%d$", weapon->ammoCost), x, y - 30, 20, colour);
+    
+}
+
+
 
