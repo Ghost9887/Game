@@ -10,6 +10,7 @@
 #define TARGETFPS 60 
 #define MAXSPAWNENEMIES 40
 #define MAXPICKUPS 10
+#define MAXWEAPONS 3
 
 typedef struct {
   float x;

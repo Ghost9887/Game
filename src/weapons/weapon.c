@@ -7,16 +7,6 @@
 #include "shotgun.h"
 #include <math.h>
 
-//instead of treating these like indexes treat them as ID'S
-typedef enum { PISTOL = 0, AR = 1, ROCKETLAUNCER = 2, SMG = 3, SHOTGUN = 4 } WeaponHolding;
-
-// create the enums objects
-WeaponHolding pistol = PISTOL;
-WeaponHolding ar = AR;
-WeaponHolding rocketLauncher = ROCKETLAUNCER;
-WeaponHolding smg = SMG;
-WeaponHolding shotgun = SHOTGUN;
-
 const unsigned int numOfWeapons = 5;
 
 void drawWeapon(Player *player) {
@@ -33,15 +23,22 @@ void drawWeapon(Player *player) {
   DrawRectanglePro(weaponRect, pivot, rotation, BLACK);
 }
 
-// refactor this
+//initialize the array with all the weapons
 void initWeaponArr(Weapon *weaponArr) {
-  weaponArr[pistol] = createPistol();
-  weaponArr[ar] = createAssaultRifle();
-  weaponArr[rocketLauncher] = createRocketLauncher();
-  weaponArr[smg] = createSMG();
-  weaponArr[shotgun] = createShotgun();
+  weaponArr[0] = createPistol();
+  weaponArr[1] = createAssaultRifle();
+  weaponArr[2] = createRocketLauncher();
+  weaponArr[3] = createSMG();
+  weaponArr[4] = createShotgun();
   // creates the weapons that don't exist yet so the array doesnt have random
   // data
+}
+
+
+void initWeaponHolster(int *weaponHolster, Weapon *weaponArr){
+  weaponHolster[0] = weaponArr[0].id;
+  weaponHolster[1] = weaponArr[3].id; 
+  weaponHolster[2] = -1;
 }
 
 float getRotationOfWeapon(Player *player){
@@ -94,58 +91,65 @@ int getReserveAmmo(Weapon *weapon){
   return weapon->currentReserveSize;
 }
 
-// REFACTOR
-void switchWeapons(Player *player, Weapon *weaponArr) {
-  if (IsKeyPressed(KEY_ONE)) {
-    //cancel reload
+void switchWeapons(Player *player, int *weaponHolster, Weapon *weaponArr) {
+  if(IsKeyPressed(KEY_ONE)){
     if(isReloading(player->weapon)){
       player->weapon->reloadTimer = 0.0f;
     }
-    for (int i = 0; i < numOfWeapons; i++) {
-      if (i == pistol) {
-        weaponArr[i].holding = true;
-      } else {
-        weaponArr[i].holding = false;
+    int id = weaponHolster[0];
+    //check if we have a weapon in that slot
+    if(id != -1){
+      player->weapon->holding = false;
+      for(int i = 0; i < numOfWeapons; i++){
+        if(weaponArr[i].id == id){
+          player->weapon = &weaponArr[i];
+          weaponArr[i].holding = true;
+        }
       }
     }
-    player->timer = 1.0f * (float)TARGETFPS;
-  } else if (IsKeyPressed(KEY_TWO)) {
+  }
+  else if(IsKeyPressed(KEY_TWO)){
     if(isReloading(player->weapon)){
       player->weapon->reloadTimer = 0.0f;
     }
-    for (int i = 0; i < numOfWeapons; i++) {
-      if (i == smg) {
-        weaponArr[i].holding = true;
-      } else {
-        weaponArr[i].holding = false;
+    int id = weaponHolster[1];
+    if(id != -1){
+      player->weapon->holding = false;
+      for(int i = 0; i < numOfWeapons; i++){
+        if(weaponArr[i].id == id){
+          player->weapon = &weaponArr[i];
+          weaponArr[i].holding = true;
+        }
       }
     }
-    player->timer = 1.0f * (float)TARGETFPS;
-  } else if (IsKeyPressed(KEY_THREE)) {
+  }
+  else if(IsKeyPressed(KEY_THREE)){
     if(isReloading(player->weapon)){
       player->weapon->reloadTimer = 0.0f;
     }
-    for (int i = 0; i < numOfWeapons; i++) {
-      if (i == rocketLauncher) {
-        weaponArr[i].holding = true;
-      } else {
-        weaponArr[i].holding = false;
+    int id = weaponHolster[2];
+    if(id != -1){
+      player->weapon->holding = false;
+      for(int i = 0; i < numOfWeapons; i++){
+        if(weaponArr[i].id == id){
+          player->weapon = &weaponArr[i];
+          weaponArr[i].holding = true;
+        }
       }
     }
-     player->timer = 1.0f * (float)TARGETFPS;
   }
 }
 
-void updateWeapon(Weapon *weaponArr, Player *player) {
-  int index;
-  for (index = 0; index < 10; index++) {
-    if (weaponArr[index].holding == true)
-      break;
-  }
-  player->weapon = &weaponArr[index];
-  weaponArr[index].x = player->x;
-  weaponArr[index].y = player->y;
+void replaceWeapon(Weapon *weapon, Player *player){
+  player->weapon->holding = false;
+  player->weapon = weapon;
+  weapon->holding = true;
+}
+
+void updateWeapon(Weapon *weaponArr, Player *player, int *weaponHolster) {
+  player->weapon->x = player->x;
+  player->weapon->y = player->y;
   drawWeapon(player);
-  switchWeapons(player, weaponArr); // listens if the player has switched
-  checkReload(&weaponArr[index], player);
+  switchWeapons(player, weaponHolster, weaponArr); // listens if the player has switched
+  checkReload(player->weapon, player);
 }

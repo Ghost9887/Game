@@ -16,7 +16,8 @@ unsigned int CURRENTSPAWNEDENEMIES = 0;
 unsigned int BIGENEMYCOUNTER = 0;
 
 void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
-                     Round *rnd, Weapon *weaponArr, Pickup *pickupArr, WeaponBuy *weaponBuyArr);
+                     Round *rnd, Weapon *weaponArr, Pickup *pickupArr, WeaponBuy *weaponBuyArr,
+                     int *weaponHolster);
 
 int main(void) {
 
@@ -42,6 +43,10 @@ int main(void) {
   Weapon weaponArr[10];
   initWeaponArr(weaponArr);
 
+  //players weapons
+  int weaponHolster[MAXWEAPONS];
+  initWeaponHolster(weaponHolster, weaponArr);
+
   //define a num of weaponbuys later
   WeaponBuy weaponBuyArr[5];
   initWeaponBuyArr(weaponBuyArr, weaponArr);
@@ -51,6 +56,7 @@ int main(void) {
   initPickupArray(pickupArr);
 
   Player player = createPlayerObject();
+  player.weapon = &weaponArr[0];
 
   // start the first round
   startRound(&rnd, enemyArr);
@@ -62,7 +68,7 @@ int main(void) {
 
      ClearBackground(RAYWHITE);
     // UPDATE ALL OF THE GAME STATES
-    updateGameState(&player, enemyArr, projectileArr, &rnd, weaponArr, pickupArr, weaponBuyArr);
+    updateGameState(&player, enemyArr, projectileArr, &rnd, weaponArr, pickupArr, weaponBuyArr, weaponHolster);
     EndDrawing();
   }
 
@@ -72,18 +78,19 @@ int main(void) {
 }
 
 void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
-                     Round *rnd, Weapon *weaponArr, Pickup *pickupArr, WeaponBuy *weaponBuyArr) {
+                     Round *rnd, Weapon *weaponArr, Pickup *pickupArr, WeaponBuy *weaponBuyArr,
+                     int *weaponHolster) {
 
   updatePlayer(player);
 
   // checks if the round should end
   updateRound(rnd, enemyArr);
 
-  updateWeapon(weaponArr, player);
+  updateWeapon(weaponArr, player, weaponHolster);
 
   updatePickups(pickupArr, player);
 
-  updateWeaponBuy(weaponBuyArr);
+  updateWeaponBuy(weaponBuyArr, player, weaponArr, weaponHolster);
 
   drawUI(player->health, ENEMYCOUNTER, player->invTime, rnd->round,player->money,
          CURRENTSPAWNEDENEMIES, GetFPS(),

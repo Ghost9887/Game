@@ -6,8 +6,10 @@
 
 void drawWeapon(Player *player);
 void initWeaponArr(Weapon *weaponArr);
-void switchWeapons(Player *player, Weapon *weapon);
-void updateWeapon(Weapon *weaponArr, Player *player);
+void initWeaponHolster(int *weaponHolster, Weapon *weaponArr);
+void switchWeapons(Player *player, int *weaponHolster, Weapon *weaponArr);
+void replaceWeapon(Weapon *weapon, Player *player);
+void updateWeapon(Weapon *weaponArr, Player *player, int *weaponHolster);
 void checkReload(Weapon *weapon, Player *player);
 int getMagAmmo(Weapon *weapon);
 int getReserveAmmo(Weapon *weapon);
