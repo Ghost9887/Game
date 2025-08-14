@@ -43,6 +43,7 @@ typedef struct {
 } Round;
 
 typedef struct {
+  int id;
   float x;
   float y;
   int width;
@@ -59,6 +60,8 @@ typedef struct {
   float reloadTime;
   float reloadTimer;
   char *type;
+  int weaponCost;
+  int ammoCost;
   bool holding;
 } Weapon;
 
@@ -85,5 +88,13 @@ typedef struct{
   float lifetime;
   char *type;
 } Pickup;
+
+typedef struct{
+  float x;
+  float y;
+  Weapon *weapon;
+  int weaponCost;
+  int ammoCost;
+}WeaponBuy;
 
 #endif

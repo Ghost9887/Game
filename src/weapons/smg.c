@@ -3,6 +3,7 @@
 
 Weapon createSMG() {
   Weapon smg;
+  smg.id = 4;
   smg.x = 0;
   smg.y = 0;
   smg.width = 30;
@@ -20,6 +21,8 @@ Weapon createSMG() {
   smg.fireRate =
       0.05f *
       (float)TARGETFPS; // 1.0f == every second ; 0.5 == every 1/2 second
+  smg.weaponCost = 1200;
+  smg.ammoCost = 900;
   smg.holding = true;
   return smg;
 }

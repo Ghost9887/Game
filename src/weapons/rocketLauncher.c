@@ -6,6 +6,7 @@
 
 Weapon createRocketLauncher() {
   Weapon rocketLauncher;
+  rocketLauncher.id = 2;
   rocketLauncher.x = 0;
   rocketLauncher.y = 0;
   rocketLauncher.width = 60;
@@ -21,6 +22,8 @@ Weapon createRocketLauncher() {
   rocketLauncher.currentReserveSize = rocketLauncher.maxReserveSize;
   rocketLauncher.reloadTime = 4.0f;
   rocketLauncher.reloadTimer = 0.0f;
+  rocketLauncher.weaponCost = 3000;
+  rocketLauncher.ammoCost = 2000;
   rocketLauncher.holding = false;
   return rocketLauncher;
 }

@@ -7,6 +7,7 @@
 #include "shotgun.h"
 #include <math.h>
 
+//instead of treating these like indexes treat them as ID'S
 typedef enum { PISTOL = 0, AR = 1, ROCKETLAUNCER = 2, SMG = 3, SHOTGUN = 4 } WeaponHolding;
 
 // create the enums objects
@@ -41,10 +42,6 @@ void initWeaponArr(Weapon *weaponArr) {
   weaponArr[shotgun] = createShotgun();
   // creates the weapons that don't exist yet so the array doesnt have random
   // data
-  for (int i = numOfWeapons; i < 10; i++) {
-    // place holder
-    weaponArr[i] = createPistol();
-  }
 }
 
 float getRotationOfWeapon(Player *player){
@@ -117,7 +114,7 @@ void switchWeapons(Player *player, Weapon *weaponArr) {
       player->weapon->reloadTimer = 0.0f;
     }
     for (int i = 0; i < numOfWeapons; i++) {
-      if (i == ar) {
+      if (i == smg) {
         weaponArr[i].holding = true;
       } else {
         weaponArr[i].holding = false;
@@ -135,34 +132,8 @@ void switchWeapons(Player *player, Weapon *weaponArr) {
         weaponArr[i].holding = false;
       }
     }
-    player->timer = 1.0f * (float)TARGETFPS;
-  } else if (IsKeyPressed(KEY_FOUR)) {
-    if(isReloading(player->weapon)){
-      player->weapon->reloadTimer = 0.0f;
-    }
-    for (int i = 0; i < numOfWeapons; i++) {
-      if (i == smg) {
-        weaponArr[i].holding = true;
-      } else {
-        weaponArr[i].holding = false;
-      }
-      }
-    player->timer = 1.0f * (float)TARGETFPS;
-    }else if (IsKeyPressed(KEY_FIVE)){
-      if(isReloading(player->weapon)){
-        player->weapon->reloadTimer = 0.0f;
-      }
-      for(int i = 0; i < numOfWeapons; i++){
-        if(i == shotgun){
-          weaponArr[i].holding = true;
-        }else{
-          weaponArr[i].holding = false;
-        }
-      }
-    //maybe change this???
-    player->timer = 1.0f * (float)TARGETFPS;
-    }
-  
+     player->timer = 1.0f * (float)TARGETFPS;
+  }
 }
 
 void updateWeapon(Weapon *weaponArr, Player *player) {

@@ -3,6 +3,7 @@
 
 Weapon createPistol() {
   Weapon pistol;
+  pistol.id = 0;
   pistol.x = 0;
   pistol.y = 0;
   pistol.width = 20;
@@ -20,6 +21,8 @@ Weapon createPistol() {
   pistol.fireRate =
       0.70f *
       (float)TARGETFPS; // 1.0f == every second ; 0.5 == every 1/2 second
+  pistol.weaponCost = 0;
+  pistol.ammoCost = 150;
   pistol.holding = true;
   return pistol;
 }
