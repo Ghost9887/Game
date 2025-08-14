@@ -9,7 +9,8 @@ void drawUI(int health, int enemyCounter, float invTimer, int lvl,
             int magAmmo, int reserveAmmo, float reloadTimer);
 void showBreakUI(int time);
 void drawEnemyHealth(Enemy *enemy);
-void drawWeaponBuyText(Color colour, Weapon *weapon, float x, float y);
-void drawAmmoBuyText(Color colour, Weapon *weapon, float x, float y);
+void drawWeaponBuyText(Color colour, WeaponBuy *weaponBuy);
+void drawAmmoBuyText(Color colour, WeaponBuy *weaponBuy);
+void drawPerkText(Color colour, Perk *perk);
 
 #endif

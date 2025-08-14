@@ -8,6 +8,7 @@
 #include "pickup.h"
 #include "weaponbuy.h"
 #include "common.h"
+#include "perk.h"
 #include <stdbool.h>
 
 // GLOBAL VARIABLES
@@ -17,7 +18,7 @@ unsigned int BIGENEMYCOUNTER = 0;
 
 void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
                      Round *rnd, Weapon *weaponArr, Pickup *pickupArr, WeaponBuy *weaponBuyArr,
-                     int *weaponHolster);
+                     int *weaponHolster, Perk *perkArr);
 
 int main(void) {
 
@@ -55,6 +56,9 @@ int main(void) {
   Pickup pickupArr[MAXPICKUPS];
   initPickupArray(pickupArr);
 
+  Perk perkArr[2];
+  initPerkArr(perkArr);
+
   Player player = createPlayerObject();
   player.weapon = &weaponArr[0];
 
@@ -68,7 +72,8 @@ int main(void) {
 
      ClearBackground(RAYWHITE);
     // UPDATE ALL OF THE GAME STATES
-    updateGameState(&player, enemyArr, projectileArr, &rnd, weaponArr, pickupArr, weaponBuyArr, weaponHolster);
+    updateGameState(&player, enemyArr, projectileArr, &rnd, weaponArr, 
+                    pickupArr, weaponBuyArr, weaponHolster, perkArr);
     EndDrawing();
   }
 
@@ -79,7 +84,7 @@ int main(void) {
 
 void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
                      Round *rnd, Weapon *weaponArr, Pickup *pickupArr, WeaponBuy *weaponBuyArr,
-                     int *weaponHolster) {
+                     int *weaponHolster, Perk *perkArr) {
 
   updatePlayer(player);
 
@@ -89,6 +94,8 @@ void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
   updateWeapon(weaponArr, player, weaponHolster);
 
   updatePickups(pickupArr, player);
+
+  updatePerk(perkArr, player);
 
   updateWeaponBuy(weaponBuyArr, player, weaponArr, weaponHolster);
 

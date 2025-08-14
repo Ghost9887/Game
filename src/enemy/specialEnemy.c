@@ -9,6 +9,7 @@ Enemy createSpecialEnemy(float posX, float posY){
   enemy.health = 50;
   enemy.speed = 100.0f;
   enemy.damage = 15;
+  enemy.money = 50;
   enemy.active = true;
   return enemy;
 } 

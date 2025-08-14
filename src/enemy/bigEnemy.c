@@ -10,6 +10,7 @@ Enemy createBigEnemy(float posX, float posY){
   enemy.health = 600;
   enemy.damage = 70;
   enemy.speed = 50.0f;
+  enemy.money = 200;
   enemy.active = true;
   return enemy;
 }

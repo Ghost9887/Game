@@ -51,23 +51,26 @@ int checkForCollisionWeaponBuyPlayer(WeaponBuy *weaponBuyArr, Player *player){
   return -1;
 }
 
+bool isWeaponOwned(int weaponId, int *weaponHolster) {
+  for (int i = 0; i < MAXWEAPONS; i++) {
+    if (weaponHolster[i] == weaponId) return true;
+  }
+  return false;
+}
+
 //HUGE FUNCTION MAYBE REFACTOR?
 void buyWeapon(WeaponBuy *weaponBuyArr, Player *player, Weapon *weaponArr, int *weaponHolster){
   int index = checkForCollisionWeaponBuyPlayer(weaponBuyArr, player);
   if (index != -1) {
     Weapon *newWeapon = &weaponArr[index];
-    bool alreadyOwned = false;
-    for (int i = 0; i < MAXWEAPONS; i++) {
-      if (weaponHolster[i] == newWeapon->id) {
-        alreadyOwned = true;
-        break;
-      }
-    }
+    //check if we already have the weapon in our holster
+    bool alreadyOwned = isWeaponOwned(newWeapon->id, weaponHolster);
     Color textColour;
+
     if (alreadyOwned) {
       //determine what colour the text should be if the player has enough money
       textColour = (player->money >= newWeapon->ammoCost) ? GREEN : RED;
-      drawAmmoBuyText(textColour, newWeapon, weaponBuyArr[index].x, weaponBuyArr[index].y);
+      drawAmmoBuyText(textColour, &weaponBuyArr[index]);
       if (IsKeyPressed(KEY_E) && player->money >= newWeapon->ammoCost) {
         player->money -= newWeapon->ammoCost;
         replenishAmmo(player, newWeapon);
@@ -75,7 +78,7 @@ void buyWeapon(WeaponBuy *weaponBuyArr, Player *player, Weapon *weaponArr, int *
       return;
     } else {
       textColour = (player->money >= newWeapon->weaponCost) ? GREEN : RED;
-      drawWeaponBuyText(textColour, newWeapon, weaponBuyArr[index].x, weaponBuyArr[index].y);
+      drawWeaponBuyText(textColour, &weaponBuyArr[index]);
     }
     if (IsKeyPressed(KEY_E) && player->money >= newWeapon->weaponCost) {
       int currentWeaponId = player->weapon->id;

@@ -10,6 +10,7 @@ Enemy createBasicEnemy(float posX, float posY) {
   enemy.health = 100;
   enemy.damage = 40;
   enemy.speed = 70.0f;
+  enemy.money = 80;
   enemy.active = true;
   return enemy;
 }

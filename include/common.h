@@ -20,6 +20,7 @@ typedef struct {
   float health;
   float speed;
   int damage;
+  int money;
   bool active;
 } Enemy;
 
@@ -97,5 +98,14 @@ typedef struct{
   int weaponCost;
   int ammoCost;
 }WeaponBuy;
+
+typedef struct{
+  float x;
+  float y;
+  float data;
+  char *type;
+  int cost;
+  bool consumed;  
+}Perk;
 
 #endif

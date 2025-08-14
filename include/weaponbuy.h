@@ -12,5 +12,6 @@ void initWeaponBuyArr(WeaponBuy *weaponBuyArr, Weapon *weaponArr);
 void updateWeaponBuy(WeaponBuy *weaponBuyArr, Player *player, Weapon *weaponArr, int *weaponHolster);
 void buyWeapon(WeaponBuy *weaponBuyArr, Player *player, Weapon *weaponArr, int *weaponHolster);
 int checkForCollisionWeaponBuyPlayer(WeaponBuy *weaponBuyArr, Player *player);
+bool isWeaponOwned(int weaponId, int *weaponHolster);
 
 #endif

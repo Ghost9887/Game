@@ -26,15 +26,19 @@ void drawEnemyHealth(Enemy *enemy){
            enemy->y + enemy->height / 2 - 60, 20, RED);
 }
 
-void drawWeaponBuyText(Color colour, Weapon *weapon, float x, float y){
-  DrawText(TextFormat("(%s)", weapon->name), x, y - 60, 20, BLACK);
-  DrawText(TextFormat("%d$", weapon->weaponCost), x, y - 30, 20, colour);
+void drawWeaponBuyText(Color colour, WeaponBuy *weaponBuy){
+  DrawText(TextFormat("(%s)", weaponBuy->weapon->name), weaponBuy->x, weaponBuy->y - 60, 20, BLACK);
+  DrawText(TextFormat("%d$", weaponBuy->weapon->weaponCost), weaponBuy->x, weaponBuy->y - 30, 20, colour);
 }
 
-void drawAmmoBuyText(Color colour, Weapon *weapon, float x, float y){
-  DrawText(TextFormat("(%s Ammo)", weapon->name), x, y - 60, 20, BLACK);
-  DrawText(TextFormat("%d$", weapon->ammoCost), x, y - 30, 20, colour);
-    
+void drawAmmoBuyText(Color colour, WeaponBuy *weaponBuy){
+  DrawText(TextFormat("(%s Ammo)", weaponBuy->weapon->name), weaponBuy->x, weaponBuy->y - 60, 20, BLACK);
+  DrawText(TextFormat("%d$", weaponBuy->weapon->ammoCost), weaponBuy->x, weaponBuy->y - 30, 20, colour);
+}
+
+void drawPerkText(Color colour, Perk *perk){
+  DrawText(TextFormat("(%s)", perk->type), perk->x, perk->y - 60, 20, BLACK);
+  DrawText(TextFormat("%d$", perk->cost), perk->x, perk->y - 30, 20, colour);
 }
 
 

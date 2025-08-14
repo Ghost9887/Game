@@ -49,7 +49,7 @@ void destroyEnemy(Enemy *enemy, Player *player, Pickup *pickupArr) {
     enemy->active = false;
     ENEMYCOUNTER--;
     CURRENTSPAWNEDENEMIES--;
-    addMoney(player, 60);
+    addMoney(player, enemy->money);
     //chance to drop a pickup test refactor later
   //10% chance
   int randomNumber = GetRandomValue(1, 10);
