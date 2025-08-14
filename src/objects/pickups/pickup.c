@@ -50,8 +50,8 @@ void lifetimeOfPickup(Pickup *pickup){
 
 void addPickupData(Pickup *pickup, Player *player){
   if(strcmp(pickup->type, "health") == 0){
-    if(player->health + pickup->data >= 100){
-      player->health = 100;
+    if(player->health + pickup->data >= player->maxHealth){
+      player->health = player->maxHealth;
     }else{
       player->health += pickup->data;
     }

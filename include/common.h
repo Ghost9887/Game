@@ -73,6 +73,7 @@ typedef struct {
   int width;
   int height;
   int health;
+  int maxHealth;
   int money;
   float speed;
   bool canShoot;

@@ -14,6 +14,7 @@ Player createPlayerObject() {
   player.width = 30;
   player.height = 50;
   player.health = 100;
+  player.maxHealth = 100;
   player.money = 0;
   player.speed = 150.0f;
   player.canShoot = false;

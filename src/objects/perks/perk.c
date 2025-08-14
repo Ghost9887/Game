@@ -40,7 +40,8 @@ void consumePerk(Perk *perkArr, Player *player){
     drawPerkText(colour, &perkArr[indexOfPerk]);
     if(IsKeyPressed(KEY_E)&& player->money >= perkArr[indexOfPerk].cost && !perkArr[indexOfPerk].consumed){
       if(strcmp(perkArr[indexOfPerk].type, "health") == 0){
-        player->health = perkArr[indexOfPerk].data;
+        player->maxHealth = perkArr[indexOfPerk].data;
+        player->health = player->maxHealth;
         player->money -= perkArr[indexOfPerk].cost;
       }
       else if(strcmp(perkArr[indexOfPerk].type, "speed") == 0){
