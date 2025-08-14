@@ -21,8 +21,8 @@ Weapon createSMG() {
   smg.fireRate =
       0.05f *
       (float)TARGETFPS; // 1.0f == every second ; 0.5 == every 1/2 second
-  smg.weaponCost = 1200;
-  smg.ammoCost = 900;
+  smg.weaponCost = 0;
+  smg.ammoCost = 100;
   smg.holding = true;
   return smg;
 }

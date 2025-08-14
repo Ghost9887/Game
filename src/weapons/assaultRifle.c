@@ -18,8 +18,8 @@ Weapon createAssaultRifle() {
   assualtRifle.type = "ballistic";
   assualtRifle.fireRate = 0.3 * (float)TARGETFPS;
   assualtRifle.projectileSpeed = 3000.0f;
-  assualtRifle.weaponCost = 1200;
-  assualtRifle.ammoCost = 800;
+  assualtRifle.weaponCost = 0;
+  assualtRifle.ammoCost = 100;
   assualtRifle.holding = false;
   return assualtRifle;
 }

@@ -22,8 +22,8 @@ Weapon createRocketLauncher() {
   rocketLauncher.currentReserveSize = rocketLauncher.maxReserveSize;
   rocketLauncher.reloadTime = 4.0f;
   rocketLauncher.reloadTimer = 0.0f;
-  rocketLauncher.weaponCost = 3000;
-  rocketLauncher.ammoCost = 2000;
+  rocketLauncher.weaponCost = 0;
+  rocketLauncher.ammoCost = 100;
   rocketLauncher.holding = false;
   return rocketLauncher;
 }

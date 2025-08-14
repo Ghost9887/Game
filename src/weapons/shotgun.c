@@ -22,8 +22,8 @@ Weapon createShotgun(){
   shotgun.fireRate =
       1.2f *
       (float)TARGETFPS; // 1.0f == every second ; 0.5 == every 1/2 second
-  shotgun.weaponCost = 1800;
-  shotgun.ammoCost = 1000;
+  shotgun.weaponCost = 0;
+  shotgun.ammoCost = 100;
   shotgun.holding = true;
   return shotgun;
 }

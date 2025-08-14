@@ -37,7 +37,7 @@ void initWeaponArr(Weapon *weaponArr) {
 
 void initWeaponHolster(int *weaponHolster, Weapon *weaponArr){
   weaponHolster[0] = weaponArr[0].id;
-  weaponHolster[1] = weaponArr[3].id; 
+  weaponHolster[1] = -1; 
   weaponHolster[2] = -1;
 }
 
@@ -149,6 +149,8 @@ void replaceWeapon(Weapon *weapon, Player *player){
 void replenishAmmo(Player *player, Weapon *weapon) {
   weapon->currentMagSize = weapon->maxMagSize; 
   weapon->currentReserveSize = weapon->maxReserveSize;
+  //fixes the bug where buying the ammo while reloading would make the gun not shoot
+  weapon->reloadTimer = 0.0f;
 }
 
 void updateWeapon(Weapon *weaponArr, Player *player, int *weaponHolster) {
