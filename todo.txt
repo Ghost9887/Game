@@ -2,9 +2,9 @@
 --TODO--
 
 --DOING--
-Create the map editor to create maps 
---
 Draw some basic sprites as concepts for the look of the game
+--
+Create the map editor to create maps 
 --
 
 
