@@ -2,8 +2,6 @@
 --TODO--
 
 --DOING--
-Create a buy mechanic either like in zombies(wall buys/box) or a csgo/shop system 
---
 Create buyable perks that increase the player stats 
 --
 Create the map editor to create maps 
@@ -22,4 +20,7 @@ Create the shotgun with the new shooting so it shoots a spread shot
 Create boss enemies that have a chance to spawn from a specific round 
 (limit to x per round)
 --
+Create a buy mechanic either like in zombies(wall buys/box) or a csgo/shop system 
+--
+
 

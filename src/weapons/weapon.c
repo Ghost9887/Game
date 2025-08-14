@@ -99,11 +99,9 @@ void switchWeapons(Player *player, int *weaponHolster, Weapon *weaponArr) {
     int id = weaponHolster[0];
     //check if we have a weapon in that slot
     if(id != -1){
-      player->weapon->holding = false;
       for(int i = 0; i < numOfWeapons; i++){
         if(weaponArr[i].id == id){
           player->weapon = &weaponArr[i];
-          weaponArr[i].holding = true;
         }
       }
     }
@@ -114,11 +112,9 @@ void switchWeapons(Player *player, int *weaponHolster, Weapon *weaponArr) {
     }
     int id = weaponHolster[1];
     if(id != -1){
-      player->weapon->holding = false;
       for(int i = 0; i < numOfWeapons; i++){
         if(weaponArr[i].id == id){
           player->weapon = &weaponArr[i];
-          weaponArr[i].holding = true;
         }
       }
     }
@@ -129,23 +125,21 @@ void switchWeapons(Player *player, int *weaponHolster, Weapon *weaponArr) {
     }
     int id = weaponHolster[2];
     if(id != -1){
-      player->weapon->holding = false;
       for(int i = 0; i < numOfWeapons; i++){
         if(weaponArr[i].id == id){
           player->weapon = &weaponArr[i];
-          weaponArr[i].holding = true;
         }
       }
     }
   }
 }
 
+//when buying a gun
 void replaceWeapon(Weapon *weapon, Player *player){
-  player->weapon->holding = false;
   player->weapon = weapon;
-  weapon->holding = true;
 }
 
+//when buying a gun(and the gun is already in the player holster)
 void replenishAmmo(Player *player, Weapon *weapon) {
   weapon->currentMagSize = weapon->maxMagSize; 
   weapon->currentReserveSize = weapon->maxReserveSize;

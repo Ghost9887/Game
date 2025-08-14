@@ -16,6 +16,7 @@ Weapon createPistol() {
   pistol.reloadTime = 2.2f;
   pistol.reloadTimer = 0.0f;
   pistol.type = "ballistic";
+  pistol.name = "1911";
   pistol.range = 350.0f;
   pistol.projectileSpeed = 1250.0f;
   pistol.fireRate =
@@ -23,6 +24,5 @@ Weapon createPistol() {
       (float)TARGETFPS; // 1.0f == every second ; 0.5 == every 1/2 second
   pistol.weaponCost = 0;
   pistol.ammoCost = 150;
-  pistol.holding = true;
   return pistol;
 }

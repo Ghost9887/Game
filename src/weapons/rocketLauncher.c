@@ -14,6 +14,7 @@ Weapon createRocketLauncher() {
   rocketLauncher.fireRate = 3.0f * (float)TARGETFPS;
   rocketLauncher.projectileSpeed = 200.0f;
   rocketLauncher.type = "explosive";
+  rocketLauncher.name = "RPG";
   rocketLauncher.range = 900.0f;
   rocketLauncher.damage = 300;
   rocketLauncher.maxMagSize = 1;
@@ -24,7 +25,6 @@ Weapon createRocketLauncher() {
   rocketLauncher.reloadTimer = 0.0f;
   rocketLauncher.weaponCost = 0;
   rocketLauncher.ammoCost = 100;
-  rocketLauncher.holding = false;
   return rocketLauncher;
 }
 

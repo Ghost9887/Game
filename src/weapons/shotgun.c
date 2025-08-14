@@ -17,6 +17,7 @@ Weapon createShotgun(){
   shotgun.reloadTime = 2.2f;
   shotgun.reloadTimer = 0.0f;
   shotgun.type = "spreadshot";
+  shotgun.name = "brecci";
   shotgun.range = 350.0f;
   shotgun.projectileSpeed = 1250.0f;
   shotgun.fireRate =
@@ -24,7 +25,6 @@ Weapon createShotgun(){
       (float)TARGETFPS; // 1.0f == every second ; 0.5 == every 1/2 second
   shotgun.weaponCost = 0;
   shotgun.ammoCost = 100;
-  shotgun.holding = true;
   return shotgun;
 }
 

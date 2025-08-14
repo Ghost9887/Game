@@ -16,10 +16,10 @@ Weapon createAssaultRifle() {
   assualtRifle.reloadTime = 2.8f;
   assualtRifle.reloadTimer = 0.0f;
   assualtRifle.type = "ballistic";
+  assualtRifle.name = "M4";
   assualtRifle.fireRate = 0.3 * (float)TARGETFPS;
   assualtRifle.projectileSpeed = 3000.0f;
   assualtRifle.weaponCost = 0;
   assualtRifle.ammoCost = 100;
-  assualtRifle.holding = false;
   return assualtRifle;
 }

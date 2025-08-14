@@ -43,7 +43,7 @@ int main(void) {
   Weapon weaponArr[10];
   initWeaponArr(weaponArr);
 
-  //players weapons
+  //players weapons in inventory
   int weaponHolster[MAXWEAPONS];
   initWeaponHolster(weaponHolster, weaponArr);
 

@@ -61,9 +61,9 @@ typedef struct {
   float reloadTime;
   float reloadTimer;
   char *type;
+  char *name;
   int weaponCost;
   int ammoCost;
-  bool holding;
 } Weapon;
 
 typedef struct {

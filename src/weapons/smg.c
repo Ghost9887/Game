@@ -16,6 +16,7 @@ Weapon createSMG() {
   smg.reloadTime = 2.0f;
   smg.reloadTimer = 0.0f;
   smg.type = "ballistic";
+  smg.name = "Vector";
   smg.range = 250.0f;
   smg.projectileSpeed = 1700.0f;
   smg.fireRate =
@@ -23,6 +24,5 @@ Weapon createSMG() {
       (float)TARGETFPS; // 1.0f == every second ; 0.5 == every 1/2 second
   smg.weaponCost = 0;
   smg.ammoCost = 100;
-  smg.holding = true;
   return smg;
 }

@@ -5,6 +5,7 @@
 #include "rocketLauncher.h"
 #include "smg.h"
 #include "shotgun.h"
+#include <string.h>
 
 
 WeaponBuy createWeaponBuy(Weapon *weapon){
@@ -49,27 +50,38 @@ int checkForCollisionWeaponBuyPlayer(WeaponBuy *weaponBuyArr, Player *player){
   return -1;
 }
 
-
+//HUGE FUNCTION MAYBE REFACTOR?
 void buyWeapon(WeaponBuy *weaponBuyArr, Player *player, Weapon *weaponArr, int *weaponHolster){
   int index = checkForCollisionWeaponBuyPlayer(weaponBuyArr, player);
   if (index != -1) {
     Weapon *newWeapon = &weaponArr[index];
+    bool alreadyOwned = false;
     for (int i = 0; i < MAXWEAPONS; i++) {
       if (weaponHolster[i] == newWeapon->id) {
-        if (IsKeyPressed(KEY_E) && player->money >= newWeapon->ammoCost) {
-          player->money -= newWeapon->ammoCost;
-          replenishAmmo(player, newWeapon);
-        }
-        return;
+        alreadyOwned = true;
+        break;
       }
     }
-
+    Color textColour;
+    if (alreadyOwned) {
+      //determine what colour the text should be if the player has enough money
+      textColour = (player->money >= newWeapon->ammoCost) ? GREEN : RED;
+      DrawText(TextFormat("(%s Ammo)", newWeapon->name), weaponBuyArr[index].x, weaponBuyArr[index].y - 60, 20, BLACK);
+      DrawText(TextFormat("%d$", newWeapon->ammoCost), weaponBuyArr[index].x, weaponBuyArr[index].y - 30, 20, textColour);
+      if (IsKeyPressed(KEY_E) && player->money >= newWeapon->ammoCost) {
+        player->money -= newWeapon->ammoCost;
+        replenishAmmo(player, newWeapon);
+      }
+      return;
+    } else {
+      textColour = (player->money >= newWeapon->weaponCost) ? GREEN : RED;
+      DrawText(TextFormat("(%s)", newWeapon->name), weaponBuyArr[index].x, weaponBuyArr[index].y - 60, 20, BLACK);
+      DrawText(TextFormat("%d$", newWeapon->weaponCost), weaponBuyArr[index].x, weaponBuyArr[index].y - 30, 20, textColour);
+    }
     if (IsKeyPressed(KEY_E) && player->money >= newWeapon->weaponCost) {
       int currentWeaponId = player->weapon->id;
       int slotToReplace = -1;
       bool foundEmptySlot = false;
-
-      // Check for empty slot
       for (int i = 0; i < MAXWEAPONS; i++) {
         if (weaponHolster[i] == -1) {
           slotToReplace = i;
@@ -77,8 +89,6 @@ void buyWeapon(WeaponBuy *weaponBuyArr, Player *player, Weapon *weaponArr, int *
           break;
         }
       }
-
-      // If no empty slot, replace current weapon
       if (!foundEmptySlot) {
         for (int i = 0; i < MAXWEAPONS; i++) {
           if (weaponHolster[i] == currentWeaponId) {
@@ -87,7 +97,6 @@ void buyWeapon(WeaponBuy *weaponBuyArr, Player *player, Weapon *weaponArr, int *
           }
         }
       }
-
       if (slotToReplace != -1) {
         weaponHolster[slotToReplace] = newWeapon->id;
         player->money -= newWeapon->weaponCost;
@@ -96,6 +105,7 @@ void buyWeapon(WeaponBuy *weaponBuyArr, Player *player, Weapon *weaponArr, int *
     }
   }
 }
+
 
 
 void updateWeaponBuy(WeaponBuy *weaponBuyArr, Player *player, Weapon *weaponArr, int *weaponHolster){
