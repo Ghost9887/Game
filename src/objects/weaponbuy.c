@@ -49,31 +49,45 @@ int checkForCollisionWeaponBuyPlayer(WeaponBuy *weaponBuyArr, Player *player){
   return -1;
 }
 
+
 void buyWeapon(WeaponBuy *weaponBuyArr, Player *player, Weapon *weaponArr, int *weaponHolster){
   int index = checkForCollisionWeaponBuyPlayer(weaponBuyArr, player);
   if (index != -1) {
     Weapon *newWeapon = &weaponArr[index];
+    for (int i = 0; i < MAXWEAPONS; i++) {
+      if (weaponHolster[i] == newWeapon->id) {
+        if (IsKeyPressed(KEY_E) && player->money >= newWeapon->ammoCost) {
+          player->money -= newWeapon->ammoCost;
+          replenishAmmo(player, newWeapon);
+        }
+        return;
+      }
+    }
+
     if (IsKeyPressed(KEY_E) && player->money >= newWeapon->weaponCost) {
       int currentWeaponId = player->weapon->id;
       int slotToReplace = -1;
       bool foundEmptySlot = false;
-      //check if theres a empty slot
-      for(int i = 0; i < MAXWEAPONS; i++){
-        if(weaponHolster[i] == -1){
+
+      // Check for empty slot
+      for (int i = 0; i < MAXWEAPONS; i++) {
+        if (weaponHolster[i] == -1) {
           slotToReplace = i;
           foundEmptySlot = true;
           break;
         }
       }
-      if(!foundEmptySlot){
+
+      // If no empty slot, replace current weapon
+      if (!foundEmptySlot) {
         for (int i = 0; i < MAXWEAPONS; i++) {
-          //finds the weapon we want to replace in our holster 
           if (weaponHolster[i] == currentWeaponId) {
             slotToReplace = i;
             break;
           }
         }
       }
+
       if (slotToReplace != -1) {
         weaponHolster[slotToReplace] = newWeapon->id;
         player->money -= newWeapon->weaponCost;

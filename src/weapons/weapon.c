@@ -146,6 +146,11 @@ void replaceWeapon(Weapon *weapon, Player *player){
   weapon->holding = true;
 }
 
+void replenishAmmo(Player *player, Weapon *weapon) {
+  weapon->currentMagSize = weapon->maxMagSize; 
+  weapon->currentReserveSize = weapon->maxReserveSize;
+}
+
 void updateWeapon(Weapon *weaponArr, Player *player, int *weaponHolster) {
   player->weapon->x = player->x;
   player->weapon->y = player->y;
