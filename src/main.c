@@ -56,6 +56,7 @@ int main(void) {
   Pickup pickupArr[MAXPICKUPS];
   initPickupArray(pickupArr);
 
+  //define a amount of perk machines later
   Perk perkArr[2];
   initPerkArr(perkArr);
 
