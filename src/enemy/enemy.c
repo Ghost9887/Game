@@ -9,13 +9,32 @@
 #include <time.h>
 #include <stdlib.h>
 
-
 extern unsigned int ENEMYCOUNTER;
 extern unsigned int CURRENTSPAWNEDENEMIES;
 extern unsigned int BIGENEMYCOUNTER;
 
-void drawEnemy(Enemy *enemy){
-  DrawRectangle(enemy->x, enemy->y, enemy->width, enemy->height, RED);
+void drawEnemy(Enemy *enemy, Texture2D *enemyTexturesArr){
+  Vector2 pos = {
+    enemy->x,
+    enemy->y
+  };
+  DrawTextureRec(enemyTexturesArr[enemy->id], enemy->frameRec, pos, WHITE);
+}
+
+void loadEnemyTextures(Texture2D *enemyTexturesArr){
+  enemyTexturesArr[0] = LoadTexture("assets/enemies/basic_enemy/basic_enemy.png");
+  enemyTexturesArr[1] = LoadTexture("assets/enemies/basic_enemy/basic_enemy.png");
+  enemyTexturesArr[2] = LoadTexture("assets/enemies/basic_enemy/basic_enemy.png");
+}
+
+void updateEnemyAnimation(Enemy *enemy) {
+    enemy->frameTime += GetFrameTime();
+    if (enemy->frameTime >= enemy->frameSpeed) {
+        enemy->frameTime = 0.0f;
+        enemy->currentFrame++;
+        if (enemy->currentFrame > 2) enemy->currentFrame = 0;
+        enemy->frameRec.y = (float)enemy->currentFrame * 64.0f;
+    }
 }
 
 void initEnemyArr(Enemy *enemyArr) {
@@ -130,13 +149,14 @@ bool checkIfAllEnemiesAreDestroyed(Enemy *enemy) {
 
 void enemyLoseHealth(float damage, Enemy *enemy) { enemy->health -= damage; }
 
-void updateEnemy(Enemy *enemyArr, Player *player, Pickup *pickupArr) {
+void updateEnemy(Enemy *enemyArr, Player *player, Pickup *pickupArr, Texture2D *enemyTexturesArr) {
   for (int i = 0; i < MAXSPAWNENEMIES; i++) {
     if (!enemyArr[i].active)
       continue;
 
     enemyMovement(&enemyArr[i], player);
-    drawEnemy(&enemyArr[i]);
+    updateEnemyAnimation(&enemyArr[i]);
+    drawEnemy(&enemyArr[i], enemyTexturesArr);
 
     //checks if the enemy should die (bad naming)
     destroyEnemy(&enemyArr[i], player, pickupArr);

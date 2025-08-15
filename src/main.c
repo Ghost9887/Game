@@ -19,7 +19,8 @@ unsigned int BIGENEMYCOUNTER = 0;
 
 void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
                      Round *rnd, Weapon *weaponArr, Pickup *pickupArr, WeaponBuy *weaponBuyArr,
-                     int *weaponHolster, Perk *perkArr);
+                     int *weaponHolster, Perk *perkArr, Texture2D *weaponTextureArr,
+                     Texture2D *enemyTexturesArr);
 
 int main(void) {
 
@@ -61,8 +62,14 @@ int main(void) {
   Perk perkArr[2];
   initPerkArr(perkArr);
 
-  
   loadPlayerTextures();
+
+  Texture2D weaponTextureArr[5]; 
+  loadWeaponTextures(weaponTextureArr);
+
+  Texture2D enemyTexturesArr[MAXSPAWNENEMIES];
+  loadEnemyTextures(enemyTexturesArr);
+
   Player player = createPlayerObject();
   player.weapon = &weaponArr[0]; 
 
@@ -80,7 +87,8 @@ int main(void) {
      ClearBackground(RAYWHITE);
     // UPDATE ALL OF THE GAME STATES
     updateGameState(&player, enemyArr, projectileArr, &rnd, weaponArr, 
-                    pickupArr, weaponBuyArr, weaponHolster, perkArr);
+                    pickupArr, weaponBuyArr, weaponHolster, perkArr, weaponTextureArr,
+                    enemyTexturesArr);
     EndDrawing();
   }
 
@@ -91,20 +99,21 @@ int main(void) {
 
 void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
                      Round *rnd, Weapon *weaponArr, Pickup *pickupArr, WeaponBuy *weaponBuyArr,
-                     int *weaponHolster, Perk *perkArr) {
+                     int *weaponHolster, Perk *perkArr, Texture2D *weaponTextureArr, 
+                     Texture2D *enemyTexturesArr) {
 
   updatePlayer(player);
 
   // checks if the round should end
   updateRound(rnd, enemyArr);
 
-  updateWeapon(weaponArr, player, weaponHolster);
+  updateWeapon(weaponArr, player, weaponHolster, weaponTextureArr);
 
   updatePickups(pickupArr, player);
 
   updatePerk(perkArr, player);
 
-  updateWeaponBuy(weaponBuyArr, player, weaponArr, weaponHolster);
+  updateWeaponBuy(weaponBuyArr, player, weaponArr, weaponHolster, weaponTextureArr);
 
   drawUI(player->health, ENEMYCOUNTER, player->invTime, rnd->round,player->money,
          CURRENTSPAWNEDENEMIES, GetFPS(),
@@ -132,5 +141,5 @@ void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
     resetBigEnemyCounter();
   }
 
-  updateEnemy(enemyArr, player, pickupArr);
+  updateEnemy(enemyArr, player, pickupArr, enemyTexturesArr);
 }

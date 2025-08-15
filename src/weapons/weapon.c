@@ -9,19 +9,38 @@
 
 const unsigned int numOfWeapons = 5;
 
-void drawWeapon(Player *player) {
-  Rectangle weaponRect = {
-    player->x + player->width / 2.0f,
-    player->y + player->height / 2.0f,
-    player->weapon->width,
-    player->weapon->height
-  };
-
-  Vector2 pivot = {player->weapon->width / 2.0f, player->weapon->height / 2.0f};
-  float rotation = getRotationOfWeapon(player);
-  player->weapon->rotation = rotation;
-  DrawRectanglePro(weaponRect, pivot, rotation, BLACK);
+void loadWeaponTextures(Texture2D *weaponTextureArr){
+  weaponTextureArr[0] = LoadTexture("assets/weapons/pistol/pistol.png");
+  weaponTextureArr[1] = LoadTexture("assets/weapons/ar/ar.png");
+  weaponTextureArr[2] = LoadTexture("assets/weapons/rpg/rpg.png");
+  weaponTextureArr[3] = LoadTexture("assets/weapons/shotgun/shotgun.png");
+  weaponTextureArr[4] = LoadTexture("assets/weapons/smg/smg.png");
 }
+
+void drawWeapon(Player *player, Texture2D *weaponTextureArr) {
+    float scale = 0.7f; 
+    float rotation = getRotationOfWeapon(player);
+    Rectangle source = { 0, 0, weaponTextureArr[player->weapon->id].width, 
+                            weaponTextureArr[player->weapon->id].height };
+
+    //flips the gun depending on which side its on
+    if (rotation > 90.0f || rotation < -90.0f) {
+      source.height *= -1;
+    }
+    player->weapon->width = 64 * scale;
+    player->weapon->height = 64 * scale;
+
+    Rectangle dest = {
+        player->x + player->width / 2,
+        player->y + player->height / 2 + 20,
+        weaponTextureArr[player->weapon->id].width * scale,
+        weaponTextureArr[player->weapon->id].height * scale,
+    };
+    Vector2 pivot = { player->weapon->width / 2.0f, player->weapon->height / 2.0f };
+    player->weapon->rotation = rotation;
+    DrawTexturePro(weaponTextureArr[player->weapon->id], source, dest, pivot, rotation, WHITE);
+}
+
 
 //initialize the array with all the weapons
 void initWeaponArr(Weapon *weaponArr) {
@@ -147,10 +166,10 @@ void replenishAmmo(Player *player, Weapon *weapon) {
   weapon->reloadTimer = 0.0f;
 }
 
-void updateWeapon(Weapon *weaponArr, Player *player, int *weaponHolster) {
+void updateWeapon(Weapon *weaponArr, Player *player, int *weaponHolster, Texture2D *weaponTextureArr) {
   player->weapon->x = player->x;
   player->weapon->y = player->y;
-  drawWeapon(player);
+  drawWeapon(player, weaponTextureArr);
   switchWeapons(player, weaponHolster, weaponArr); // listens if the player has switched
   checkReload(player->weapon, player);
 }

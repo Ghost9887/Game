@@ -14,8 +14,8 @@ Player createPlayerObject() {
   Player player;
   player.x = (float)SCREENWIDTH / (float)2;
   player.y = (float)SCREENHEIGHT / (float)2;
-  player.width = 30;
-  player.height = 50;
+  player.width = 50; //can be adjusted depending on the sprite size
+  player.height = 64;
   player.health = 100;
   player.maxHealth = 100;
   player.money = 0;
@@ -24,11 +24,13 @@ Player createPlayerObject() {
   player.invTime = 0.0f;
   player.timer;
   player.weapon; // defualt: pistol
+
   //animations
   player.currentFrame = 0;
   player.frameTime = 0.0f;
   player.frameSpeed = 0.1f; // seconds per frame
-  player.frameRec = (Rectangle){ 0.0f, 0.0f, 36.0f, 36.0f};
+  // used for selecting the coordinates on the sprite sheet
+  player.frameRec = (Rectangle){ 0.0f, 0.0f, 64.0f, 64.0f};
   return player;
 }
 
@@ -38,12 +40,14 @@ void drawPlayer(Player *player) {
     player->y
   };
   DrawTextureRec(playerTexture, player->frameRec, pos, WHITE);
-  //DrawRectangle(pos.x, pos.y, player->frameRec.width, player->frameRec.height, RED);
+
+  //hitbox debug
+  //DrawRectangle(pos.x, pos.y, player->width, player->height, RED);
 }
 
 void loadPlayerTextures(){
   // loading from assets
-  playerTexture = LoadTexture("assets/playertest.png");
+  playerTexture = LoadTexture("assets/player/playertest.png");
 }
 
 void updatePlayerAnimation(Player *player) {
@@ -52,7 +56,7 @@ void updatePlayerAnimation(Player *player) {
         player->frameTime = 0.0f;
         player->currentFrame++;
         if (player->currentFrame > 2) player->currentFrame = 0;
-        player->frameRec.y = (float)player->currentFrame * 32.0f;
+        player->frameRec.y = (float)player->currentFrame * 64.0f;
     }
 }
 

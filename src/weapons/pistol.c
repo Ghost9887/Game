@@ -26,3 +26,4 @@ Weapon createPistol() {
   pistol.ammoCost = 150;
   return pistol;
 }
+

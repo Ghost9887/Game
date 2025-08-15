@@ -6,10 +6,10 @@
 #include <stdbool.h>
 
 WeaponBuy createWeaponBuy(Weapon *weapon);
-void drawWeaponBuy(WeaponBuy *weaponBuy);
+void drawWeaponBuy(WeaponBuy *weaponBuy, Texture2D *weaponTextureArr);
 void spawnWeaponBuy(WeaponBuy *weaponBuy, Weapon *weapon);
 void initWeaponBuyArr(WeaponBuy *weaponBuyArr, Weapon *weaponArr);
-void updateWeaponBuy(WeaponBuy *weaponBuyArr, Player *player, Weapon *weaponArr, int *weaponHolster);
+void updateWeaponBuy(WeaponBuy *weaponBuyArr, Player *player, Weapon *weaponArr, int *weaponHolster, Texture2D *weaponTextureArr);
 void buyWeapon(WeaponBuy *weaponBuyArr, Player *player, Weapon *weaponArr, int *weaponHolster);
 int checkForCollisionWeaponBuyPlayer(WeaponBuy *weaponBuyArr, Player *player);
 bool isWeaponOwned(int weaponId, int *weaponHolster);

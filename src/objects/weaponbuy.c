@@ -19,9 +19,18 @@ WeaponBuy createWeaponBuy(Weapon *weapon){
   return weaponBuy;
 }
 
-void drawWeaponBuy(WeaponBuy *weaponBuy){
-  DrawRectangle(weaponBuy->x, weaponBuy->y, weaponBuy->weapon->width, weaponBuy->weapon->height, BLACK);
+void drawWeaponBuy(WeaponBuy *weaponBuy, Texture2D *weaponTextureArr) {
+  Texture2D texture = weaponTextureArr[weaponBuy->weapon->id];
+
+  // Center the texture on the weaponBuy box
+  Vector2 drawPos = {
+    weaponBuy->x + (weaponBuy->weapon->width / 2.0f) - (texture.width / 2.0f),
+    weaponBuy->y + (weaponBuy->weapon->height / 2.0f) - (texture.height / 2.0f)
+  };
+
+  DrawTexture(texture, drawPos.x, drawPos.y, WHITE);
 }
+
 
 void spawnWeaponBuy(WeaponBuy *weaponBuy, Weapon *weapon){
    
@@ -108,12 +117,11 @@ void buyWeapon(WeaponBuy *weaponBuyArr, Player *player, Weapon *weaponArr, int *
   }
 }
 
-
-
-void updateWeaponBuy(WeaponBuy *weaponBuyArr, Player *player, Weapon *weaponArr, int *weaponHolster){
-  for(int i = 0; i < 5; i++){
-    drawWeaponBuy(&weaponBuyArr[i]);
-    buyWeapon(weaponBuyArr, player, weaponArr, weaponHolster);
+void updateWeaponBuy(WeaponBuy *weaponBuyArr, Player *player, Weapon *weaponArr, int *weaponHolster, Texture2D *weaponTextureArr) {
+  for (int i = 0; i < 5; i++) {
+    drawWeaponBuy(&weaponBuyArr[i], weaponTextureArr);
   }
+  buyWeapon(weaponBuyArr, player, weaponArr, weaponHolster);
 }
+
 

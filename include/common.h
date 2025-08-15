@@ -13,6 +13,7 @@
 #define MAXWEAPONS 3
 
 typedef struct {
+  int id;
   float x;
   float y;
   int width;
@@ -22,6 +23,10 @@ typedef struct {
   int damage;
   int money;
   bool active;
+  int currentFrame;
+  float frameTime;
+  float frameSpeed;
+  Rectangle frameRec;
 } Enemy;
 
 typedef struct {
