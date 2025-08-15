@@ -6,6 +6,9 @@
 #include "shotgun.h"
 #include <string.h>
 #include <math.h>
+#include <stdio.h>
+
+Texture2D playerTexture;
 
 Player createPlayerObject() {
   Player player;
@@ -21,11 +24,36 @@ Player createPlayerObject() {
   player.invTime = 0.0f;
   player.timer;
   player.weapon; // defualt: pistol
+  //animations
+  player.currentFrame = 0;
+  player.frameTime = 0.0f;
+  player.frameSpeed = 0.1f; // seconds per frame
+  player.frameRec = (Rectangle){ 0.0f, 0.0f, 36.0f, 36.0f};
   return player;
 }
 
 void drawPlayer(Player *player) {
-  DrawRectangle(player->x, player->y, player->width, player->height, BLUE);
+  Vector2 pos = {
+    player->x,
+    player->y
+  };
+  DrawTextureRec(playerTexture, player->frameRec, pos, WHITE);
+  //DrawRectangle(pos.x, pos.y, player->frameRec.width, player->frameRec.height, RED);
+}
+
+void loadPlayerTextures(){
+  // loading from assets
+  playerTexture = LoadTexture("assets/playertest.png");
+}
+
+void updatePlayerAnimation(Player *player) {
+    player->frameTime += GetFrameTime();
+    if (player->frameTime >= player->frameSpeed) {
+        player->frameTime = 0.0f;
+        player->currentFrame++;
+        if (player->currentFrame > 2) player->currentFrame = 0;
+        player->frameRec.y = (float)player->currentFrame * 32.0f;
+    }
 }
 
 void playerMovement(Player *player) {
@@ -108,6 +136,7 @@ void addMoney(Player *player, int money){
 
 void updatePlayer(Player *player) {
   playerMovement(player);
+  updatePlayerAnimation(player);
   drawPlayer(player);
   invTimer(player);
 }

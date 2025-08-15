@@ -15,5 +15,8 @@ bool isPlayerInvulnerable(Player *player);
 void invTimer(Player *player);
 void addMoney(Player *player, int money);
 void updatePlayer(Player *player);
+void updatePlayerAnimation(Player *player);
+void loadPlayerTextures();
 
 #endif
+

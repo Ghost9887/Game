@@ -10,6 +10,7 @@
 #include "common.h"
 #include "perk.h"
 #include <stdbool.h>
+#include <stdio.h>
 
 // GLOBAL VARIABLES
 unsigned int ENEMYCOUNTER = 0;
@@ -60,15 +61,20 @@ int main(void) {
   Perk perkArr[2];
   initPerkArr(perkArr);
 
+  
+  loadPlayerTextures();
   Player player = createPlayerObject();
-  player.weapon = &weaponArr[0];
+  player.weapon = &weaponArr[0]; 
+
 
   // start the first round
   startRound(&rnd, enemyArr);
+
+
   // MAIN GAME LOOP
   
   while (!WindowShouldClose()) {
-
+    
     BeginDrawing();
 
      ClearBackground(RAYWHITE);

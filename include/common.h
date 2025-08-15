@@ -80,6 +80,10 @@ typedef struct {
   float invTime;
   float timer;
   Weapon *weapon;
+  int currentFrame;
+  float frameTime;
+  float frameSpeed;
+  Rectangle frameRec;
 } Player;
 
 typedef struct{
