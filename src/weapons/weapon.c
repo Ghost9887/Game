@@ -10,6 +10,7 @@
 const unsigned int numOfWeapons = 5;
 
 void loadWeaponTextures(Texture2D *weaponTextureArr){
+  //they match the id of the weapon so that we cant just grab them without looking (same with the enemy)
   weaponTextureArr[0] = LoadTexture("assets/weapons/pistol/pistol.png");
   weaponTextureArr[1] = LoadTexture("assets/weapons/ar/ar.png");
   weaponTextureArr[2] = LoadTexture("assets/weapons/rpg/rpg.png");
@@ -29,14 +30,13 @@ void drawWeapon(Player *player, Texture2D *weaponTextureArr) {
     }
     player->weapon->width = 64 * scale;
     player->weapon->height = 64 * scale;
-
     Rectangle dest = {
         player->x + player->width / 2,
         player->y + player->height / 2 + 20,
         weaponTextureArr[player->weapon->id].width * scale,
         weaponTextureArr[player->weapon->id].height * scale,
     };
-    Vector2 pivot = { player->weapon->width / 2.0f, player->weapon->height / 2.0f };
+    Vector2 pivot = { player->weapon->width / 2.0f, player->weapon->height / 2.0f};
     player->weapon->rotation = rotation;
     DrawTexturePro(weaponTextureArr[player->weapon->id], source, dest, pivot, rotation, WHITE);
 }
@@ -49,8 +49,6 @@ void initWeaponArr(Weapon *weaponArr) {
   weaponArr[2] = createRocketLauncher();
   weaponArr[3] = createSMG();
   weaponArr[4] = createShotgun();
-  // creates the weapons that don't exist yet so the array doesnt have random
-  // data
 }
 
 
