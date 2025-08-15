@@ -23,8 +23,8 @@ void drawEnemy(Enemy *enemy, Texture2D *enemyTexturesArr){
 
 void loadEnemyTextures(Texture2D *enemyTexturesArr){
   enemyTexturesArr[0] = LoadTexture("assets/enemies/basic_enemy/basic_enemy.png");
-  enemyTexturesArr[1] = LoadTexture("assets/enemies/basic_enemy/basic_enemy.png");
-  enemyTexturesArr[2] = LoadTexture("assets/enemies/basic_enemy/basic_enemy.png");
+  enemyTexturesArr[1] = LoadTexture("assets/enemies/special_enemy/special_enemy.png");
+  enemyTexturesArr[2] = LoadTexture("assets/enemies/big_enemy/big_enemy.png");
 }
 
 void updateEnemyAnimation(Enemy *enemy) {
@@ -33,7 +33,7 @@ void updateEnemyAnimation(Enemy *enemy) {
         enemy->frameTime = 0.0f;
         enemy->currentFrame++;
         if (enemy->currentFrame > 2) enemy->currentFrame = 0;
-        enemy->frameRec.y = (float)enemy->currentFrame * 64.0f;
+        enemy->frameRec.y = (float)enemy->currentFrame * enemy->frameRec.width;
     }
 }
 
@@ -123,7 +123,14 @@ void createEnemies(Enemy *enemyArr, int totalToSpawn, int rnd) {
       if (rnd % 5 == 0) {
         enemyArr[i] = createSpecialEnemy(randomX, randomY);
       } 
-      else if (rnd > 8 && BIGENEMYCOUNTER <= (int)(rnd / 7)) {
+      //only spawn one for this round
+      else if(rnd > 8 && rnd < 9 && BIGENEMYCOUNTER < 1){
+        enemyArr[i] = createBigEnemy(randomX, randomY);
+        BIGENEMYCOUNTER++;
+      }
+      //spawn multiple big enemies from this round every round depending on round round level
+      //the amount of big enemies spawn
+      else if (rnd > 15 && BIGENEMYCOUNTER <= (int)(rnd / 12)) {
         enemyArr[i] = createBigEnemy(randomX, randomY);
         BIGENEMYCOUNTER++;
       } else {
