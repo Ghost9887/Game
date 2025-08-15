@@ -23,15 +23,16 @@ void initPerkArr(Perk *perkArr){
 
 int checkCollisionWithPerkPlayer(Perk *perkArr, Player *player){
    for(int i = 0; i < 2; i++){
-  Rectangle perkMachineRect = {perkArr[i].x, perkArr[i].y, 40, 80};
-  Rectangle playerRect = {player->x, player->y, player->width, player->height};
-  if(CheckCollisionRecs(perkMachineRect, playerRect)){
-      return i;
+    if(!perkArr[i].consumed){
+      Rectangle perkMachineRect = {perkArr[i].x, perkArr[i].y, 40, 80};
+      Rectangle playerRect = {player->x, player->y, player->width, player->height};
+      if(CheckCollisionRecs(perkMachineRect, playerRect)){
+        return i;
+      }
     }
   }
-  return -1;
+    return -1;
 }
-
 
 void consumePerk(Perk *perkArr, Player *player){
   int indexOfPerk = checkCollisionWithPerkPlayer(perkArr, player);
