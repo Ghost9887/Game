@@ -124,11 +124,11 @@ void createEnemies(Enemy *enemyArr, int totalToSpawn, int rnd) {
         enemyArr[i] = createSpecialEnemy(randomX, randomY);
       } 
       //only spawn one for this round
-      else if(rnd > 8 && rnd < 9 && BIGENEMYCOUNTER < 1){
+      else if(rnd > 8 && rnd < 10 && BIGENEMYCOUNTER < 1){
         enemyArr[i] = createBigEnemy(randomX, randomY);
         BIGENEMYCOUNTER++;
       }
-      //spawn multiple big enemies from this round every round depending on round round level
+      //spawn multiple big enemies from this round every round depending on round round level ->
       //the amount of big enemies spawn
       else if (rnd > 15 && BIGENEMYCOUNTER <= (int)(rnd / 12)) {
         enemyArr[i] = createBigEnemy(randomX, randomY);

@@ -158,7 +158,6 @@ void replaceWeapon(Weapon *weapon, Player *player){
 
 //when buying a gun(and the gun is already in the player holster)
 void replenishAmmo(Player *player, Weapon *weapon) {
-  weapon->currentMagSize = weapon->maxMagSize; 
   weapon->currentReserveSize = weapon->maxReserveSize;
   //fixes the bug where buying the ammo while reloading would make the gun not shoot
   weapon->reloadTimer = 0.0f;
