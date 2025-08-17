@@ -4,8 +4,8 @@
 #include <stdbool.h>
 #include "raylib.h"
 
-#define SCREENWIDTH 1200
-#define SCREENHEIGHT 800
+#define SCREENWIDTH GetScreenWidth()
+#define SCREENHEIGHT GetScreenHeight()
 #define MAXPROJECTILES 200
 #define TARGETFPS 60 
 #define MAXSPAWNENEMIES 40

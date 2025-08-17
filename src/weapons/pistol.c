@@ -6,8 +6,8 @@ Weapon createPistol() {
   pistol.id = 0;
   pistol.x = 0;
   pistol.y = 0;
-  pistol.width = 20;
-  pistol.height = 10;
+  pistol.width = 64;
+  pistol.height = 64;
   pistol.damage = 30.0f;
   pistol.maxMagSize = 6;
   pistol.maxReserveSize = 42; //should always be divisible by the mag size
