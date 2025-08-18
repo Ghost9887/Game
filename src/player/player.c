@@ -116,7 +116,7 @@ void ADS(Player *player, Enemy *enemyArr) {
       }
         Vector2 origin = {
             player->x + player->width / 2.0f,
-            player->y + player->height / 2.0f + 15
+            player->y + player->height / 2.0f + 15 //offset so it comes from the weapon
         };
         //convert back into radian
         float angleRad = player->weapon->rotation * (3.14 / 180.0f);
@@ -129,8 +129,7 @@ void ADS(Player *player, Enemy *enemyArr) {
             origin.x + direction.x * range,
             origin.y + direction.y * range
         };
-        float stepSize = 2.0f; 
-        for (float t = 0; t < range; t += stepSize) {
+        for (float t = 0; t < range; t++) {
             Vector2 point = {
                 origin.x + direction.x * t,
                 origin.y + direction.y * t

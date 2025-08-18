@@ -57,6 +57,7 @@ void moveProjectile(Projectile *projectile) {
 }
 
 void destroyProjectile(Projectile *projectile) { 
+
   projectile->speed = 0;
   projectile->active = false; 
 }
@@ -74,34 +75,15 @@ void initProjectileArray(Projectile *projectileArr) {
   }
 }
 
-//helper function
-bool CheckLineRectCollision(Vector2 start, Vector2 end, Rectangle rect) {
-    Vector2 topLeft = {rect.x, rect.y};
-    Vector2 topRight = {rect.x + rect.width, rect.y};
-    Vector2 bottomLeft = {rect.x, rect.y + rect.height};
-    Vector2 bottomRight = {rect.x + rect.width, rect.y + rect.height};
-
-    return CheckCollisionLines(start, end, topLeft, topRight, NULL) ||
-           CheckCollisionLines(start, end, topRight, bottomRight, NULL) ||
-           CheckCollisionLines(start, end, bottomRight, bottomLeft, NULL) ||
-           CheckCollisionLines(start, end, bottomLeft, topLeft, NULL);
-}
-
-
 int checkForCollisionWithEnemy(Projectile *projectile, Enemy *enemyArr) {
-    Vector2 previousPos = projectile->previousPos;
     Vector2 currentPos = {projectile->x, projectile->y};
-
     for (int i = 0; i < MAXSPAWNENEMIES; i++) {
         if (!enemyArr[i].active) continue;
-
         Rectangle enemyRect = {enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height};
-
-        if (CheckLineRectCollision(previousPos, currentPos, enemyRect)) {
+        if (CheckCollisionPointRec(currentPos, enemyRect)) {
             return i;
         }
     }
-
     return -1;
 }
 
