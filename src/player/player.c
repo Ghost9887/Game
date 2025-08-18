@@ -110,9 +110,9 @@ void ADS(Player *player, Enemy *enemyArr) {
         player->speed = 80.0f;
         Vector2 origin = {
             player->x + player->width / 2.0f,
-            player->y + player->height / 2.0f
+            player->y + player->height / 2.0f + 15
         };
-        float angleRad = player->weapon->rotation * (PI / 180.0f);
+        float angleRad = player->weapon->rotation * (3.14 / 180.0f);
         float range = player->weapon->range;
         Vector2 direction = {
             cosf(angleRad),

@@ -38,7 +38,6 @@ void drawProjectile(Projectile *projectile) {
         origin.x + direction.x * visualLength,
         origin.y + direction.y * visualLength
     };
-
     DrawLineEx(origin, end, 2.0f, BLUE);
 }
 
