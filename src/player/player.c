@@ -14,8 +14,8 @@ Player createPlayerObject() {
   Player player;
   player.x = (float)SCREENWIDTH / (float)2;
   player.y = (float)SCREENHEIGHT / (float)2;
-  player.width = 128; //can be adjusted depending on the sprite size
-  player.height = 128;
+  player.width = 64; //can be adjusted depending on the sprite size
+  player.height = 64;
   player.health = 100;
   player.maxHealth = 100;
   player.money = 0;
@@ -30,7 +30,7 @@ Player createPlayerObject() {
   player.frameTime = 0.0f;
   player.frameSpeed = 0.3f; // seconds per frame
   // used for selecting the coordinates on the sprite sheet
-  player.frameRec = (Rectangle){ 0.0f, 0.0f, 128.0f, 128.0f};
+  player.frameRec = (Rectangle){ 0.0f, 0.0f, 64.0f, 64.0f};
   return player;
 }
 
@@ -47,7 +47,7 @@ void drawPlayer(Player *player) {
 
 void loadPlayerTextures(){
   // loading from assets
-  playerTexture = LoadTexture("assets/player/playertest.png");
+  playerTexture = LoadTexture("assets/player/player.png");
 }
 
 void updatePlayerAnimation(Player *player) {

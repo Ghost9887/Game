@@ -7,8 +7,9 @@ Weapon createShotgun(){
   shotgun.id = 3;
   shotgun.x = 0;
   shotgun.y = 0;
-  shotgun.width = 50;
-  shotgun.height = 20;
+  shotgun.scale = 1.0f;
+  shotgun.width = 32 * shotgun.scale;
+  shotgun.height = 32 * shotgun.scale;
   shotgun.damage = 25.0f;
   shotgun.maxMagSize = 4;
   shotgun.maxReserveSize = 24; //should always be divisible by the mag size

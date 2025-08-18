@@ -5,8 +5,9 @@ Weapon createAssaultRifle() {
   assualtRifle.id = 1;
   assualtRifle.x = 0;
   assualtRifle.y = 0;
-  assualtRifle.width = 40;
-  assualtRifle.height = 10;
+  assualtRifle.scale = 2.0f;
+  assualtRifle.width = 32 * assualtRifle.scale;
+  assualtRifle.height = 32 * assualtRifle.scale;
   assualtRifle.range = 750.0f;
   assualtRifle.damage = 70.0f;
   assualtRifle.maxMagSize = 30;

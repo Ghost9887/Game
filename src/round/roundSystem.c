@@ -33,7 +33,7 @@ int getAmountOfEnemies(Round *rnd){
   if(rnd->round % 5 == 0){
     return 2 * getRound(rnd);
   }
-  return 6 * getRound(rnd);
+  return 40 * getRound(rnd);
 }
 
 void changeBreak(bool value, Round *rnd){

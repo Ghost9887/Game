@@ -4,8 +4,8 @@
 #include <stdbool.h>
 #include "raylib.h"
 
-#define SCREENWIDTH GetScreenWidth()
-#define SCREENHEIGHT GetScreenHeight()
+#define SCREENWIDTH 1300 
+#define SCREENHEIGHT 900 
 #define MAXPROJECTILES 200
 #define TARGETFPS 60 
 #define MAXSPAWNENEMIES 40
@@ -56,6 +56,7 @@ typedef struct {
   int width;
   int height;
   float rotation;
+  float scale;
   float damage;
   float range;
   float fireRate;

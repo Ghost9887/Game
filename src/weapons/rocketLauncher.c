@@ -9,8 +9,9 @@ Weapon createRocketLauncher() {
   rocketLauncher.id = 2;
   rocketLauncher.x = 0;
   rocketLauncher.y = 0;
-  rocketLauncher.width = 60;
-  rocketLauncher.height = 20;
+  rocketLauncher.scale = 1.0f;
+  rocketLauncher.width = 32 * rocketLauncher.scale;
+  rocketLauncher.height = 32 * rocketLauncher.scale;
   rocketLauncher.fireRate = 3.0f * (float)TARGETFPS;
   rocketLauncher.projectileSpeed = 200.0f;
   rocketLauncher.type = "explosive";

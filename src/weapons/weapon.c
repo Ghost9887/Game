@@ -19,7 +19,7 @@ void loadWeaponTextures(Texture2D *weaponTextureArr){
 }
 
 void drawWeapon(Player *player, Texture2D *weaponTextureArr) {
-    float scale = 0.7f; 
+    float scale = player->weapon->scale;  
     float rotation = getRotationOfWeapon(player);
     Rectangle source = { 0, 0, weaponTextureArr[player->weapon->id].width, 
                             weaponTextureArr[player->weapon->id].height };
@@ -28,15 +28,13 @@ void drawWeapon(Player *player, Texture2D *weaponTextureArr) {
     if (rotation > 90.0f || rotation < -90.0f) {
       source.height *= -1;
     }
-    player->weapon->width = 64 * scale;
-    player->weapon->height = 64 * scale;
     Rectangle dest = {
         player->x + player->width / 2,
         player->y + player->height / 2 + 20,
         weaponTextureArr[player->weapon->id].width * scale,
         weaponTextureArr[player->weapon->id].height * scale,
     };
-    Vector2 pivot = { player->weapon->width / 2.0f, player->weapon->height / 2.0f};
+    Vector2 pivot = {player->weapon->width / 2.0f, player->weapon->height / 2.0f};
     player->weapon->rotation = rotation;
     DrawTexturePro(weaponTextureArr[player->weapon->id], source, dest, pivot, rotation, WHITE);
 }
