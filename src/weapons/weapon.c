@@ -158,6 +158,7 @@ void switchWeapons(Player *player, int *weaponHolster, Weapon *weaponArr) {
 
 //when buying a gun
 void replaceWeapon(Weapon *weapon, Player *player){
+  player->speed = player->maxSpeed;
   player->weapon = weapon;
   player->speed *= player->weapon->weight;
 }
