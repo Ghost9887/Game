@@ -46,7 +46,8 @@ void consumePerk(Perk *perkArr, Player *player){
         player->money -= perkArr[indexOfPerk].cost;
       }
       else if(strcmp(perkArr[indexOfPerk].type, "speed") == 0){
-        player->speed *= perkArr[indexOfPerk].data;
+        player->maxSpeed = perkArr[indexOfPerk].data;
+        player->speed = player->maxSpeed;
         player->money -= perkArr[indexOfPerk].cost;
       }
       perkArr[indexOfPerk].consumed = true;

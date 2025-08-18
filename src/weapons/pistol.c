@@ -26,6 +26,7 @@ Weapon createPistol() {
       (float)TARGETFPS; // 1.0f == every second ; 0.5 == every 1/2 second
   pistol.weaponCost = 0;
   pistol.ammoCost = 150;
+  pistol.weight = 1.0f;
   return pistol;
 }
 

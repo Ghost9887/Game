@@ -23,5 +23,6 @@ Weapon createAssaultRifle() {
   assualtRifle.projectileSpeed = 3000.0f;
   assualtRifle.weaponCost = 0;
   assualtRifle.ammoCost = 100;
+  assualtRifle.weight = 0.9f;
   return assualtRifle;
 }

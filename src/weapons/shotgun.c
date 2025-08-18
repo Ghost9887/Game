@@ -27,6 +27,7 @@ Weapon createShotgun(){
       (float)TARGETFPS; // 1.0f == every second ; 0.5 == every 1/2 second
   shotgun.weaponCost = 0;
   shotgun.ammoCost = 100;
+  shotgun.weight = 0.8f;
   return shotgun;
 }
 

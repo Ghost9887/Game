@@ -112,12 +112,14 @@ void switchWeapons(Player *player, int *weaponHolster, Weapon *weaponArr) {
     if(isReloading(player->weapon)){
       player->weapon->reloadTimer = 0.0f;
     }
+    player->speed = player->maxSpeed;
     int id = weaponHolster[0];
     //check if we have a weapon in that slot
     if(id != -1){
       for(int i = 0; i < AMOUNTOFWEAPONS; i++){
         if(weaponArr[i].id == id){
           player->weapon = &weaponArr[i];
+          player->speed *= player->weapon->weight;
         }
       }
     }
@@ -126,11 +128,13 @@ void switchWeapons(Player *player, int *weaponHolster, Weapon *weaponArr) {
     if(isReloading(player->weapon)){
       player->weapon->reloadTimer = 0.0f;
     }
+    player->speed = player->maxSpeed;
     int id = weaponHolster[1];
     if(id != -1){
       for(int i = 0; i < AMOUNTOFWEAPONS; i++){
         if(weaponArr[i].id == id){
           player->weapon = &weaponArr[i];
+          player->speed *= player->weapon->weight;
         }
       }
     }
@@ -139,11 +143,13 @@ void switchWeapons(Player *player, int *weaponHolster, Weapon *weaponArr) {
     if(isReloading(player->weapon)){
       player->weapon->reloadTimer = 0.0f;
     }
+    player->speed = player->maxSpeed;
     int id = weaponHolster[2];
     if(id != -1){
       for(int i = 0; i < AMOUNTOFWEAPONS; i++){
         if(weaponArr[i].id == id){
           player->weapon = &weaponArr[i];
+          player->speed *= player->weapon->weight;
         }
       }
     }
@@ -153,6 +159,7 @@ void switchWeapons(Player *player, int *weaponHolster, Weapon *weaponArr) {
 //when buying a gun
 void replaceWeapon(Weapon *weapon, Player *player){
   player->weapon = weapon;
+  player->speed *= player->weapon->weight;
 }
 
 //when buying a gun(and the gun is already in the player holster)

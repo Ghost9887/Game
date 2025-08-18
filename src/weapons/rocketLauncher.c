@@ -27,6 +27,7 @@ Weapon createRocketLauncher() {
   rocketLauncher.reloadTimer = 0.0f;
   rocketLauncher.weaponCost = 0;
   rocketLauncher.ammoCost = 100;
+  rocketLauncher.weight = 0.6f;
   return rocketLauncher;
 }
 

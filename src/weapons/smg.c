@@ -26,5 +26,6 @@ Weapon createSMG() {
       (float)TARGETFPS; // 1.0f == every second ; 0.5 == every 1/2 second
   smg.weaponCost = 0;
   smg.ammoCost = 100;
+  smg.weight = 1.0f;
   return smg;
 }

@@ -73,6 +73,7 @@ typedef struct {
   char *name;
   int weaponCost;
   int ammoCost;
+  float weight;
 } Weapon;
 
 typedef struct {
@@ -84,6 +85,7 @@ typedef struct {
   int maxHealth;
   int money;
   float speed;
+  float maxSpeed;
   bool canShoot;
   float invTime;
   float timer;

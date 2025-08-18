@@ -43,14 +43,10 @@ void drawProjectile(Projectile *projectile) {
 
 
 void moveProjectile(Projectile *projectile) {
-  
   float deltaTime = GetFrameTime();
-  
   projectile->previousPos = (Vector2){projectile->x, projectile->y};
-
   projectile->x += projectile->dX * projectile->speed * deltaTime;
   projectile->y += projectile->dY * projectile->speed * deltaTime;
-
   float dx = projectile->x - projectile->previousPos.x;
   float dy = projectile->y - projectile->previousPos.y;
   projectile->distanceTraveled += sqrtf(dx * dx + dy * dy);
