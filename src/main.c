@@ -16,6 +16,7 @@
 unsigned int ENEMYCOUNTER = 0;
 unsigned int CURRENTSPAWNEDENEMIES = 0;
 unsigned int BIGENEMYCOUNTER = 0;
+unsigned int AMOUNTOFWEAPONS = 6;
 
 void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
                      Round *rnd, Weapon *weaponArr, Pickup *pickupArr, WeaponBuy *weaponBuyArr,
@@ -43,7 +44,7 @@ int main(void) {
   Round rnd = createRoundObject();
 
   // houses all the weapons
-  Weapon weaponArr[10];
+  Weapon weaponArr[AMOUNTOFWEAPONS];
   initWeaponArr(weaponArr);
 
   //players weapons in inventory
@@ -51,7 +52,7 @@ int main(void) {
   initWeaponHolster(weaponHolster, weaponArr);
 
   //define a num of weaponbuys later
-  WeaponBuy weaponBuyArr[5];
+  WeaponBuy weaponBuyArr[AMOUNTOFWEAPONS];
   initWeaponBuyArr(weaponBuyArr, weaponArr);
 
   //houses all pickups
@@ -64,7 +65,7 @@ int main(void) {
 
   loadPlayerTextures();
 
-  Texture2D weaponTextureArr[5]; 
+  Texture2D weaponTextureArr[AMOUNTOFWEAPONS]; 
   loadWeaponTextures(weaponTextureArr);
 
   Texture2D enemyTexturesArr[MAXSPAWNENEMIES];

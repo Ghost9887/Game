@@ -5,9 +5,10 @@
 #include "rocketLauncher.h"
 #include "smg.h"
 #include "shotgun.h"
+#include "lmg.h"
 #include <math.h>
 
-const unsigned int numOfWeapons = 5;
+extern unsigned int AMOUNTOFWEAPONS;
 
 void loadWeaponTextures(Texture2D *weaponTextureArr){
   //they match the id of the weapon so that we cant just grab them without looking (same with the enemy)
@@ -16,6 +17,7 @@ void loadWeaponTextures(Texture2D *weaponTextureArr){
   weaponTextureArr[2] = LoadTexture("assets/weapons/rpg/rpg.png");
   weaponTextureArr[3] = LoadTexture("assets/weapons/shotgun/shotgun.png");
   weaponTextureArr[4] = LoadTexture("assets/weapons/smg/smg.png");
+  weaponTextureArr[5] = LoadTexture("assets/weapons/rpg/rpg.png");
 }
 
 void drawWeapon(Player *player, Texture2D *weaponTextureArr) {
@@ -47,6 +49,7 @@ void initWeaponArr(Weapon *weaponArr) {
   weaponArr[2] = createRocketLauncher();
   weaponArr[3] = createSMG();
   weaponArr[4] = createShotgun();
+  weaponArr[5] = createLmg();
 }
 
 
@@ -113,7 +116,7 @@ void switchWeapons(Player *player, int *weaponHolster, Weapon *weaponArr) {
     int id = weaponHolster[0];
     //check if we have a weapon in that slot
     if(id != -1){
-      for(int i = 0; i < numOfWeapons; i++){
+      for(int i = 0; i < AMOUNTOFWEAPONS; i++){
         if(weaponArr[i].id == id){
           player->weapon = &weaponArr[i];
         }
@@ -126,7 +129,7 @@ void switchWeapons(Player *player, int *weaponHolster, Weapon *weaponArr) {
     }
     int id = weaponHolster[1];
     if(id != -1){
-      for(int i = 0; i < numOfWeapons; i++){
+      for(int i = 0; i < AMOUNTOFWEAPONS; i++){
         if(weaponArr[i].id == id){
           player->weapon = &weaponArr[i];
         }
@@ -139,7 +142,7 @@ void switchWeapons(Player *player, int *weaponHolster, Weapon *weaponArr) {
     }
     int id = weaponHolster[2];
     if(id != -1){
-      for(int i = 0; i < numOfWeapons; i++){
+      for(int i = 0; i < AMOUNTOFWEAPONS; i++){
         if(weaponArr[i].id == id){
           player->weapon = &weaponArr[i];
         }

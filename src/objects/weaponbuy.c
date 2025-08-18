@@ -8,6 +8,8 @@
 #include "ui.h"
 #include <string.h>
 
+extern unsigned int AMOUNTOFWEAPONS;
+
 
 WeaponBuy createWeaponBuy(Weapon *weapon){
   WeaponBuy weaponBuy;
@@ -38,7 +40,7 @@ void spawnWeaponBuy(WeaponBuy *weaponBuy, Weapon *weapon){
 
 //refactor later
 void initWeaponBuyArr(WeaponBuy *weaponBuyArr, Weapon *weaponArr){
-  for(int i = 0; i < 5; i++){
+  for(int i = 0; i < AMOUNTOFWEAPONS; i++){
     weaponBuyArr[i] = createWeaponBuy(&weaponArr[i]);
     if(i < 1){
       weaponBuyArr[i].x = 100;
@@ -50,7 +52,7 @@ void initWeaponBuyArr(WeaponBuy *weaponBuyArr, Weapon *weaponArr){
 }
 
 int checkForCollisionWeaponBuyPlayer(WeaponBuy *weaponBuyArr, Player *player){
-  for(int i = 0; i < 5; i++){
+  for(int i = 0; i < AMOUNTOFWEAPONS; i++){
   Rectangle weaponBuyRect = {weaponBuyArr[i].x, weaponBuyArr[i].y, weaponBuyArr[i].weapon->width, weaponBuyArr[i].weapon->height};
   Rectangle playerRect = {player->x, player->y, player->width, player->height};
   if(CheckCollisionRecs(weaponBuyRect, playerRect)){
@@ -118,7 +120,7 @@ void buyWeapon(WeaponBuy *weaponBuyArr, Player *player, Weapon *weaponArr, int *
 }
 
 void updateWeaponBuy(WeaponBuy *weaponBuyArr, Player *player, Weapon *weaponArr, int *weaponHolster, Texture2D *weaponTextureArr) {
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < AMOUNTOFWEAPONS; i++) {
     drawWeaponBuy(&weaponBuyArr[i], weaponTextureArr);
   }
   buyWeapon(weaponBuyArr, player, weaponArr, weaponHolster);
