@@ -7,6 +7,7 @@ Weapon createPistol() {
   pistol.x = 0;
   pistol.y = 0;
   pistol.scale = 1.0f;
+  pistol.spread = 5;
   pistol.width = 32 * pistol.scale;
   pistol.height = 32 * pistol.scale;
   pistol.damage = 30.0f;

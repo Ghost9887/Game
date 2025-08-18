@@ -14,9 +14,10 @@ void playerLoseHealth(Enemy *enemy, Player *player);
 bool isPlayerInvulnerable(Player *player);
 void invTimer(Player *player);
 void addMoney(Player *player, int money);
-void updatePlayer(Player *player);
+void updatePlayer(Player *player, Enemy *enemyArr);
 void updatePlayerAnimation(Player *player);
 void loadPlayerTextures();
+void ADS(Player *player, Enemy *enemyArr);
 
 #endif
 

@@ -21,14 +21,27 @@ Projectile createProjectile(Player *player, Weapon *weapon, float offset) {
   projectile.damage = weapon->damage;
   projectile.speed = weapon->projectileSpeed;
   projectile.active = true;
-  projectile.lifetime = 10.0f;
   projectile.size = 5.0f;
+  projectile.range = weapon->range;
+  projectile.distanceTraveled = 0.0f;
   return projectile;
 }
 
 void drawProjectile(Projectile *projectile) {
-  DrawCircle(projectile->x, projectile->y, projectile->size, BLACK);
+    Vector2 origin = {projectile->x, projectile->y};
+    Vector2 direction = {
+        projectile->dX,
+        projectile->dY
+    };
+    float visualLength = 20.0f; 
+    Vector2 end = {
+        origin.x + direction.x * visualLength,
+        origin.y + direction.y * visualLength
+    };
+
+    DrawLineEx(origin, end, 2.0f, BLUE);
 }
+
 
 void moveProjectile(Projectile *projectile) {
   
@@ -38,6 +51,10 @@ void moveProjectile(Projectile *projectile) {
 
   projectile->x += projectile->dX * projectile->speed * deltaTime;
   projectile->y += projectile->dY * projectile->speed * deltaTime;
+
+  float dx = projectile->x - projectile->previousPos.x;
+  float dy = projectile->y - projectile->previousPos.y;
+  projectile->distanceTraveled += sqrtf(dx * dx + dy * dy);
 }
 
 void destroyProjectile(Projectile *projectile) { 
@@ -49,9 +66,10 @@ void initProjectileArray(Projectile *projectileArr) {
   // initialize the projectile array
   for (int i = 0; i < MAXPROJECTILES; i++) {
     projectileArr[i].active = false;
-    projectileArr[i].lifetime = 0.0f;
     projectileArr[i].speed = 0.0f;
     projectileArr[i].damage = 0;
+    projectileArr[i].range = 0.0f;
+    projectileArr[i].distanceTraveled = 0.0f;
     projectileArr[i].x = 0;
     projectileArr[i].y = 0;
   }
@@ -112,8 +130,7 @@ void updateProjectiles(Projectile *projectileArr, Enemy *enemyArr, Player *playe
     //only do these if the projectile hasnt hit anything
     drawProjectile(&projectileArr[i]);
 
-    projectileArr[i].lifetime -= GetFrameTime();
-    if (projectileArr[i].lifetime <= 0) {
+    if (projectileArr[i].distanceTraveled >= projectileArr[i].range) {
       destroyProjectile(&projectileArr[i]);
     }
   }

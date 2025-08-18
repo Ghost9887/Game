@@ -8,6 +8,8 @@
 #include <math.h>
 #include <stdio.h>
 
+extern unsigned int CURRENTSPAWNEDENEMIES;
+
 Texture2D playerTexture;
 
 Player createPlayerObject() {
@@ -91,12 +93,65 @@ void playerShoot(Player *player, Projectile *projectileArr) {
       if(strcmp(player->weapon->type, "spreadshot") == 0){
         spreadShot(projectileArr, player);
       }else{
-        projectileArr[indexToReplace] = createProjectile(player, player->weapon, 0);
+        if(!IsMouseButtonDown(MOUSE_RIGHT_BUTTON)){
+          projectileArr[indexToReplace] = createProjectile(player, player->weapon, (float)GetRandomValue(-player->weapon->spread, player->weapon->spread));
+        }
+        else{
+          projectileArr[indexToReplace] = createProjectile(player, player->weapon, 0);
+        }
       }
       
     }
   }
 }
+
+void ADS(Player *player, Enemy *enemyArr) {
+    if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON)) {
+        player->speed = 80.0f;
+        Vector2 origin = {
+            player->x + player->width / 2.0f,
+            player->y + player->height / 2.0f
+        };
+        float angleRad = player->weapon->rotation * (PI / 180.0f);
+        float range = player->weapon->range;
+        Vector2 direction = {
+            cosf(angleRad),
+            sinf(angleRad)
+        };
+        Vector2 hitPoint = {
+            origin.x + direction.x * range,
+            origin.y + direction.y * range
+        };
+        float stepSize = 2.0f; 
+        for (float t = 0; t < range; t += stepSize) {
+            Vector2 point = {
+                origin.x + direction.x * t,
+                origin.y + direction.y * t
+            };
+            for (int i = 0; i < CURRENTSPAWNEDENEMIES; i++) {
+              if(enemyArr[i].active){
+                Enemy enemy = enemyArr[i];
+                Rectangle enemyHitbox = {
+                    enemy.x,
+                    enemy.y,
+                    enemy.width,
+                    enemy.height
+                };
+                if (CheckCollisionPointRec(point, enemyHitbox)) {
+                    hitPoint = point; 
+                    t = range; 
+                    break;
+                }
+              }
+            }
+        }
+        DrawLineEx(origin, hitPoint, 1.0f, RED);
+    } else {
+        player->speed = 150.0f;
+    }
+}
+
+
 
 bool checkIfPlayerCanShoot(Player *player) {
   if (player->timer >= 0) {
@@ -138,8 +193,9 @@ void addMoney(Player *player, int money){
   player->money += money;
 }
 
-void updatePlayer(Player *player) {
+void updatePlayer(Player *player, Enemy *enemyArr) {
   playerMovement(player);
+  ADS(player, enemyArr);
   updatePlayerAnimation(player);
   drawPlayer(player);
   invTimer(player);

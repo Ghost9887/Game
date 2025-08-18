@@ -10,6 +10,7 @@ Weapon createRocketLauncher() {
   rocketLauncher.x = 0;
   rocketLauncher.y = 0;
   rocketLauncher.scale = 1.0f;
+  rocketLauncher.spread = 5;
   rocketLauncher.width = 32 * rocketLauncher.scale;
   rocketLauncher.height = 32 * rocketLauncher.scale;
   rocketLauncher.fireRate = 3.0f * (float)TARGETFPS;

@@ -102,7 +102,7 @@ void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
                      int *weaponHolster, Perk *perkArr, Texture2D *weaponTextureArr, 
                      Texture2D *enemyTexturesArr) {
 
-  updatePlayer(player);
+  updatePlayer(player, enemyArr);
 
   // checks if the round should end
   updateRound(rnd, enemyArr);

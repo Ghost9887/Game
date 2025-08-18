@@ -37,9 +37,10 @@ typedef struct {
   float dY;
   float damage;
   float speed;
+  float range;
+  float distanceTraveled;
   int target;
   bool active;
-  float lifetime;
   float size;
 } Projectile;
 
@@ -57,6 +58,7 @@ typedef struct {
   int height;
   float rotation;
   float scale;
+  int spread;
   float damage;
   float range;
   float fireRate;

@@ -93,7 +93,6 @@ void checkReload(Weapon *weapon, Player *player) {
   }
 }
 
-
 void reduceAmmo(Weapon *weapon){
   weapon->currentMagSize -= 1;
 }

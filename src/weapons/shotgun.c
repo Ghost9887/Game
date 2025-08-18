@@ -7,6 +7,7 @@ Weapon createShotgun(){
   shotgun.id = 3;
   shotgun.x = 0;
   shotgun.y = 0;
+  shotgun.spread = 0;
   shotgun.scale = 1.0f;
   shotgun.width = 32 * shotgun.scale;
   shotgun.height = 32 * shotgun.scale;
