@@ -27,5 +27,11 @@ Weapon createSMG() {
   smg.weaponCost = 0;
   smg.ammoCost = 100;
   smg.weight = 1.0f;
+   //animations
+  smg.currentFrame = 0;
+  smg.frameTime = 0.0f;
+  smg.frameSpeed = 0.1f; // seconds per frame
+  // used for selecting the coordinates on the sprite sheet
+  smg.frameRec = (Rectangle){ 0.0f, 0.0f, 32.0f, 32.0f};
   return smg;
 }

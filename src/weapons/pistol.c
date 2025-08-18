@@ -27,6 +27,12 @@ Weapon createPistol() {
   pistol.weaponCost = 0;
   pistol.ammoCost = 150;
   pistol.weight = 1.0f;
+  //animations
+  pistol.currentFrame = 0;
+  pistol.frameTime = 0.0f;
+  pistol.frameSpeed = 0.3f; // seconds per frame
+  // used for selecting the coordinates on the sprite sheet
+  pistol.frameRec = (Rectangle){ 0.0f, 0.0f, 32.0f, 32.0f};
   return pistol;
 }
 

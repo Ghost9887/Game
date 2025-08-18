@@ -28,8 +28,15 @@ Weapon createShotgun(){
   shotgun.weaponCost = 0;
   shotgun.ammoCost = 100;
   shotgun.weight = 0.8f;
+   //animations
+  shotgun.currentFrame = 0;
+  shotgun.frameTime = 0.0f;
+  shotgun.frameSpeed = 0.1f; // seconds per frame
+  // used for selecting the coordinates on the sprite sheet
+  shotgun.frameRec = (Rectangle){ 0.0f, 0.0f, 32.0f, 32.0f};
   return shotgun;
 }
+
 
 void spreadShot(Projectile *projectileArr, Player *player) {
     float spreadAngle = 5.0f; 

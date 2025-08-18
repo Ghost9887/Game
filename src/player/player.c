@@ -22,8 +22,8 @@ Player createPlayerObject() {
   player.health = 100;
   player.maxHealth = 100;
   player.money = 0;
-  player.speed = 150.0f;
-  player.maxSpeed = 150.0f; 
+  player.speed = 180.0f;
+  player.maxSpeed = 180.0f; 
   player.canShoot = false;
   player.invTime = 0.0f;
   player.timer;

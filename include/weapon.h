@@ -18,5 +18,6 @@ bool isReloading(Weapon *weapon);
 float getRotationOfWeapon(Player *player);
 void replenishAmmo(Player *player, Weapon *weapon);
 void loadWeaponTextures(Texture2D *weaponTextureArr);
+void updateWeaponAnimation(Weapon *weapon);
 
 #endif

@@ -28,6 +28,12 @@ Weapon createRocketLauncher() {
   rocketLauncher.weaponCost = 0;
   rocketLauncher.ammoCost = 100;
   rocketLauncher.weight = 0.6f;
+   //animations
+  rocketLauncher.currentFrame = 0;
+  rocketLauncher.frameTime = 0.0f;
+  rocketLauncher.frameSpeed = 0.1f; // seconds per frame
+  // used for selecting the coordinates on the sprite sheet
+  rocketLauncher.frameRec = (Rectangle){ 0.0f, 0.0f, 32.0f, 32.0f};
   return rocketLauncher;
 }
 

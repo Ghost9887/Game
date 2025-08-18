@@ -24,5 +24,11 @@ Weapon createAssaultRifle() {
   assualtRifle.weaponCost = 0;
   assualtRifle.ammoCost = 100;
   assualtRifle.weight = 0.9f;
+   //animations
+  assualtRifle.currentFrame = 0;
+  assualtRifle.frameTime = 0.0f;
+  assualtRifle.frameSpeed = 0.1f; // seconds per frame
+  // used for selecting the coordinates on the sprite sheet
+  assualtRifle.frameRec = (Rectangle){ 0.0f, 0.0f, 32.0f, 32.0f};
   return assualtRifle;
 }

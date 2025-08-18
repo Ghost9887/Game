@@ -26,7 +26,13 @@ Weapon createLmg() {
       (float)TARGETFPS; // 1.0f == every second ; 0.5 == every 1/2 second
   lmg.weaponCost = 0;
   lmg.ammoCost = 150;
-  lmg.weight = 0.5f;
+  lmg.weight = 0.55f;
+   //animations
+  lmg.currentFrame = 0;
+  lmg.frameTime = 0.0f;
+  lmg.frameSpeed = 0.1f; // seconds per frame
+  // used for selecting the coordinates on the sprite sheet
+  lmg.frameRec = (Rectangle){ 0.0f, 0.0f, 32.0f, 32.0f};
   return lmg;
 }
 

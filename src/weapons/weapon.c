@@ -24,27 +24,35 @@ void drawWeapon(Player *player, Texture2D *weaponTextureArr) {
     float scale = player->weapon->scale;  
     float rotation = player->rotation;
     Texture2D weaponTexture = weaponTextureArr[player->weapon->id];
-    Rectangle source = { 0, 0, weaponTexture.width, weaponTexture.height };
-    if (rotation > 90.0f || rotation < -90.0f) {
-        source.height *= -1;
-    }
-    float handOffset = player->width * 0.4f; // adjust this value to fine-tune hand position
+    Rectangle source = player->weapon->frameRec;
+    float handOffset = player->width * 0.6f;
     Vector2 weaponPos = {
         player->x + player->width / 2 + cosf(rotation * DEG2RAD) * handOffset,
         player->y + player->height / 2 + sinf(rotation * DEG2RAD) * handOffset
     };
     Rectangle dest = {
-        weaponPos.x,
-        weaponPos.y,
-        weaponTexture.width * scale,
-        weaponTexture.height * scale,
+    weaponPos.x,
+    weaponPos.y,
+    player->weapon->frameRec.width * scale,
+    player->weapon->frameRec.height * scale,
     };
-    Vector2 pivot = { weaponTexture.width * scale / 2.0f, weaponTexture.height * scale / 2.0f };
+    Vector2 pivot = {
+    player->weapon->frameRec.width * scale / 2.0f,
+    player->weapon->frameRec.height * scale / 2.0f
+    };
     player->weapon->rotation = rotation;
     DrawTexturePro(weaponTexture, source, dest, pivot, rotation, WHITE);
 }
 
-
+void updateWeaponAnimation(Weapon *weapon) {
+    weapon->frameTime += GetFrameTime();
+    if (weapon->frameTime >= weapon->frameSpeed) {
+        weapon->frameTime = 0.0f;
+        weapon->currentFrame++;
+        if (weapon->currentFrame > 2) weapon->currentFrame = 0;
+        weapon->frameRec.y = (float)weapon->currentFrame * weapon->frameRec.width;
+    }
+}
 
 //initialize the array with all the weapons
 void initWeaponArr(Weapon *weaponArr) {
@@ -171,6 +179,7 @@ void replenishAmmo(Player *player, Weapon *weapon) {
 void updateWeapon(Weapon *weaponArr, Player *player, int *weaponHolster, Texture2D *weaponTextureArr) {
   player->weapon->x = player->x;
   player->weapon->y = player->y;
+  updateWeaponAnimation(player->weapon);
   drawWeapon(player, weaponTextureArr);
   switchWeapons(player, weaponHolster, weaponArr); // listens if the player has switched
   checkReload(player->weapon, player);

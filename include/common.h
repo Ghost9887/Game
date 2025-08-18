@@ -74,6 +74,10 @@ typedef struct {
   int weaponCost;
   int ammoCost;
   float weight;
+  int currentFrame;
+  float frameTime;
+  float frameSpeed;
+  Rectangle frameRec;
 } Weapon;
 
 typedef struct {
