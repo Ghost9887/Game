@@ -10,7 +10,7 @@
 Projectile createProjectile(Player *player, Weapon *weapon, float offset) {
   Projectile projectile;
   projectile.x = player->x + player->width / 2;
-  projectile.y = player->y + player->height / 2;
+  projectile.y = player->y + player->height / 2 + 15;
   
   //calculate the directional vector
   float angleDeg = player->weapon->rotation + offset;
