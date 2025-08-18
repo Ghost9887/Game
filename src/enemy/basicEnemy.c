@@ -6,7 +6,7 @@ Enemy createBasicEnemy(float posX, float posY) {
   enemy.id = 0;
   enemy.x = posX;
   enemy.y = posY;
-  enemy.width = 55;
+  enemy.width = 64;
   enemy.height = 64;
   enemy.health = 100;
   enemy.damage = 40;
