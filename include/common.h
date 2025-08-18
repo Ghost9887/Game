@@ -92,6 +92,7 @@ typedef struct {
   float frameTime;
   float frameSpeed;
   Rectangle frameRec;
+  bool ads;
 } Player;
 
 typedef struct{

@@ -25,7 +25,6 @@ void drawWeapon(Player *player, Texture2D *weaponTextureArr) {
     float rotation = getRotationOfWeapon(player);
     Rectangle source = { 0, 0, weaponTextureArr[player->weapon->id].width, 
                             weaponTextureArr[player->weapon->id].height };
-
     //flips the gun depending on which side its on
     if (rotation > 90.0f || rotation < -90.0f) {
       source.height *= -1;

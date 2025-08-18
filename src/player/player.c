@@ -33,6 +33,7 @@ Player createPlayerObject() {
   player.frameSpeed = 0.3f; // seconds per frame
   // used for selecting the coordinates on the sprite sheet
   player.frameRec = (Rectangle){ 0.0f, 0.0f, 64.0f, 64.0f};
+  player.ads = false;
   return player;
 }
 
@@ -93,10 +94,11 @@ void playerShoot(Player *player, Projectile *projectileArr) {
       if(strcmp(player->weapon->type, "spreadshot") == 0){
         spreadShot(projectileArr, player);
       }else{
-        if(!IsMouseButtonDown(MOUSE_RIGHT_BUTTON)){
+        if(!player->ads){
           projectileArr[indexToReplace] = createProjectile(player, player->weapon, (float)GetRandomValue(-player->weapon->spread, player->weapon->spread));
         }
         else{
+          //if ads have max accuracy
           projectileArr[indexToReplace] = createProjectile(player, player->weapon, 0);
         }
       }
@@ -107,11 +109,16 @@ void playerShoot(Player *player, Projectile *projectileArr) {
 
 void ADS(Player *player, Enemy *enemyArr) {
     if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON)) {
-        player->speed = 80.0f;
+      //updates the movement only once probably a better way to do this but its fine for now
+      if(!player->ads){
+        player->speed -= 80;
+        player->ads = true;
+      }
         Vector2 origin = {
             player->x + player->width / 2.0f,
             player->y + player->height / 2.0f + 15
         };
+        //convert back into radian
         float angleRad = player->weapon->rotation * (3.14 / 180.0f);
         float range = player->weapon->range;
         Vector2 direction = {
@@ -146,8 +153,11 @@ void ADS(Player *player, Enemy *enemyArr) {
             }
         }
         DrawLineEx(origin, hitPoint, 1.0f, RED);
-    } else {
-        player->speed = 150.0f;
+    }else{
+      if(player->ads){
+        player->speed += 80;
+        player->ads = false;
+      }
     }
 }
 
