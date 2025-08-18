@@ -8,24 +8,26 @@
 #include <string.h>
 
 Projectile createProjectile(Player *player, Weapon *weapon, float offset) {
-  Projectile projectile;
-  projectile.x = player->x + player->width / 2;
-  projectile.y = player->y + player->height / 2 + 15;
-  
-  //calculate the directional vector
-  float angleDeg = player->weapon->rotation + offset;
-  float angleRad = angleDeg * (3.14 / 180.0f);
+    Projectile projectile;
+    float angleDeg = player->weapon->rotation + offset;
+    float angleRad = angleDeg * (3.14159265f / 180.0f);
+    float muzzleDistance = player->width * 0.4f;
 
-  projectile.dX = cosf(angleRad);
-  projectile.dY = sinf(angleRad);
-  projectile.damage = weapon->damage;
-  projectile.speed = weapon->projectileSpeed;
-  projectile.active = true;
-  projectile.size = 5.0f;
-  projectile.range = weapon->range;
-  projectile.distanceTraveled = 0.0f;
-  return projectile;
+    projectile.x = player->x + player->width / 2 + cosf(angleRad) * muzzleDistance;
+    projectile.y = player->y + player->height / 2 + sinf(angleRad) * muzzleDistance;
+
+    projectile.dX = cosf(angleRad);
+    projectile.dY = sinf(angleRad);
+    projectile.damage = weapon->damage;
+    projectile.speed = weapon->projectileSpeed;
+    projectile.active = true;
+    projectile.size = 5.0f;
+    projectile.range = weapon->range;
+    projectile.distanceTraveled = 0.0f;
+
+    return projectile;
 }
+
 
 void drawProjectile(Projectile *projectile) {
     Vector2 origin = {projectile->x, projectile->y};
@@ -53,7 +55,6 @@ void moveProjectile(Projectile *projectile) {
 }
 
 void destroyProjectile(Projectile *projectile) { 
-
   projectile->speed = 0;
   projectile->active = false; 
 }

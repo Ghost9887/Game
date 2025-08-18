@@ -18,6 +18,7 @@ Player createPlayerObject() {
   player.y = (float)SCREENHEIGHT / (float)2;
   player.width = 64; //can be adjusted depending on the sprite size
   player.height = 64;
+  player.rotation = 0.0f;
   player.health = 100;
   player.maxHealth = 100;
   player.money = 0;
@@ -39,14 +40,25 @@ Player createPlayerObject() {
 }
 
 void drawPlayer(Player *player) {
-  Vector2 pos = {
-    player->x,
-    player->y
-  };
-  DrawTextureRec(playerTexture, player->frameRec, pos, WHITE);
+    float rotation = getRotationOfPlayer(player);
+    Rectangle source = player->frameRec; 
+    Rectangle dest = {
+        player->x + player->width / 2,
+        player->y + player->height / 2,
+        player->frameRec.width,
+        player->frameRec.height,
+    };
+    Vector2 pivot = { player->frameRec.width / 2.0f, player->frameRec.height / 2.0f };
+    player->rotation = rotation;
+    DrawTexturePro(playerTexture, source, dest, pivot, rotation, WHITE);
+}
 
-  //hitbox debug
-  //DrawRectangle(pos.x, pos.y, player->width, player->height, RED);
+
+float getRotationOfPlayer(Player *player){
+  Vector2 mousePosition = GetMousePosition();
+  float rad = atan2(mousePosition.y - player->y, mousePosition.x - player->x);
+  float degree = rad * (180.0f / 3.14);
+  return degree;
 }
 
 void loadPlayerTextures(){
@@ -110,17 +122,16 @@ void playerShoot(Player *player, Projectile *projectileArr) {
 
 void ADS(Player *player, Enemy *enemyArr) {
     if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON)) {
-      //updates the movement only once probably a better way to do this but its fine for now
-      if(!player->ads){
-        player->speed -= 80;
-        player->ads = true;
-      }
+        if (!player->ads) {
+            player->speed -= 80;
+            player->ads = true;
+        }
+        float angleRad = player->weapon->rotation * (3.14159265f / 180.0f);
+        float muzzleOffset = player->width * 0.4f; // tweak for accuracy
         Vector2 origin = {
-            player->x + player->width / 2.0f,
-            player->y + player->height / 2.0f + 15 //offset so it comes from the weapon
+            player->x + player->width / 2 + cosf(angleRad) * muzzleOffset,
+            player->y + player->height / 2 + sinf(angleRad) * muzzleOffset
         };
-        //convert back into radian
-        float angleRad = player->weapon->rotation * (3.14 / 180.0f);
         float range = player->weapon->range;
         Vector2 direction = {
             cosf(angleRad),
@@ -136,32 +147,30 @@ void ADS(Player *player, Enemy *enemyArr) {
                 origin.y + direction.y * t
             };
             for (int i = 0; i < CURRENTSPAWNEDENEMIES; i++) {
-              if(enemyArr[i].active){
-                Enemy enemy = enemyArr[i];
-                Rectangle enemyHitbox = {
-                    enemy.x,
-                    enemy.y,
-                    enemy.width,
-                    enemy.height
-                };
-                if (CheckCollisionPointRec(point, enemyHitbox)) {
-                    hitPoint = point; 
-                    t = range; 
-                    break;
+                if (enemyArr[i].active) {
+                    Enemy enemy = enemyArr[i];
+                    Rectangle enemyHitbox = {
+                        enemy.x,
+                        enemy.y,
+                        enemy.width,
+                        enemy.height
+                    };
+                    if (CheckCollisionPointRec(point, enemyHitbox)) {
+                        hitPoint = point;
+                        t = range;
+                        break;
+                    }
                 }
-              }
             }
         }
         DrawLineEx(origin, hitPoint, 1.0f, RED);
-    }else{
-      if(player->ads){
-        player->speed += 80;
-        player->ads = false;
-      }
+    } else {
+        if (player->ads) {
+            player->speed += 80;
+            player->ads = false;
+        }
     }
 }
-
-
 
 bool checkIfPlayerCanShoot(Player *player) {
   if (player->timer >= 0) {

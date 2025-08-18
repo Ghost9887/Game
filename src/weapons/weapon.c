@@ -22,23 +22,28 @@ void loadWeaponTextures(Texture2D *weaponTextureArr){
 
 void drawWeapon(Player *player, Texture2D *weaponTextureArr) {
     float scale = player->weapon->scale;  
-    float rotation = getRotationOfWeapon(player);
-    Rectangle source = { 0, 0, weaponTextureArr[player->weapon->id].width, 
-                            weaponTextureArr[player->weapon->id].height };
-    //flips the gun depending on which side its on
+    float rotation = player->rotation;
+    Texture2D weaponTexture = weaponTextureArr[player->weapon->id];
+    Rectangle source = { 0, 0, weaponTexture.width, weaponTexture.height };
     if (rotation > 90.0f || rotation < -90.0f) {
-      source.height *= -1;
+        source.height *= -1;
     }
-    Rectangle dest = {
-        player->x + player->width / 2,
-        player->y + player->height / 2 + 20,
-        weaponTextureArr[player->weapon->id].width * scale,
-        weaponTextureArr[player->weapon->id].height * scale,
+    float handOffset = player->width * 0.4f; // adjust this value to fine-tune hand position
+    Vector2 weaponPos = {
+        player->x + player->width / 2 + cosf(rotation * DEG2RAD) * handOffset,
+        player->y + player->height / 2 + sinf(rotation * DEG2RAD) * handOffset
     };
-    Vector2 pivot = {player->weapon->width / 2.0f, player->weapon->height / 2.0f};
+    Rectangle dest = {
+        weaponPos.x,
+        weaponPos.y,
+        weaponTexture.width * scale,
+        weaponTexture.height * scale,
+    };
+    Vector2 pivot = { weaponTexture.width * scale / 2.0f, weaponTexture.height * scale / 2.0f };
     player->weapon->rotation = rotation;
-    DrawTexturePro(weaponTextureArr[player->weapon->id], source, dest, pivot, rotation, WHITE);
+    DrawTexturePro(weaponTexture, source, dest, pivot, rotation, WHITE);
 }
+
 
 
 //initialize the array with all the weapons
@@ -56,13 +61,6 @@ void initWeaponHolster(int *weaponHolster, Weapon *weaponArr){
   weaponHolster[0] = weaponArr[0].id;
   weaponHolster[1] = -1; 
   weaponHolster[2] = -1;
-}
-
-float getRotationOfWeapon(Player *player){
-  Vector2 mousePosition = GetMousePosition();
-  float rad = atan2(mousePosition.y - player->y, mousePosition.x - player->x);
-  float degree = rad * (180.0f / 3.14);
-  return degree;
 }
 
 bool isReloading(Weapon *weapon){

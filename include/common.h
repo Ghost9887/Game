@@ -81,6 +81,7 @@ typedef struct {
   float y;
   int width;
   int height;
+  float rotation;
   int health;
   int maxHealth;
   int money;

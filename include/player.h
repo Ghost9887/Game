@@ -18,6 +18,7 @@ void updatePlayer(Player *player, Enemy *enemyArr);
 void updatePlayerAnimation(Player *player);
 void loadPlayerTextures();
 void ADS(Player *player, Enemy *enemyArr);
+float getRotationOfPlayer(Player *player);
 
 #endif
 
