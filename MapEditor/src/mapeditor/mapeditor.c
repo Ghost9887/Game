@@ -28,5 +28,13 @@ void cameraZoom(Camera2D *camera){
       float scale = 0.2f*wheel;
       camera->zoom = Clamp(expf(logf(camera->zoom)+scale), 0.125f, 64.0f);
     }
+    //dragging
+    if(IsMouseButtonDown(MOUSE_BUTTON_LEFT) && IsKeyDown(KEY_LEFT_SHIFT)){
+       Vector2 delta = GetMouseDelta();
+      delta = Vector2Scale(delta, -1.0f/camera->zoom);
+      camera->target = Vector2Add(camera->target, delta);
+    }
 }
+
+
 

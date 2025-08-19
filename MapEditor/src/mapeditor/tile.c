@@ -42,7 +42,7 @@ void drawTileGrid(int size, Tile *tileArr, Texture2D texture){
 }
 
 void placeTile(Tile *tileArr, Texture2D *tileTexturesArr, Camera2D *camera){
-  if(IsMouseButtonDown(MOUSE_BUTTON_LEFT)){
+  if(IsMouseButtonDown(MOUSE_BUTTON_LEFT) && !IsKeyDown(KEY_LEFT_SHIFT)){
     Vector2 pos = GetScreenToWorld2D(GetMousePosition(), *camera);
     Rectangle rec1 = {pos.x, pos.y, 32, 32};
     for(int i = 0; i < MAXTILES; i++){
