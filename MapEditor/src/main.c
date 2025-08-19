@@ -14,12 +14,16 @@ int main(void){
   initTileArr(tileArr);
 
   SetTargetFPS(TARGETFPS);              
+
   while (!WindowShouldClose()){    // Detect window close button or ESC key
   BeginDrawing();
-    ClearBackground(BLACK);
-    mapEditor(tileArr, tileTexturesArr, camera);
+      ClearBackground(BLACK);
+     BeginMode2D(camera);
+     mapEditor(tileArr, tileTexturesArr, &camera);
+    EndMode2D();
   EndDrawing();
   }
+
   CloseWindow();        // Close window and OpenGL context
   return 0;
 }

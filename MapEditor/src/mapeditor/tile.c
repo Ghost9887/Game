@@ -41,9 +41,9 @@ void drawTileGrid(int size, Tile *tileArr, Texture2D texture){
     }
 }
 
-void placeTile(Tile *tileArr, Texture2D *tileTexturesArr){
+void placeTile(Tile *tileArr, Texture2D *tileTexturesArr, Camera2D *camera){
   if(IsMouseButtonDown(MOUSE_BUTTON_LEFT)){
-    Vector2 pos = GetMousePosition();
+    Vector2 pos = GetScreenToWorld2D(GetMousePosition(), *camera);
     Rectangle rec1 = {pos.x, pos.y, 32, 32};
     for(int i = 0; i < MAXTILES; i++){
       if(tileArr[i].active){
@@ -68,9 +68,9 @@ void drawTile(Tile *tileArr){
   }
 }
 
-void deleteTile(Tile *tileArr, Texture2D texture){
+void deleteTile(Tile *tileArr, Texture2D texture, Camera2D *camera){
   if(IsMouseButtonDown(MOUSE_BUTTON_RIGHT)){
-    Vector2 pos = GetMousePosition();
+    Vector2 pos = GetScreenToWorld2D(GetMousePosition(), *camera);
     Rectangle rec1 = {pos.x, pos.y, 32, 32};
     for(int i = 0; i < MAXTILES; i++){
       if(tileArr[i].active){
@@ -85,9 +85,9 @@ void deleteTile(Tile *tileArr, Texture2D texture){
 
 }
 
-void updateTile(Tile *tileArr, Texture2D *tileTexturesArr){
+void updateTile(Tile *tileArr, Texture2D *tileTexturesArr, Camera2D *camera){
   drawTileGrid(32, tileArr, tileTexturesArr[2]);
-  placeTile(tileArr, tileTexturesArr);
+  placeTile(tileArr, tileTexturesArr, camera);
   drawTile(tileArr);
-  deleteTile(tileArr, tileTexturesArr[2]);
+  deleteTile(tileArr, tileTexturesArr[2], camera);
 }

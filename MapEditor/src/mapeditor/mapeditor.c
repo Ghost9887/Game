@@ -3,30 +3,30 @@
 #include "raymath.h"
 #include <math.h>
 
-void mapEditor(Tile *tileArr, Texture2D *tileTextureArr, Camera2D camera){
+void mapEditor(Tile *tileArr, Texture2D *tileTextureArr, Camera2D *camera){
   int size = 32;
   int width = 1;
   int columns = SCREENWIDTH / size;
   int rows = SCREENHEIGHT / size;
-  mouseZoom(camera);
-  updateTile(tileArr, tileTextureArr);
+  updateTile(tileArr, tileTextureArr, camera);
+  cameraZoom(camera);
 }
 
-void mouseZoom(Camera2D camera){
+
+void cameraZoom(Camera2D *camera){
   float wheel = GetMouseWheelMove();
     if (wheel != 0){
       // Get the world point that is under the mouse
-      Vector2 mouseWorldPos = GetScreenToWorld2D(GetMousePosition(), camera);
+      Vector2 mouseWorldPos = GetScreenToWorld2D(GetMousePosition(), *camera);
       // Set the offset to where the mouse is
-      camera.offset = GetMousePosition();
+      camera->offset = GetMousePosition();
       // Set the target to match, so that the camera maps the world space point
       // under the cursor to the screen space point under the cursor at any zoom
-      camera.target = mouseWorldPos;
+      camera->target = mouseWorldPos;
       // Zoom increment
       // Uses log scaling to provide consistent zoom speed
       float scale = 0.2f*wheel;
-      camera.zoom = Clamp(expf(logf(camera.zoom)+scale), 0.125f, 64.0f);
+      camera->zoom = Clamp(expf(logf(camera->zoom)+scale), 0.125f, 64.0f);
     }
 }
-
 
