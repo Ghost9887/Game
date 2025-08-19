@@ -3,12 +3,12 @@
 #include "raymath.h"
 #include <math.h>
 
-void mapEditor(Tile *tileArr, Texture2D *tileTextureArr, Camera2D *camera){
+void mapEditor(Tile *tileArr, Texture2D *tileTextureArr, Camera2D *camera, User *user){
   int size = 32;
   int width = 1;
   int columns = SCREENWIDTH / size;
   int rows = SCREENHEIGHT / size;
-  updateTile(tileArr, tileTextureArr, camera);
+  updateTile(tileArr, tileTextureArr, camera, user);
   cameraZoom(camera);
 }
 

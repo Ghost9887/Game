@@ -25,8 +25,8 @@ void loadTileTextures(Texture2D *tileTexturesArr){
 }
 
 void drawTileGrid(int size, Tile *tileArr, Texture2D texture){
-    int tilesPerRow = SCREENWIDTH / size;
-    int tilesPerColumn = SCREENHEIGHT / size;
+    int tilesPerRow = 7000 / size;
+    int tilesPerColumn = 7000 / size;
     int index = 0;
     for (int y = 0; y < tilesPerColumn; y++) {
         for (int x = 0; x < tilesPerRow; x++) {
@@ -41,7 +41,7 @@ void drawTileGrid(int size, Tile *tileArr, Texture2D texture){
     }
 }
 
-void placeTile(Tile *tileArr, Texture2D *tileTexturesArr, Camera2D *camera){
+void placeTile(Tile *tileArr, Texture2D *tileTexturesArr, Camera2D *camera, User *user){
   if(IsMouseButtonDown(MOUSE_BUTTON_LEFT) && !IsKeyDown(KEY_LEFT_SHIFT)){
     Vector2 pos = GetScreenToWorld2D(GetMousePosition(), *camera);
     Rectangle rec1 = {pos.x, pos.y, 32, 32};
@@ -49,7 +49,7 @@ void placeTile(Tile *tileArr, Texture2D *tileTexturesArr, Camera2D *camera){
       if(tileArr[i].active){
         Rectangle rec2 = {tileArr[i].x, tileArr[i].y, tileArr[i].width, tileArr[i].height};
         if(CheckCollisionRecs(rec1, rec2)){
-          tileArr[i].texture = tileTexturesArr[1];
+          tileArr[i].texture = user->equippedTexture;
           break;
         }
       }
@@ -85,9 +85,9 @@ void deleteTile(Tile *tileArr, Texture2D texture, Camera2D *camera){
 
 }
 
-void updateTile(Tile *tileArr, Texture2D *tileTexturesArr, Camera2D *camera){
+void updateTile(Tile *tileArr, Texture2D *tileTexturesArr, Camera2D *camera, User *user){
   drawTileGrid(32, tileArr, tileTexturesArr[2]);
-  placeTile(tileArr, tileTexturesArr, camera);
+  placeTile(tileArr, tileTexturesArr, camera, user);
   drawTile(tileArr);
   deleteTile(tileArr, tileTexturesArr[2], camera);
 }
