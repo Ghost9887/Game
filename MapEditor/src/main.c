@@ -3,7 +3,7 @@
 #include "mapeditor.h"
 #include "tile.h"
 int main(void){
-  InitWindow(SCREENWIDTH, SCREENHEIGHT, "raylib [core] example - basic window");
+  InitWindow(SCREENWIDTH, SCREENHEIGHT, "Map Editor");
 
   Texture2D tileTexturesArr[MAXTILES];
   loadTileTextures(tileTexturesArr);
@@ -13,7 +13,7 @@ int main(void){
   SetTargetFPS(TARGETFPS);              
   while (!WindowShouldClose()){    // Detect window close button or ESC key
   BeginDrawing();
-    ClearBackground(RAYWHITE);
+    ClearBackground(BLACK);
     mapEditor(tileArr, tileTexturesArr);
   EndDrawing();
   }

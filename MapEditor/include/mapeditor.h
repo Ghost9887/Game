@@ -5,6 +5,5 @@
 #include "common.h"
 
 void mapEditor(Tile *tileArr, Texture2D *tileTexturesArr);
-void drawGrid(int columns, int rows, int size, int width);
 
 #endif

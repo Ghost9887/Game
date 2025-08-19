@@ -21,20 +21,40 @@ void initTileArr(Tile *tileArr){
 void loadTileTextures(Texture2D *tileTexturesArr){
   tileTexturesArr[0] = LoadTexture("assets/tiles/tile1.png");
   tileTexturesArr[1] = LoadTexture("assets/tiles/tile2.png");
+  tileTexturesArr[2] = LoadTexture("assets/tiles/white.png");
+}
+
+void drawTileGrid(int size, Tile *tileArr, Texture2D texture){
+    int tilesPerRow = SCREENWIDTH / size;
+    int tilesPerColumn = SCREENHEIGHT / size;
+    int index = 0;
+    for (int y = 0; y < tilesPerColumn; y++) {
+        for (int x = 0; x < tilesPerRow; x++) {
+            Vector2 pos = { x * size, y * size };
+            Rectangle rec = { 0, 0, 32, 32 }; // Adjust if using a tileset
+            tileArr[index].x = pos.x;
+            tileArr[index].y = pos.y;
+            tileArr[index].active = true;
+            DrawTextureRec(texture, rec, pos, WHITE);
+            index++;
+        }
+    }
 }
 
 void placeTile(Tile *tileArr, Texture2D *tileTexturesArr){
-  if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+  if(IsMouseButtonDown(MOUSE_BUTTON_LEFT)){
     Vector2 pos = GetMousePosition();
+    Rectangle rec1 = {pos.x, pos.y, 32, 32};
     for(int i = 0; i < MAXTILES; i++){
-      if(!tileArr[i].active){
-        tileArr[i].x = (int)pos.x;
-        tileArr[i].y = (int)pos.y;
-        tileArr[i].active = true;
-        tileArr[i].texture = tileTexturesArr[0];
-        break;
+      if(tileArr[i].active){
+        Rectangle rec2 = {tileArr[i].x, tileArr[i].y, tileArr[i].width, tileArr[i].height};
+        if(CheckCollisionRecs(rec1, rec2)){
+          tileArr[i].texture = tileTexturesArr[1];
+          break;
+        }
       }
-    }     
+    }
+    
   } 
 }
 
@@ -48,11 +68,26 @@ void drawTile(Tile *tileArr){
   }
 }
 
-void deleteTile(int index){
+void deleteTile(Tile *tileArr, Texture2D texture){
+  if(IsMouseButtonDown(MOUSE_BUTTON_RIGHT)){
+    Vector2 pos = GetMousePosition();
+    Rectangle rec1 = {pos.x, pos.y, 32, 32};
+    for(int i = 0; i < MAXTILES; i++){
+      if(tileArr[i].active){
+        Rectangle rec2 = {tileArr[i].x, tileArr[i].y, tileArr[i].width, tileArr[i].height};
+        if(CheckCollisionRecs(rec1, rec2)){
+          tileArr[i].texture = texture;
+          break;
+        }
+      }
+    }
+  }
 
 }
 
 void updateTile(Tile *tileArr, Texture2D *tileTexturesArr){
+  drawTileGrid(32, tileArr, tileTexturesArr[2]);
   placeTile(tileArr, tileTexturesArr);
   drawTile(tileArr);
+  deleteTile(tileArr, tileTexturesArr[2]);
 }
