@@ -31,7 +31,7 @@ void drawTileGrid(int size, Tile *tileArr, Texture2D texture){
     for (int y = 0; y < tilesPerColumn; y++) {
         for (int x = 0; x < tilesPerRow; x++) {
             Vector2 pos = { x * size, y * size };
-            Rectangle rec = { 0, 0, 32, 32 }; // Adjust if using a tileset
+            Rectangle rec = { 0, 0, 32, 32 }; 
             tileArr[index].x = pos.x;
             tileArr[index].y = pos.y;
             tileArr[index].active = true;
