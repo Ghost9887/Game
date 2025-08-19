@@ -126,16 +126,16 @@ void ADS(Player *player, Enemy *enemyArr) {
             player->speed -= 80;
             player->ads = true;
         }
-        float angleRad = player->weapon->rotation * (3.14159265f / 180.0f);
-        float muzzleOffset = player->width * 0.4f; // tweak for accuracy
+        float rotation = player->rotation;
+        float muzzleOffset = player->width * 0.4f; 
         Vector2 origin = {
-            player->x + player->width / 2 + cosf(angleRad) * muzzleOffset,
-            player->y + player->height / 2 + sinf(angleRad) * muzzleOffset
+            player->x + player->width / 2 + cosf(rotation * DEG2RAD ) * muzzleOffset,
+            player->y + player->height / 2 + sinf(rotation * DEG2RAD) * muzzleOffset
         };
         float range = player->weapon->range;
         Vector2 direction = {
-            cosf(angleRad),
-            sinf(angleRad)
+            cosf(rotation * DEG2RAD),
+            sinf(rotation * DEG2RAD)
         };
         Vector2 hitPoint = {
             origin.x + direction.x * range,
@@ -147,20 +147,20 @@ void ADS(Player *player, Enemy *enemyArr) {
                 origin.y + direction.y * t
             };
             for (int i = 0; i < CURRENTSPAWNEDENEMIES; i++) {
-                if (enemyArr[i].active) {
-                    Enemy enemy = enemyArr[i];
-                    Rectangle enemyHitbox = {
-                        enemy.x,
-                        enemy.y,
-                        enemy.width,
-                        enemy.height
-                    };
-                    if (CheckCollisionPointRec(point, enemyHitbox)) {
-                        hitPoint = point;
-                        t = range;
-                        break;
-                    }
-                }
+              if (enemyArr[i].active) {
+                  Enemy enemy = enemyArr[i];
+                  Rectangle enemyHitbox = {
+                      enemy.x,
+                      enemy.y,
+                      enemy.width,
+                      enemy.height
+                  };
+                  if (CheckCollisionPointRec(point, enemyHitbox)) {
+                      hitPoint = point;
+                      t = range;
+                      break;
+                  }
+              }
             }
         }
         DrawLineEx(origin, hitPoint, 1.0f, RED);
