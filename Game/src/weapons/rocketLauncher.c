@@ -1,0 +1,57 @@
+#include "rocketLauncher.h"
+#include "enemy.h"
+#include "projectile.h"
+#include "common.h"
+#include <math.h>
+
+Weapon createRocketLauncher() {
+  Weapon rocketLauncher;
+  rocketLauncher.id = 2;
+  rocketLauncher.x = 0;
+  rocketLauncher.y = 0;
+  rocketLauncher.scale = 2.5f;
+  rocketLauncher.spread = 5;
+  rocketLauncher.width = 32 * rocketLauncher.scale;
+  rocketLauncher.height = 32 * rocketLauncher.scale;
+  rocketLauncher.fireRate = 3.0f * (float)TARGETFPS;
+  rocketLauncher.projectileSpeed = 200.0f;
+  rocketLauncher.type = "explosive";
+  rocketLauncher.name = "RPG";
+  rocketLauncher.range = 900.0f;
+  rocketLauncher.damage = 300;
+  rocketLauncher.maxMagSize = 1;
+  rocketLauncher.currentMagSize = rocketLauncher.maxMagSize;
+  rocketLauncher.maxReserveSize = 4;
+  rocketLauncher.currentReserveSize = rocketLauncher.maxReserveSize;
+  rocketLauncher.reloadTime = 4.0f;
+  rocketLauncher.reloadTimer = 0.0f;
+  rocketLauncher.weaponCost = 0;
+  rocketLauncher.ammoCost = 100;
+  rocketLauncher.weight = 0.6f;
+   //animations
+  rocketLauncher.currentFrame = 0;
+  rocketLauncher.frameTime = 0.0f;
+  rocketLauncher.frameSpeed = 0.3f; // seconds per frame
+  // used for selecting the coordinates on the sprite sheet
+  rocketLauncher.frameRec = (Rectangle){ 0.0f, 0.0f, 32.0f, 32.0f};
+  return rocketLauncher;
+}
+
+void splashDamage(Projectile *projectile, Enemy *enemy,
+                         Enemy *enemyArr) {
+  float posX = enemy->x + enemy->width / 2.0f;
+  float posY = enemy->y + enemy->height / 2.0f;
+  float damage = (float)projectile->damage;
+  float radius = 200.0f;
+  for (int i = 0; i < MAXSPAWNENEMIES; i++) {
+    float dx = posX - enemyArr[i].x;
+    float dy = posY - enemyArr[i].y;
+    float length = fabs(sqrtf(dx * dx + dy * dy));
+    if (length <= radius) {
+      float actualDamage = damage * (1.0f - (length / radius));
+      enemyLoseHealth(actualDamage, &enemyArr[i]);
+    }
+  }
+  enemyLoseHealth(damage, enemy);
+  DrawCircle(posX, posY, radius, YELLOW);
+}

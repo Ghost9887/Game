@@ -1,0 +1,27 @@
+
+--TODO--
+
+--DOING--
+Draw some basic sprites as concepts for the look of the game
+--
+Create the map editor to create maps 
+--
+
+
+--DONE--
+
+Redo the shooting so the projectiles move in a straight line instead of targeting a enemy
+(gun follows the mouse and on click it shoots a projectile to that direction)
+--
+Create the shotgun with the new shooting so it shoots a spread shot
+--
+Create boss enemies that have a chance to spawn from a specific round 
+(limit to x per round)
+--
+Create a buy mechanic either like in zombies(wall buys/box) or a csgo/shop system 
+--
+Create buyable perks that increase the player stats 
+--
+
+
+
