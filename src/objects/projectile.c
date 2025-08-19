@@ -18,12 +18,13 @@ Projectile createProjectile(Player *player, Weapon *weapon, float offset) {
 
     projectile.dX = cosf(angleRad);
     projectile.dY = sinf(angleRad);
+    projectile.length = 20.0f;
     projectile.damage = weapon->damage;
     projectile.speed = weapon->projectileSpeed;
     projectile.active = true;
     projectile.size = 5.0f;
     projectile.range = weapon->range;
-    projectile.distanceTraveled = 0.0f;
+    projectile.distanceTraveled = 0.0f + projectile.length;
 
     return projectile;
 }
@@ -35,10 +36,9 @@ void drawProjectile(Projectile *projectile) {
         projectile->dX,
         projectile->dY
     };
-    float visualLength = 20.0f; 
     Vector2 end = {
-        origin.x + direction.x * visualLength,
-        origin.y + direction.y * visualLength
+        origin.x + direction.x * projectile->length,
+        origin.y + direction.y * projectile->length
     };
     DrawLineEx(origin, end, 2.0f, BLUE);
 }

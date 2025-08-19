@@ -23,7 +23,6 @@ WeaponBuy createWeaponBuy(Weapon *weapon){
 
 void drawWeaponBuy(WeaponBuy *weaponBuy, Texture2D *weaponTextureArr) {
   Texture2D texture = weaponTextureArr[weaponBuy->weapon->id];
-  
   Rectangle rect = {0, 0, 32, 32};
 
   // Center the texture on the weaponBuy box

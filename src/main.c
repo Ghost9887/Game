@@ -9,6 +9,8 @@
 #include "weaponbuy.h"
 #include "common.h"
 #include "perk.h"
+#include "mapeditor.h"
+#include "tile.h"
 #include <stdbool.h>
 #include <stdio.h>
 
@@ -17,6 +19,8 @@ unsigned int ENEMYCOUNTER = 0;
 unsigned int CURRENTSPAWNEDENEMIES = 0;
 unsigned int BIGENEMYCOUNTER = 0;
 unsigned int AMOUNTOFWEAPONS = 6;
+int GAMETIME = 0;
+
 
 void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
                      Round *rnd, Weapon *weaponArr, Pickup *pickupArr, WeaponBuy *weaponBuyArr,
@@ -71,6 +75,11 @@ int main(void) {
   Texture2D enemyTexturesArr[MAXSPAWNENEMIES];
   loadEnemyTextures(enemyTexturesArr);
 
+  Texture2D tileTexturesArr[MAXTILES];
+  loadTileTextures(tileTexturesArr);
+  Tile tileArr[MAXTILES];
+  initTileArr(tileArr);
+
   Player player = createPlayerObject();
   player.weapon = &weaponArr[0]; 
 
@@ -82,15 +91,19 @@ int main(void) {
   // MAIN GAME LOOP
   
   while (!WindowShouldClose()) {
-    
-    BeginDrawing();
+      BeginDrawing();
 
-     ClearBackground(RAYWHITE);
-    // UPDATE ALL OF THE GAME STATES
-    updateGameState(&player, enemyArr, projectileArr, &rnd, weaponArr, 
+      ClearBackground(RAYWHITE);
+      // UPDATE ALL OF THE GAME STATES
+      if(GAMETIME == 0){
+        updateGameState(&player, enemyArr, projectileArr, &rnd, weaponArr, 
                     pickupArr, weaponBuyArr, weaponHolster, perkArr, weaponTextureArr,
                     enemyTexturesArr);
-    EndDrawing();
+      }else{
+        mapEditor(tileArr, tileTexturesArr);
+      }
+      freezeTime();
+      EndDrawing();
   }
 
   CloseWindow();

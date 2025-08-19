@@ -11,6 +11,7 @@
 #define MAXSPAWNENEMIES 40
 #define MAXPICKUPS 10
 #define MAXWEAPONS 3
+#define MAXTILES 2000
 
 typedef struct {
   int id;
@@ -38,6 +39,7 @@ typedef struct {
   float damage;
   float speed;
   float range;
+  float length;
   float distanceTraveled;
   int target;
   bool active;
@@ -128,5 +130,15 @@ typedef struct{
   int cost;
   bool consumed;  
 }Perk;
+
+typedef struct{
+  int x;
+  int y;
+  int width;
+  int height;
+  bool walkable;
+  bool active;
+  Texture2D texture;
+}Tile;
 
 #endif

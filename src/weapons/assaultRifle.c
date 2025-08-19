@@ -5,7 +5,7 @@ Weapon createAssaultRifle() {
   assualtRifle.id = 1;
   assualtRifle.x = 0;
   assualtRifle.y = 0;
-  assualtRifle.scale = 1.5f;
+  assualtRifle.scale = 1.7f;
   assualtRifle.spread = 10;
   assualtRifle.width = 32 * assualtRifle.scale;
   assualtRifle.height = 32 * assualtRifle.scale;

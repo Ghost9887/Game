@@ -9,7 +9,7 @@ Weapon createRocketLauncher() {
   rocketLauncher.id = 2;
   rocketLauncher.x = 0;
   rocketLauncher.y = 0;
-  rocketLauncher.scale = 1.0f;
+  rocketLauncher.scale = 2.5f;
   rocketLauncher.spread = 5;
   rocketLauncher.width = 32 * rocketLauncher.scale;
   rocketLauncher.height = 32 * rocketLauncher.scale;
@@ -31,7 +31,7 @@ Weapon createRocketLauncher() {
    //animations
   rocketLauncher.currentFrame = 0;
   rocketLauncher.frameTime = 0.0f;
-  rocketLauncher.frameSpeed = 0.1f; // seconds per frame
+  rocketLauncher.frameSpeed = 0.3f; // seconds per frame
   // used for selecting the coordinates on the sprite sheet
   rocketLauncher.frameRec = (Rectangle){ 0.0f, 0.0f, 32.0f, 32.0f};
   return rocketLauncher;
