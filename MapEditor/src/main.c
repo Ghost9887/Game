@@ -5,6 +5,9 @@
 int main(void){
   InitWindow(SCREENWIDTH, SCREENHEIGHT, "Map Editor");
 
+  Camera2D camera = { 0 };
+  camera.zoom = 1.0f;
+
   Texture2D tileTexturesArr[MAXTILES];
   loadTileTextures(tileTexturesArr);
   Tile tileArr[MAXTILES];
@@ -14,7 +17,7 @@ int main(void){
   while (!WindowShouldClose()){    // Detect window close button or ESC key
   BeginDrawing();
     ClearBackground(BLACK);
-    mapEditor(tileArr, tileTexturesArr);
+    mapEditor(tileArr, tileTexturesArr, camera);
   EndDrawing();
   }
   CloseWindow();        // Close window and OpenGL context

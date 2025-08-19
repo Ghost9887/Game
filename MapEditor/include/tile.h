@@ -12,5 +12,4 @@ void placeTile(Tile *tileArr, Texture2D *tileTexturesArr);
 void deleteTile(Tile *tileArr, Texture2D texture);
 void updateTile(Tile *tileArr, Texture2D *tileTexturesArr);
 void drawTileGrid(int size, Tile *tileArr, Texture2D texture);
-
 #endif
