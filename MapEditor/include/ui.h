@@ -6,7 +6,8 @@
 #include <stdbool.h>
 
 void drawBottomBar(Texture2D *tileTextureArr);
-void updateUI(Texture2D *tileTextureArr, User *user);
+void updateUI(Texture2D *tileTextureArr, User *user, Tile *tileArr);
 bool checkCollisionWithSaveButton();
+void callExport(Tile *tileArr);
 
 #endif

@@ -4,6 +4,7 @@
 #include "raylib.h"
 #include "common.h"
 
-void exportMap(Tile *tileArr);
+void exportMap(int *arr);
+int *parseMap(Tile *tileArr);
 
 #endif

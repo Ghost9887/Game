@@ -1,5 +1,5 @@
 #include "ui.h"
-
+#include "exportMap.h"
 
 void drawBottomBar(Texture2D *tileTextureArr){
   int size = 32;
@@ -19,17 +19,27 @@ void drawSaveButton(){
 }
 
 bool checkCollisionWithSaveButton(){
+  if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
   Vector2 pos = GetMousePosition();
   Rectangle rec1 = {pos.x, pos.y, 32, 32};
   Rectangle saveButton = {SCREENWIDTH - 100, 10, 80, 50}; 
   if(CheckCollisionRecs(rec1, saveButton)){
     return true;
   }
+  
   return false;
+  }
 }
 
-void updateUI(Texture2D *tileTextureArr, User *user){
+void callExport(Tile *tileArr){
+  if(checkCollisionWithSaveButton()){
+    exportMap(parseMap(tileArr));
+    CloseWindow();
+  }
+}
+
+void updateUI(Texture2D *tileTextureArr, User *user, Tile *tileArr){
   drawBottomBar(tileTextureArr);
   drawSaveButton();
-  checkCollisionWithSaveButton();
+  callExport(tileArr);
 }

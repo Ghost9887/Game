@@ -1,4 +1,10 @@
 #include "tile.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+bool mapLoaded = false;
 
 Tile createTile(){
   Tile tile;
@@ -25,7 +31,34 @@ void loadTileTextures(Texture2D *tileTexturesArr){
   tileTexturesArr[2] = LoadTexture("assets/tiles/tile2.png");
 }
 
-void drawTileGrid(int size, Tile *tileArr, Texture2D *tileTexturesArr){
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+void loadFile(int *fileArr) {
+    FILE *file = fopen("../Game/assets/map.mp", "r");
+    if (file == NULL) {
+        perror("Failed to open file");
+        return;
+    }
+    char buffer[100000]; 
+    if (fgets(buffer, sizeof(buffer), file) == NULL) {
+        perror("Failed to read file");
+        fclose(file);
+        return;
+    }
+    fclose(file);
+    char *comma = strtok(buffer, ",");
+    int index = 0;
+    while (comma != NULL && index < MAXTILES) {
+        fileArr[index] = atoi(comma);
+        comma = strtok(NULL, ",");
+        index++;
+    }
+}
+
+
+void drawTileGrid(int size, Tile *tileArr, Texture2D *tileTexturesArr, int *fileArr){
     int tilesPerRow = 7000 / size;
     int tilesPerColumn = 7000 / size;
     int index = 0;
@@ -36,6 +69,9 @@ void drawTileGrid(int size, Tile *tileArr, Texture2D *tileTexturesArr){
             tileArr[index].x = pos.x;
             tileArr[index].y = pos.y;
             tileArr[index].active = true;
+            if(!mapLoaded){
+              tileArr[index].id = fileArr[index];
+            }
             DrawTextureRec(tileTexturesArr[tileArr[index].id], rec, pos, WHITE);
             if(tileArr[index].id > 0){
               DrawText(TextFormat("%d", tileArr[index].id), pos.x + size / 2, pos.y + size / 2, 10, RED);
@@ -43,6 +79,7 @@ void drawTileGrid(int size, Tile *tileArr, Texture2D *tileTexturesArr){
             index++;
         }
     }
+    mapLoaded = true;
 }
 
 void placeTile(Tile *tileArr, Texture2D *tileTexturesArr, Camera2D *camera, User *user){
@@ -107,10 +144,10 @@ void deleteTile(Tile *tileArr, Texture2D texture, Camera2D *camera){
 
 }
 
-void updateTile(Tile *tileArr, Texture2D *tileTexturesArr, Camera2D *camera, User *user){
+void updateTile(Tile *tileArr, Texture2D *tileTexturesArr, Camera2D *camera, User *user, int *fileArr){
  placeTile(tileArr, tileTexturesArr, camera, user);
   drawTile(tileArr);
   deleteTile(tileArr, tileTexturesArr[0], camera);
   checkInput(tileTexturesArr, user);
-  drawTileGrid(32, tileArr, tileTexturesArr);
+  drawTileGrid(32, tileArr, tileTexturesArr, fileArr);
 }

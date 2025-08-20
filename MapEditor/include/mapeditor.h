@@ -4,7 +4,7 @@
 #include "raylib.h"
 #include "common.h"
 
-void mapEditor(Tile *tileArr, Texture2D *tileTexturesArr, Camera2D *camera, User *user);
+void mapEditor(Tile *tileArr, Texture2D *tileTexturesArr, Camera2D *camera, User *user, int *fileArr);
 void cameraZoom(Camera2D *camera);
 
 #endif

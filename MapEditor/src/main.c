@@ -11,6 +11,9 @@ int main(void){
   Camera2D camera = { 0 };
   camera.zoom = 1.0f;
 
+  int fileArr[MAXTILES];
+  loadFile(fileArr); 
+
   Texture2D tileTexturesArr[MAXTILES];
   loadTileTextures(tileTexturesArr);
   Tile tileArr[MAXTILES];
@@ -25,9 +28,9 @@ int main(void){
   BeginDrawing();
       ClearBackground(BLACK);
      BeginMode2D(camera);
-     mapEditor(tileArr, tileTexturesArr, &camera, &user);
+     mapEditor(tileArr, tileTexturesArr, &camera, &user, fileArr);
     EndMode2D();
-    updateUI(tileTexturesArr, &user);
+    updateUI(tileTexturesArr, &user, tileArr);
   EndDrawing();
   }
 
