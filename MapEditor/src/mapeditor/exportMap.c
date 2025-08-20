@@ -2,10 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "exportMap.h"
-#include <stdio.h>
-#include <stdlib.h>
-
 void exportMap(int *arr) {
     FILE *file = fopen("../Game/assets/map.mp", "w");
     if (file == NULL) {

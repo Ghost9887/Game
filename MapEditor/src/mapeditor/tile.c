@@ -31,10 +31,6 @@ void loadTileTextures(Texture2D *tileTexturesArr){
   tileTexturesArr[2] = LoadTexture("assets/tiles/tile2.png");
 }
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 void loadFile(int *fileArr) {
     FILE *file = fopen("../Game/assets/map.mp", "r");
     if (file == NULL) {
@@ -56,7 +52,6 @@ void loadFile(int *fileArr) {
         index++;
     }
 }
-
 
 void drawTileGrid(int size, Tile *tileArr, Texture2D *tileTexturesArr, int *fileArr){
     int tilesPerRow = 7000 / size;
