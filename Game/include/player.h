@@ -6,7 +6,7 @@
 #include <stdbool.h>
 
 Player createPlayerObject();
-void drawPlayer(Player *player);
+void drawPlayer(Player *player, Camera2D *camera);
 void playerMovement(Player *player);
 bool checkIfPlayerCanShoot(Player *player);
 void playerShoot(Player *player, Projectile *projectileArr);
@@ -14,11 +14,11 @@ void playerLoseHealth(Enemy *enemy, Player *player);
 bool isPlayerInvulnerable(Player *player);
 void invTimer(Player *player);
 void addMoney(Player *player, int money);
-void updatePlayer(Player *player, Enemy *enemyArr);
+void updatePlayer(Player *player, Enemy *enemyArr, Camera2D *camera);
 void updatePlayerAnimation(Player *player);
 void loadPlayerTextures();
 void ADS(Player *player, Enemy *enemyArr);
-float getRotationOfPlayer(Player *player);
+float getRotationOfPlayer(Player *player, Camera2D *camera);
 
 #endif
 

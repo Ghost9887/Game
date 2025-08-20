@@ -11,7 +11,7 @@
 #define MAXSPAWNENEMIES 40
 #define MAXPICKUPS 10
 #define MAXWEAPONS 3
-#define MAXTILES 2000
+#define MAXTILES 49284
 
 typedef struct {
   int id;
@@ -132,13 +132,13 @@ typedef struct{
 }Perk;
 
 typedef struct{
+  int id;
   int x;
   int y;
   int width;
   int height;
   bool walkable;
   bool active;
-  int equipped; //index of the texture we want
   Texture2D texture;
 }Tile;
 

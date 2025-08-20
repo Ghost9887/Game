@@ -39,8 +39,8 @@ Player createPlayerObject() {
   return player;
 }
 
-void drawPlayer(Player *player) {
-    float rotation = getRotationOfPlayer(player);
+void drawPlayer(Player *player, Camera2D *camera) {
+    float rotation = getRotationOfPlayer(player, camera);
     Rectangle source = player->frameRec; 
     Rectangle dest = {
         player->x + player->width / 2,
@@ -54,9 +54,9 @@ void drawPlayer(Player *player) {
 }
 
 
-float getRotationOfPlayer(Player *player){
-  Vector2 mousePosition = GetMousePosition();
-  float rad = atan2(mousePosition.y - player->y, mousePosition.x - player->x);
+float getRotationOfPlayer(Player *player, Camera2D *camera){
+  Vector2 mousePosition = GetScreenToWorld2D(GetMousePosition(), *camera);
+ float rad = atan2(mousePosition.y - player->y, mousePosition.x - player->x);
   float degree = rad * (180.0f / 3.14);
   return degree;
 }
@@ -212,10 +212,10 @@ void addMoney(Player *player, int money){
   player->money += money;
 }
 
-void updatePlayer(Player *player, Enemy *enemyArr) {
+void updatePlayer(Player *player, Enemy *enemyArr, Camera2D *camera) {
   playerMovement(player);
   ADS(player, enemyArr);
   updatePlayerAnimation(player);
-  drawPlayer(player);
+  drawPlayer(player, camera);
   invTimer(player);
 }

@@ -9,8 +9,11 @@
 #include "weaponbuy.h"
 #include "common.h"
 #include "perk.h"
+#include "map.h"
+#include "camera.h"
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 // GLOBAL VARIABLES
 unsigned int ENEMYCOUNTER = 0;
@@ -23,7 +26,7 @@ int GAMETIME = 0;
 void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
                      Round *rnd, Weapon *weaponArr, Pickup *pickupArr, WeaponBuy *weaponBuyArr,
                      int *weaponHolster, Perk *perkArr, Texture2D *weaponTextureArr,
-                     Texture2D *enemyTexturesArr);
+                     Texture2D *enemyTexturesArr, Camera2D *camera);
 
 int main(void) {
 
@@ -36,6 +39,15 @@ int main(void) {
 
   SetTargetFPS(TARGETFPS);
 
+  //load the map
+  Tile tileArr[MAXTILES];
+  Texture2D tileTextureArr[MAXTILES];
+  int mapArr[MAXTILES];
+  loadTileTextures(tileTextureArr);
+  loadMap(mapArr);
+  initTileArr(tileArr, mapArr);
+
+  Camera2D camera;
   // creating all objects for the game
   Projectile projectileArr[MAXPROJECTILES];
   initProjectileArray(projectileArr);
@@ -76,6 +88,7 @@ int main(void) {
   Player player = createPlayerObject();
   player.weapon = &weaponArr[0]; 
 
+  initCamera(&camera, &player);
 
   // start the first round
   startRound(&rnd, enemyArr);
@@ -86,11 +99,19 @@ int main(void) {
   while (!WindowShouldClose()) {
       BeginDrawing();
 
-      ClearBackground(RAYWHITE);
+      ClearBackground(BLACK);
+      BeginMode2D(camera);
+      updateCamera(&camera, &player);
+      drawMap(tileArr, tileTextureArr);
       // UPDATE ALL OF THE GAME STATES
         updateGameState(&player, enemyArr, projectileArr, &rnd, weaponArr, 
                     pickupArr, weaponBuyArr, weaponHolster, perkArr, weaponTextureArr,
-                    enemyTexturesArr);
+                    enemyTexturesArr, &camera);
+      EndMode2D();
+
+        drawUI(player.health, ENEMYCOUNTER, player.invTime, rnd.round, player.money,
+        CURRENTSPAWNEDENEMIES, GetFPS(),
+        player.weapon->currentMagSize, player.weapon->currentReserveSize, player.weapon->reloadTimer);
       EndDrawing();
   }
 
@@ -102,9 +123,9 @@ int main(void) {
 void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
                      Round *rnd, Weapon *weaponArr, Pickup *pickupArr, WeaponBuy *weaponBuyArr,
                      int *weaponHolster, Perk *perkArr, Texture2D *weaponTextureArr, 
-                     Texture2D *enemyTexturesArr) {
+                     Texture2D *enemyTexturesArr, Camera2D *camera) {
 
-  updatePlayer(player, enemyArr);
+  updatePlayer(player, enemyArr, camera);
 
   // checks if the round should end
   updateRound(rnd, enemyArr);
@@ -117,10 +138,7 @@ void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
 
   updateWeaponBuy(weaponBuyArr, player, weaponArr, weaponHolster, weaponTextureArr);
 
-  drawUI(player->health, ENEMYCOUNTER, player->invTime, rnd->round,player->money,
-         CURRENTSPAWNEDENEMIES, GetFPS(),
-         player->weapon->currentMagSize, player->weapon->currentReserveSize, player->weapon->reloadTimer);
-  
+ 
   if (checkIfPlayerCanShoot(player) && !isReloading(player->weapon)) {
     playerShoot(player, projectileArr);
   }

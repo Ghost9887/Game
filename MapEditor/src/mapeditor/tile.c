@@ -54,8 +54,8 @@ void loadFile(int *fileArr) {
 }
 
 void drawTileGrid(int size, Tile *tileArr, Texture2D *tileTexturesArr, int *fileArr){
-    int tilesPerRow = 7000 / size;
-    int tilesPerColumn = 7000 / size;
+    int tilesPerRow = 7104 / size;
+    int tilesPerColumn = 7104 / size;
     int index = 0;
     for (int y = 0; y < tilesPerColumn; y++) {
         for (int x = 0; x < tilesPerRow; x++) {
@@ -91,10 +91,8 @@ void placeTile(Tile *tileArr, Texture2D *tileTexturesArr, Camera2D *camera, User
         }
       }
     }
-    
   } 
 }
-
 
 void checkInput(Texture2D *tileTextureArr, User *user){
   if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
@@ -136,13 +134,12 @@ void deleteTile(Tile *tileArr, Texture2D texture, Camera2D *camera){
       }
     }
   }
-
 }
 
 void updateTile(Tile *tileArr, Texture2D *tileTexturesArr, Camera2D *camera, User *user, int *fileArr){
- placeTile(tileArr, tileTexturesArr, camera, user);
   drawTile(tileArr);
   deleteTile(tileArr, tileTexturesArr[0], camera);
+  placeTile(tileArr, tileTexturesArr, camera, user);
   checkInput(tileTexturesArr, user);
   drawTileGrid(32, tileArr, tileTexturesArr, fileArr);
 }

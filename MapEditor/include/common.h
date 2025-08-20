@@ -4,7 +4,7 @@
 #include "raylib.h"
 #include <stdbool.h>
 
-#define MAXTILES 48000
+#define MAXTILES 49284
 #define TARGETFPS 60
 #define SCREENWIDTH 1200
 #define SCREENHEIGHT 900
@@ -17,7 +17,6 @@ typedef struct{
   int height;
   bool walkable;
   bool active;
-  int equipped; //index of the texture we want
   Texture2D texture;
 }Tile;
 
