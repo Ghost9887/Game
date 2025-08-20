@@ -11,5 +11,6 @@ void drawTile(Tile *tileArr);
 void placeTile(Tile *tileArr, Texture2D *tileTexturesArr, Camera2D *camera, User *user);
 void deleteTile(Tile *tileArr, Texture2D texture, Camera2D *camera);
 void updateTile(Tile *tileArr, Texture2D *tileTexturesArr, Camera2D *camera, User *user);
-void drawTileGrid(int size, Tile *tileArr, Texture2D texture);
+void drawTileGrid(int size, Tile *tileArr, Texture2D *tileTexturesArr);
+void checkInput(Texture2D *tileTexturesArr, User *user);
 #endif

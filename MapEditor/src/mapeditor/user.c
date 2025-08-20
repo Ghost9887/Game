@@ -2,6 +2,6 @@
 
 User createUser(){
   User user;
-  user.equippedTexture;
+  user.textureId;
   return user;
 }

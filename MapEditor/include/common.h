@@ -10,6 +10,7 @@
 #define SCREENHEIGHT 900
 
 typedef struct{
+  int id;
   int x;
   int y;
   int width;
@@ -21,7 +22,7 @@ typedef struct{
 }Tile;
 
 typedef struct{
-  Texture2D equippedTexture;
+  int textureId;
 }User;
 
 #endif
