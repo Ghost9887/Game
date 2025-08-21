@@ -78,13 +78,13 @@ void updatePlayerAnimation(Player *player) {
 
 void playerMovement(Player *player) {
   float deltaTime = GetFrameTime();
-  if (IsKeyDown(KEY_A) && player->x > 0)
+  if (IsKeyDown(KEY_A))
     player->x -= player->speed * deltaTime;
-  if (IsKeyDown(KEY_D) && player->x + player->width < SCREENWIDTH)
+  if (IsKeyDown(KEY_D))
     player->x += player->speed * deltaTime;
-  if (IsKeyDown(KEY_S) && player->y + player->height < SCREENHEIGHT)
+  if (IsKeyDown(KEY_S))
     player->y += player->speed * deltaTime;
-  if (IsKeyDown(KEY_W) && player->y > 0)
+  if (IsKeyDown(KEY_W))
     player->y -= player->speed * deltaTime;
 }
 

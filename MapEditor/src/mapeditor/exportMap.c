@@ -24,8 +24,8 @@ int *parseMap(Tile *tileArr) {
         return NULL;
     }
     int size = 32;
-    int tilesPerRow = 7000 / size;
-    int tilesPerColumn = 7000 / size;
+    int tilesPerRow = 7104 / size;
+    int tilesPerColumn = 7104 / size;
     int index = 0;
     for (int y = 0; y < tilesPerColumn; y++) {
         for (int x = 0; x < tilesPerRow; x++) {

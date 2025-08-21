@@ -142,4 +142,10 @@ typedef struct{
   Texture2D texture;
 }Tile;
 
+typedef struct{
+  int id;
+  int startIndex;
+  Rectangle rec;
+}Chunk;
+
 #endif

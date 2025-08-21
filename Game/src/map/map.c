@@ -27,14 +27,115 @@ void loadMap(int *mapArr){
     printf("Map Loaded Successfully\n");
 }
 
-void drawMap(Tile *tileArr, Texture2D *tileTexturesArr){
-  for (int i = 0; i < MAXTILES; i++) {
-    if(tileArr[i].active){
-      Vector2 pos = {tileArr[i].x, tileArr[i].y};
-      Rectangle rec = {0, 0, tileArr[i].width, tileArr[i].height }; //size of tile
-      DrawTextureRec(tileTexturesArr[tileArr[i].id], rec, pos, WHITE);
+void drawMap(Tile *tileArr, Texture2D *tileTexturesArr, Chunk *chunkArr, Camera2D *camera){
+
+  Rectangle cameraView = {
+    camera->target.x - SCREENWIDTH / 2,
+    camera->target.y - SCREENHEIGHT / 2,
+    SCREENWIDTH,
+    SCREENHEIGHT
+  };
+  //DrawRectangleRec(cameraView, RED);
+  for(int i = 0; i < 9; i++){
+   if(CheckCollisionRecs(cameraView, chunkArr[i].rec)){
+      int index = chunkArr[i].startIndex;
+      for(int y = 0; y < 74; y++){
+        for(int x = 0; x < 74; x++){
+          DrawTexture(tileTexturesArr[tileArr[index].id], tileArr[index].x, tileArr[index].y, WHITE);
+          index++;
+        }
+        index += 222 - chunkArr[i].rec.width / 32;
+      } 
     }
   }
+    
+  /*
+  //first chunk drawn manually74 * chunkArr[0].rec.x + chunkArr[0].rec.y
+  printf("%d\n", chunkArr[0].startIndex);
+  int index = chunkArr[0].startIndex;
+  for(int i = 0; i < 74; i++){
+    for(int j = 0; j < 74; j++){
+      DrawTexture(tileTexturesArr[tileArr[index].id], tileArr[index].x, tileArr[index].y, WHITE);
+      index++;
+    }
+    index += 222 - chunkArr[0].rec.width / 32;
+  }
+  printf("Drawn first chunk\n");
+  
+  //second chunk drawn manually
+   index = 74 * chunkArr[1].rec.x + chunkArr[1].rec.y;
+   for(int i = 0; i < 74; i++){
+    for(int j = 0; j < 74; j++){
+      DrawTexture(tileTexturesArr[tileArr[index].id], tileArr[index].x, tileArr[index].y, WHITE);
+      index++;
+    }
+    index += 222 - chunkArr[1].rec.width;
+  }
+
+   index = 74 * chunkArr[2].rec.x + chunkArr[2].rec.y;
+   for(int i = 0; i < 74; i++){
+    for(int j = 0; j < 74; j++){
+      DrawTexture(tileTexturesArr[tileArr[index].id], tileArr[index].x, tileArr[index].y, WHITE);
+      index++;
+    }
+    index += 222 - chunkArr[2].rec.width;
+  }
+
+  
+  int index = 74 * chunkArr[3].rec.x + chunkArr[3].rec.y;
+   for(int i = 0; i < 74; i++){
+    for(int j = 0; j < 74; j++){
+      DrawTexture(tileTexturesArr[tileArr[index].id], tileArr[index].x, tileArr[index].y, WHITE);
+      index++;
+    }
+    index += 222 - chunkArr[3].rec.width;
+  }
+
+   index = 74 * chunkArr[4].rec.x + chunkArr[4].rec.y;
+   for(int i = 0; i < 74; i++){
+    for(int j = 0; j < 74; j++){
+      DrawTexture(tileTexturesArr[tileArr[index].id], tileArr[index].x, tileArr[index].y, WHITE);
+      index++;
+    }
+    index += 222 - chunkArr[4].rec.width;
+  }
+
+  index = 74 * chunkArr[5].rec.x + chunkArr[5].rec.y;
+   for(int i = 0; i < 74; i++){
+    for(int j = 0; j < 74; j++){
+      DrawTexture(tileTexturesArr[tileArr[index].id], tileArr[index].x, tileArr[index].y, WHITE);
+      index++;
+    }
+    index += 222 - chunkArr[5].rec.width;
+  }
+
+  int index = (chunkArr[6].rec.x + chunkArr[6].rec.y);
+   for(int i = 0; i < 74; i++){
+    for(int j = 0; j < 74; j++){
+      DrawTexture(tileTexturesArr[tileArr[index].id], tileArr[index].x, tileArr[index].y, WHITE);
+      index++;
+    }
+    index += 222 - chunkArr[6].rec.width;
+  }
+
+  index = (chunkArr[7].rec.x + chunkArr[7].rec.y);
+   for(int i = 0; i < 74; i++){
+    for(int j = 0; j < 74; j++){
+      DrawTexture(tileTexturesArr[tileArr[index].id], tileArr[index].x, tileArr[index].y, WHITE);
+      index++;
+    }
+    index += 222 - chunkArr[7].rec.width;
+  }
+
+  index = (chunkArr[8].rec.x + chunkArr[8].rec.y);
+   for(int i = 0; i < 74; i++){
+    for(int j = 0; j < 74; j++){
+      DrawTexture(tileTexturesArr[tileArr[index].id], tileArr[index].x, tileArr[index].y, WHITE);
+      index++;
+    }
+    index += 222 - chunkArr[8].rec.width;
+  }
+*/
 }
 
 
