@@ -12,6 +12,7 @@
 #define MAXPICKUPS 10
 #define MAXWEAPONS 3
 #define MAXTILES 49284
+#define MAXWEAPONBUYS 50
 
 typedef struct {
   int id;
@@ -115,8 +116,8 @@ typedef struct{
 } Pickup;
 
 typedef struct{
-  float x;
-  float y;
+  int x;
+  int y;
   Weapon *weapon;
   int weaponCost;
   int ammoCost;
@@ -137,8 +138,6 @@ typedef struct{
   int y;
   int width;
   int height;
-  bool walkable;
-  bool active;
   Texture2D texture;
 }Tile;
 

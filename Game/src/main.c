@@ -23,7 +23,7 @@ unsigned int ENEMYCOUNTER = 0;
 unsigned int CURRENTSPAWNEDENEMIES = 0;
 unsigned int BIGENEMYCOUNTER = 0;
 unsigned int AMOUNTOFWEAPONS = 6;
-int GAMETIME = 0;
+unsigned int AMOUNTOFWEAPONBUYS = 0;
 
 
 void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
@@ -69,7 +69,7 @@ int main(void) {
   initWeaponHolster(weaponHolster, weaponArr);
 
   //define a num of weaponbuys later
-  WeaponBuy weaponBuyArr[AMOUNTOFWEAPONS];
+  WeaponBuy weaponBuyArr[MAXWEAPONBUYS];
   initWeaponBuyArr(weaponBuyArr, weaponArr);
 
   //houses all pickups
@@ -100,12 +100,12 @@ int main(void) {
   // start the first round
   startRound(&rnd, enemyArr);
 
+  spawnObjects(weaponBuyArr, weaponArr, tileArr);
 
   // MAIN GAME LOOP
   
   while (!WindowShouldClose()) {
       BeginDrawing();
-
       ClearBackground(BLACK);
       BeginMode2D(camera);
       
@@ -129,7 +129,6 @@ int main(void) {
       delta = Vector2Scale(delta, -1.0f/camera.zoom);
       camera.target = Vector2Add(camera.target, delta);
     }
-
 
       updateCamera(&camera, &player);
       drawMap(tileArr, tileTextureArr, chunkArr, &camera);

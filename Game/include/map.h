@@ -8,5 +8,6 @@ void loadMap(int *mapArr);
 void initTileArr(Tile *tileArr, int *mapArr);
 void drawMap(Tile *tileArr, Texture2D *tileTextureArr, Chunk *chunkArr, Camera2D *camera);
 void loadTileTextures(Texture2D *tileTexturesArr);
+void spawnObjects(WeaponBuy *weaponBuyArr, Weapon *weaponArr, Tile *tileArr);
 
 #endif

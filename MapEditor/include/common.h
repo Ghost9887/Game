@@ -8,6 +8,7 @@
 #define TARGETFPS 60
 #define SCREENWIDTH 1200
 #define SCREENHEIGHT 900
+#define MAXWEAPONBUYS 50
 
 typedef struct{
   int id;
@@ -15,8 +16,6 @@ typedef struct{
   int y;
   int width;
   int height;
-  bool walkable;
-  bool active;
   Texture2D texture;
 }Tile;
 

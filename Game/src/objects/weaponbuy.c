@@ -9,15 +9,15 @@
 #include <string.h>
 
 extern unsigned int AMOUNTOFWEAPONS;
+extern unsigned int AMOUNTOFWEAPONBUYS;
 
-
-WeaponBuy createWeaponBuy(Weapon *weapon){
+WeaponBuy createWeaponBuy(){
   WeaponBuy weaponBuy;
   weaponBuy.x = 0;
   weaponBuy.y = 0;
-  weaponBuy.weapon = weapon;
-  weaponBuy.weaponCost = weapon->weaponCost;
-  weaponBuy.ammoCost = weapon->ammoCost;
+  weaponBuy.weapon;
+  weaponBuy.weaponCost = 0;
+  weaponBuy.ammoCost = 0;
   return weaponBuy;
 }
 
@@ -35,25 +35,24 @@ void drawWeaponBuy(WeaponBuy *weaponBuy, Texture2D *weaponTextureArr) {
 }
 
 
-void spawnWeaponBuy(WeaponBuy *weaponBuy, Weapon *weapon){
-   
+void spawnWeaponBuy(WeaponBuy *weaponBuyArr, Weapon *weapon, int x, int y){
+  weaponBuyArr[AMOUNTOFWEAPONBUYS].weapon = weapon;
+  weaponBuyArr[AMOUNTOFWEAPONBUYS].weaponCost = weapon->weaponCost;
+  weaponBuyArr[AMOUNTOFWEAPONBUYS].ammoCost = weapon->ammoCost;
+  weaponBuyArr[AMOUNTOFWEAPONBUYS].x = x;
+  weaponBuyArr[AMOUNTOFWEAPONBUYS].y = y;
+  AMOUNTOFWEAPONBUYS++;
 }
 
 //refactor later
 void initWeaponBuyArr(WeaponBuy *weaponBuyArr, Weapon *weaponArr){
-  for(int i = 0; i < AMOUNTOFWEAPONS; i++){
-    weaponBuyArr[i] = createWeaponBuy(&weaponArr[i]);
-    if(i < 1){
-      weaponBuyArr[i].x = 100;
-    }else{
-    weaponBuyArr[i].x = i * 250;
-    }
-    weaponBuyArr[i].y = 650;
+  for(int i = 0; i < MAXWEAPONBUYS; i++){
+    weaponBuyArr[i] = createWeaponBuy();
   }
 }
 
 int checkForCollisionWeaponBuyPlayer(WeaponBuy *weaponBuyArr, Player *player){
-  for(int i = 0; i < AMOUNTOFWEAPONS; i++){
+  for(int i = 0; i < AMOUNTOFWEAPONBUYS; i++){
   Rectangle weaponBuyRect = {weaponBuyArr[i].x, weaponBuyArr[i].y, weaponBuyArr[i].weapon->width, weaponBuyArr[i].weapon->height};
   Rectangle playerRect = {player->x, player->y, player->width, player->height};
   if(CheckCollisionRecs(weaponBuyRect, playerRect)){
@@ -83,7 +82,7 @@ void buyWeapon(WeaponBuy *weaponBuyArr, Player *player, Weapon *weaponArr, int *
       //determine what colour the text should be if the player has enough money
       textColour = (player->money >= newWeapon->ammoCost) ? GREEN : RED;
       drawAmmoBuyText(textColour, &weaponBuyArr[index]);
-      if (IsKeyPressed(KEY_E) && player->money >= newWeapon->ammoCost) {
+      if (IsKeyPressed(KEY_E) && player->money >= newWeapon->ammoCost && newWeapon->currentReserveSize < newWeapon->maxReserveSize) {
         player->money -= newWeapon->ammoCost;
         replenishAmmo(player, newWeapon);
       }
@@ -121,7 +120,7 @@ void buyWeapon(WeaponBuy *weaponBuyArr, Player *player, Weapon *weaponArr, int *
 }
 
 void updateWeaponBuy(WeaponBuy *weaponBuyArr, Player *player, Weapon *weaponArr, int *weaponHolster, Texture2D *weaponTextureArr) {
-  for (int i = 0; i < AMOUNTOFWEAPONS; i++) {
+  for (int i = 0; i < AMOUNTOFWEAPONBUYS; i++) {
     drawWeaponBuy(&weaponBuyArr[i], weaponTextureArr);
   }
   buyWeapon(weaponBuyArr, player, weaponArr, weaponHolster);

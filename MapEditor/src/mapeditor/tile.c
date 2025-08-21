@@ -13,8 +13,6 @@ Tile createTile(){
   tile.y = 0;
   tile.width = 32; 
   tile.height = 32;
-  tile.walkable = false;
-  tile.active = false;
   tile.texture;
   return tile;
 }
@@ -29,6 +27,16 @@ void loadTileTextures(Texture2D *tileTexturesArr){
   tileTexturesArr[0] = LoadTexture("assets/tiles/white.png");
   tileTexturesArr[1] = LoadTexture("assets/tiles/tile1.png");
   tileTexturesArr[2] = LoadTexture("assets/tiles/tile2.png");
+
+  //figure out a way to place weaponbuys on top of tiles
+  //pistol id = 0 tile id = 10 - 10
+  //ar id = 1 tile id = 11 - 10; MAYBE???
+  tileTexturesArr[10] = LoadTexture("../Game/assets/weapons/pistol/pistol.png");
+  tileTexturesArr[11] = LoadTexture("../Game/assets/weapons/ar/ar.png");
+  tileTexturesArr[12] = LoadTexture("../Game/assets/weapons/rpg/rpg.png");
+  tileTexturesArr[13] = LoadTexture("../Game/assets/weapons/shotgun/shotgun.png");
+  tileTexturesArr[14] = LoadTexture("../Game/assets/weapons/smg/smg.png");
+  tileTexturesArr[15] = LoadTexture("../Game/assets/weapons/rpg/rpg.png");
 }
 
 void loadFile(int *fileArr) {
@@ -63,7 +71,6 @@ void drawTileGrid(int size, Tile *tileArr, Texture2D *tileTexturesArr, int *file
             Rectangle rec = { 0, 0, 32, 32 }; 
             tileArr[index].x = pos.x;
             tileArr[index].y = pos.y;
-            tileArr[index].active = true;
             if(!mapLoaded){
               tileArr[index].id = fileArr[index];
             }
@@ -82,13 +89,11 @@ void placeTile(Tile *tileArr, Texture2D *tileTexturesArr, Camera2D *camera, User
     Vector2 pos = GetScreenToWorld2D(GetMousePosition(), *camera);
     Rectangle rec1 = {pos.x, pos.y, 32, 32};
     for(int i = 0; i < MAXTILES; i++){
-      if(tileArr[i].active){
-        Rectangle rec2 = {tileArr[i].x, tileArr[i].y, tileArr[i].width, tileArr[i].height};
-        if(CheckCollisionRecs(rec1, rec2)){
-          tileArr[i].texture = tileTexturesArr[user->textureId];
-          tileArr[i].id = user->textureId;
-          break;
-        }
+      Rectangle rec2 = {tileArr[i].x, tileArr[i].y, tileArr[i].width, tileArr[i].height};
+      if(CheckCollisionRecs(rec1, rec2)){
+        tileArr[i].texture = tileTexturesArr[user->textureId];
+        tileArr[i].id = user->textureId;
+        break;
       }
     }
   } 
@@ -99,7 +104,7 @@ void checkInput(Texture2D *tileTextureArr, User *user){
     int size = 32;
     Vector2 pos = GetMousePosition();
       Rectangle rec1 = {pos.x, pos.y, 32, 32};
-      for(int i = 1; i < 3; i++){
+      for(int i = 1; i <= 20; i++){
         Rectangle rec2 = {i * size, SCREENHEIGHT - 100, tileTextureArr[i].width, tileTextureArr[i].height};
         if(CheckCollisionRecs(rec1, rec2)){
           user->textureId = i;
@@ -111,11 +116,9 @@ void checkInput(Texture2D *tileTextureArr, User *user){
 
 void drawTile(Tile *tileArr){
   for(int i = 0; i < MAXTILES; i++){
-    if(tileArr[i].active){
-      Rectangle rect = {0, 0, (float)tileArr[i].width, (float)tileArr[i].height};
-      Vector2 pos = {tileArr[i].x, tileArr[i].y};
-      DrawTextureRec(tileArr[i].texture, rect, pos, WHITE);
-    }
+    Rectangle rect = {0, 0, (float)tileArr[i].width, (float)tileArr[i].height};
+    Vector2 pos = {tileArr[i].x, tileArr[i].y};
+    DrawTextureRec(tileArr[i].texture, rect, pos, WHITE);
   }
 }
 
@@ -124,13 +127,11 @@ void deleteTile(Tile *tileArr, Texture2D texture, Camera2D *camera){
     Vector2 pos = GetScreenToWorld2D(GetMousePosition(), *camera);
     Rectangle rec1 = {pos.x, pos.y, 32, 32};
     for(int i = 0; i < MAXTILES; i++){
-      if(tileArr[i].active){
-        Rectangle rec2 = {tileArr[i].x, tileArr[i].y, tileArr[i].width, tileArr[i].height};
-        if(CheckCollisionRecs(rec1, rec2)){
-          tileArr[i].texture = texture;
-          tileArr[i].id = 0;
-          break;
-        }
+      Rectangle rec2 = {tileArr[i].x, tileArr[i].y, tileArr[i].width, tileArr[i].height};
+      if(CheckCollisionRecs(rec1, rec2)){
+        tileArr[i].texture = texture;
+        tileArr[i].id = 0;
+        break;
       }
     }
   }
