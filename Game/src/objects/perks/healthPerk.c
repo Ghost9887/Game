@@ -3,8 +3,7 @@
 
 Perk createHealthPerk(){
   Perk perk;
-  perk.x = 400;
-  perk.y = 500;
+  perk.id = 0;
   perk.data = 150; 
   perk.type = "health";
   perk.cost = 20;

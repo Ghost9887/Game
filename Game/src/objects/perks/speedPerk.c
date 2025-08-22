@@ -3,11 +3,10 @@
 
 Perk createSpeedPerk(){
   Perk perk;
-  perk.x = 500;
-  perk.y = 500;
+  perk.id = 1;
   perk.data = 230.0f; 
   perk.type = "speed";
-  perk.cost = 20;
+  perk.cost = 40;
   perk.consumed = false;
   return perk;
 }

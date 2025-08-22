@@ -8,10 +8,11 @@
 #include "pickup.h"
 #include "weaponbuy.h"
 #include "common.h"
-#include "perk.h"
 #include "map.h"
 #include "camera.h"
 #include "chunk.h"
+#include "perkBuy.h"
+#include "perk.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,12 +25,12 @@ unsigned int CURRENTSPAWNEDENEMIES = 0;
 unsigned int BIGENEMYCOUNTER = 0;
 unsigned int AMOUNTOFWEAPONS = 6;
 unsigned int AMOUNTOFWEAPONBUYS = 0;
-
+unsigned int AMOUNTOFPERKMACHINES = 0;
 
 void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
                      Round *rnd, Weapon *weaponArr, Pickup *pickupArr, WeaponBuy *weaponBuyArr,
-                     int *weaponHolster, Perk *perkArr, Texture2D *weaponTextureArr,
-                     Texture2D *enemyTexturesArr, Camera2D *camera);
+                     int *weaponHolster, Texture2D *weaponTextureArr,
+                     Texture2D *enemyTexturesArr, Camera2D *camera, PerkBuy *perkBuyArr, Texture2D *perkTexturesArr);
 
 int main(void) {
 
@@ -71,15 +72,18 @@ int main(void) {
 
   //define a num of weaponbuys later
   WeaponBuy weaponBuyArr[MAXWEAPONBUYS];
-  initWeaponBuyArr(weaponBuyArr, weaponArr);
+  initWeaponBuyArr(weaponBuyArr);
 
   //houses all pickups
   Pickup pickupArr[MAXPICKUPS];
   initPickupArray(pickupArr);
 
   //define a amount of perk machines later
-  Perk perkArr[2];
+  Perk perkArr[2]; 
   initPerkArr(perkArr);
+ 
+  PerkBuy perkBuyArr[MAXPERKMACHINES];
+  initPerkBuyArr(perkBuyArr);
 
   loadPlayerTextures();
 
@@ -88,6 +92,9 @@ int main(void) {
 
   Texture2D enemyTexturesArr[MAXSPAWNENEMIES];
   loadEnemyTextures(enemyTexturesArr);
+
+  Texture2D perkTexturesArr[MAXPERKMACHINES];
+  loadPerkBuyTextures(perkTexturesArr);
 
   Player player = createPlayerObject();
   player.weapon = &weaponArr[0]; 
@@ -101,7 +108,7 @@ int main(void) {
   // start the first round
   startRound(&rnd, enemyArr);
 
-  spawnObjects(weaponBuyArr, weaponArr, tileArr);
+  spawnObjects(weaponBuyArr, weaponArr, perkBuyArr, perkArr, tileArr);
 
   // MAIN GAME LOOP
   
@@ -135,8 +142,8 @@ int main(void) {
       drawMap(tileArr, tileTextureArr, chunkArr, &camera);
       // UPDATE ALL OF THE GAME STATES
         updateGameState(&player, enemyArr, projectileArr, &rnd, weaponArr, 
-                    pickupArr, weaponBuyArr, weaponHolster, perkArr, weaponTextureArr,
-                    enemyTexturesArr, &camera);
+                    pickupArr, weaponBuyArr, weaponHolster, weaponTextureArr,
+                    enemyTexturesArr, &camera, perkBuyArr, perkTexturesArr);
       EndMode2D();
 
         drawUI(player.health, ENEMYCOUNTER, player.invTime, rnd.round, player.money,
@@ -152,9 +159,9 @@ int main(void) {
 
 void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
                      Round *rnd, Weapon *weaponArr, Pickup *pickupArr, WeaponBuy *weaponBuyArr,
-                     int *weaponHolster, Perk *perkArr, Texture2D *weaponTextureArr, 
-                     Texture2D *enemyTexturesArr, Camera2D *camera) {
-
+                     int *weaponHolster, Texture2D *weaponTextureArr, 
+                     Texture2D *enemyTexturesArr, Camera2D *camera, PerkBuy *perkBuyArr, Texture2D *perkTexturesArr) {
+  
   updatePlayer(player, enemyArr, camera);
 
   // checks if the round should end
@@ -163,11 +170,12 @@ void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
   updateWeapon(weaponArr, player, weaponHolster, weaponTextureArr);
 
   updatePickups(pickupArr, player);
+  
 
-  updatePerk(perkArr, player);
+  updatePerkBuy(perkBuyArr, player, perkTexturesArr);
+
 
   updateWeaponBuy(weaponBuyArr, player, weaponArr, weaponHolster, weaponTextureArr);
-
  
   if (checkIfPlayerCanShoot(player) && !isReloading(player->weapon)) {
     playerShoot(player, projectileArr);

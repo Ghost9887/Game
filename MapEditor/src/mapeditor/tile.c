@@ -39,6 +39,11 @@ void loadTileTextures(Texture2D *tileTexturesArr){
   tileTexturesArr[13] = LoadTexture("../Game/assets/weapons/shotgun/shotgun.png");
   tileTexturesArr[14] = LoadTexture("../Game/assets/weapons/smg/smg.png");
   tileTexturesArr[15] = LoadTexture("../Game/assets/weapons/rpg/rpg.png");
+
+
+  //perks
+  tileTexturesArr[20] = LoadTexture("../Game/assets/perks/health.png");
+  tileTexturesArr[21] = LoadTexture("../Game/assets/perks/speed.png");
 }
 
 void loadFile(Tile *tileArr) {
@@ -97,8 +102,11 @@ void placeTile(Tile *tileArr, Texture2D *tileTexturesArr, Camera2D *camera, User
       if(CheckCollisionRecs(rec1, rec2)){
         tileArr[i].texture = tileTexturesArr[user->textureId];
         tileArr[i].id = user->textureId;
-        if(tileArr[i].id > 9){
+        if(tileArr[i].id >= 10 && tileArr[i].id <= 19){
           tileArr[i].weaponBuy = true;
+        }
+        else if(tileArr[i].id >= 20 && tileArr[i].id <= 29){
+          tileArr[i].perkBuy = true;
         }
         break;
       }
@@ -111,7 +119,7 @@ void checkInput(Texture2D *tileTextureArr, User *user){
     int size = 32;
     Vector2 pos = GetMousePosition();
       Rectangle rec1 = {pos.x, pos.y, 32, 32};
-      for(int i = 1; i <= 20; i++){
+      for(int i = 1; i <= 30; i++){
         Rectangle rec2 = {i * size, SCREENHEIGHT - 100, tileTextureArr[i].width, tileTextureArr[i].height};
         if(CheckCollisionRecs(rec1, rec2)){
           user->textureId = i;

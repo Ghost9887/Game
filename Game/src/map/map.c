@@ -1,6 +1,7 @@
 #include "map.h"
 #include "tile.h"
 #include "weaponbuy.h"
+#include "perkBuy.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -72,10 +73,16 @@ void drawMap(Tile *tileArr, Texture2D *tileTexturesArr, Chunk *chunkArr, Camera2
   }
 }
 
-void spawnObjects(WeaponBuy *weaponBuyArr, Weapon *weaponArr, Tile *tileArr){
+void spawnObjects(WeaponBuy *weaponBuyArr, Weapon *weaponArr, PerkBuy *perkBuyArr, Perk *perkArr, Tile *tileArr){
+  printf("in spawn objects\n");
   for(int i = 0; i < MAXTILES; i++){
     if(tileArr[i].weaponBuy){
       spawnWeaponBuy(weaponBuyArr, &weaponArr[tileArr[i].id - 10], (int)tileArr[i].x, (int)tileArr[i].y);
+    }
+    else if(tileArr[i].perkBuy){
+      printf("before spawn perk\n");
+      spawnPerkBuy(perkBuyArr, &perkArr[tileArr[i].id - 20], (int)tileArr[i].x, (int)tileArr[i].y);
+      printf("after spawn perk\n");
     }
   }
 }
@@ -92,10 +99,15 @@ void loadTileTextures(Texture2D *tileTexturesArr){
   tileTexturesArr[1] = LoadTexture("assets/tiles/tile1.png");
   tileTexturesArr[2] = LoadTexture("assets/tiles/tile2.png");
 
+  /*
   tileTexturesArr[10] = LoadTexture("assets/weapons/pistol/pistol.png");
   tileTexturesArr[11] = LoadTexture("assets/weapons/ar/ar.png");
   tileTexturesArr[12] = LoadTexture("assets/weapons/rpg/rpg.png");
   tileTexturesArr[13] = LoadTexture("assets/weapons/shotgun/shotgun.png");
   tileTexturesArr[14] = LoadTexture("assets/weapons/smg/smg.png");
   tileTexturesArr[15] = LoadTexture("assets/weapons/rpg/rpg.png");
+
+  tileTexturesArr[20] = LoadTexture("assets/perks/health.png");
+  tileTexturesArr[21] = LoadTexture("assets/perks/speed.png");
+  */
 }

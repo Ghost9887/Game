@@ -13,6 +13,7 @@
 #define MAXWEAPONS 3
 #define MAXTILES 49284
 #define MAXWEAPONBUYS 50
+#define MAXPERKMACHINES 20
 
 typedef struct {
   int id;
@@ -124,13 +125,21 @@ typedef struct{
 }WeaponBuy;
 
 typedef struct{
-  float x;
-  float y;
+  int id;
   float data;
   char *type;
   int cost;
   bool consumed;  
 }Perk;
+
+typedef struct{
+  float x;
+  float y;
+  int width;
+  int height;
+  Perk *perk;
+  int cost;
+}PerkBuy;
 
 typedef struct{
   int id;

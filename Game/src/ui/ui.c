@@ -36,9 +36,9 @@ void drawAmmoBuyText(Color colour, WeaponBuy *weaponBuy){
   DrawText(TextFormat("%d$", weaponBuy->weapon->ammoCost), weaponBuy->x, weaponBuy->y - 30, 20, colour);
 }
 
-void drawPerkText(Color colour, Perk *perk){
-  DrawText(TextFormat("(%s)", perk->type), perk->x, perk->y - 60, 20, BLACK);
-  DrawText(TextFormat("%d$", perk->cost), perk->x, perk->y - 30, 20, colour);
+void drawPerkText(Color colour, PerkBuy *perkBuy){
+  DrawText(TextFormat("(%s)", perkBuy->perk->type), perkBuy->x, perkBuy->y - 60, 20, BLACK);
+  DrawText(TextFormat("%d$", perkBuy->perk->cost), perkBuy->x, perkBuy->y - 30, 20, colour);
 }
 
 

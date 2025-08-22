@@ -7,6 +7,7 @@
 #include "shotgun.h"
 #include "ui.h"
 #include <string.h>
+#include <stdio.h>
 
 extern unsigned int AMOUNTOFWEAPONS;
 extern unsigned int AMOUNTOFWEAPONBUYS;
@@ -45,7 +46,7 @@ void spawnWeaponBuy(WeaponBuy *weaponBuyArr, Weapon *weapon, int x, int y){
 }
 
 //refactor later
-void initWeaponBuyArr(WeaponBuy *weaponBuyArr, Weapon *weaponArr){
+void initWeaponBuyArr(WeaponBuy *weaponBuyArr){
   for(int i = 0; i < MAXWEAPONBUYS; i++){
     weaponBuyArr[i] = createWeaponBuy();
   }
@@ -123,6 +124,7 @@ void updateWeaponBuy(WeaponBuy *weaponBuyArr, Player *player, Weapon *weaponArr,
   for (int i = 0; i < AMOUNTOFWEAPONBUYS; i++) {
     drawWeaponBuy(&weaponBuyArr[i], weaponTextureArr);
   }
+
   buyWeapon(weaponBuyArr, player, weaponArr, weaponHolster);
 }
 

@@ -11,6 +11,6 @@ void showBreakUI(int time);
 void drawEnemyHealth(Enemy *enemy);
 void drawWeaponBuyText(Color colour, WeaponBuy *weaponBuy);
 void drawAmmoBuyText(Color colour, WeaponBuy *weaponBuy);
-void drawPerkText(Color colour, Perk *perk);
+void drawPerkText(Color colour, PerkBuy *perkBuy);
 
 #endif
