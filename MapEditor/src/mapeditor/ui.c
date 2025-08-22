@@ -33,7 +33,7 @@ bool checkCollisionWithSaveButton(){
 
 void callExport(Tile *tileArr){
   if(checkCollisionWithSaveButton()){
-    exportMap(parseMap(tileArr));
+    exportMap(tileArr);
     CloseWindow();
   }
 }

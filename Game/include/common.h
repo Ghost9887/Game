@@ -138,6 +138,9 @@ typedef struct{
   int y;
   int width;
   int height;
+  bool walkable;
+  bool weaponBuy;
+  bool perkBuy;
   Texture2D texture;
 }Tile;
 

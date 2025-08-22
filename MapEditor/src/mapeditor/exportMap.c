@@ -1,38 +1,26 @@
 #include "exportMap.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
-void exportMap(int *arr) {
+void exportMap(Tile *tileArr) {
     FILE *file = fopen("../Game/assets/map.mp", "w");
     if (file == NULL) {
         perror("Failed to open file");
         return;
     }
     for (int i = 0; i < MAXTILES; i++) {
-        fprintf(file, "%d", arr[i]);
+        fprintf(file, "%d{%d,%d,%d}", 
+            tileArr[i].id, 
+            tileArr[i].walkable, 
+            tileArr[i].weaponBuy, 
+            tileArr[i].perkBuy
+        );
         if (i < MAXTILES - 1) {
-            fprintf(file, ",");
+            fprintf(file, ";");
         }
     }
     fclose(file);
 }
 
-
-int *parseMap(Tile *tileArr) {
-    int *arr = malloc(sizeof(int) * MAXTILES);
-    if (arr == NULL) {
-        return NULL;
-    }
-    int size = 32;
-    int tilesPerRow = 7104 / size;
-    int tilesPerColumn = 7104 / size;
-    int index = 0;
-    for (int y = 0; y < tilesPerColumn; y++) {
-        for (int x = 0; x < tilesPerRow; x++) {
-            arr[index] = tileArr[index].id;
-            index++;
-        }
-    }
-    return arr;
-}
 

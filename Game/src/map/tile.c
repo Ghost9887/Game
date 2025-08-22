@@ -8,6 +8,9 @@ Tile createTile(){
   tile.y = 0;
   tile.width = 32;
   tile.height = 32;
+  tile.walkable = false;
+  tile.weaponBuy = false;
+  tile.perkBuy = false; 
   tile.texture;
   return tile;
 }

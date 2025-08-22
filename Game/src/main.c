@@ -47,8 +47,9 @@ int main(void) {
   Texture2D tileTextureArr[MAXTILES];
   int mapArr[MAXTILES];
   loadTileTextures(tileTextureArr);
-  loadMap(mapArr);
-  initTileArr(tileArr, mapArr);
+  initTileArr(tileArr);
+  loadMap(tileArr);
+  drawGrid(tileArr, 32);
 
   Camera2D camera;
   // creating all objects for the game

@@ -6,26 +6,46 @@
 #include <string.h>
 
 
-void loadMap(int *mapArr){
-   FILE *file = fopen("assets/map.mp", "r");
+void loadMap(Tile *tileArr) {
+    FILE *file = fopen("assets/map.mp", "r");
     if (file == NULL) {
         perror("Failed to open file");
         return;
     }
-    char buffer[100000]; 
+    char buffer[500000];
     if (fgets(buffer, sizeof(buffer), file) == NULL) {
         perror("Failed to read file");
         fclose(file);
         return;
     }
     fclose(file);
-    char *comma = strtok(buffer, ",");
+    char *token = strtok(buffer, ";");  
     int index = 0;
-    while (comma != NULL && index < MAXTILES) {
-        mapArr[index] = atoi(comma);
-        comma = strtok(NULL, ",");
+    while (token != NULL && index < MAXTILES) {
+        int id, walkable, weaponBuy, perkBuy;
+        sscanf(token, "%d{%d,%d,%d}", &id, &walkable, &weaponBuy, &perkBuy);
+        tileArr[index].id = id;
+        tileArr[index].walkable = walkable;
+        tileArr[index].weaponBuy = weaponBuy;
+        tileArr[index].perkBuy = perkBuy;
+        token = strtok(NULL, ";");  
         index++;
-    } 
+    }
+}
+
+void drawGrid(Tile *tileArr, int size){
+  int tilesPerRow = 7104 / size;
+  int tilesPerColumn = 7104 / size;
+  int index = 0;
+  for (int y = 0; y < tilesPerColumn; y++) {
+    for (int x = 0; x < tilesPerRow; x++) {
+      Vector2 pos = { x * size, y * size };
+      Rectangle rec = { 0, 0, 32, 32 }; 
+      tileArr[index].x = pos.x;
+      tileArr[index].y = pos.y;
+      index++;
+    }
+  }
 }
 
 void drawMap(Tile *tileArr, Texture2D *tileTexturesArr, Chunk *chunkArr, Camera2D *camera){
@@ -54,28 +74,17 @@ void drawMap(Tile *tileArr, Texture2D *tileTexturesArr, Chunk *chunkArr, Camera2
 
 void spawnObjects(WeaponBuy *weaponBuyArr, Weapon *weaponArr, Tile *tileArr){
   for(int i = 0; i < MAXTILES; i++){
-    if(tileArr[i].id >= 10){
+    if(tileArr[i].weaponBuy){
       spawnWeaponBuy(weaponBuyArr, &weaponArr[tileArr[i].id - 10], (int)tileArr[i].x, (int)tileArr[i].y);
     }
   }
 }
 
 
-void initTileArr(Tile *tileArr, int *mapArr) {
-    int size = 32;
-    int tilesPerRow = 7104 / size;
-    int tilesPerColumn = 7104 / size;
-    int index = 0;
-    for (int y = 0; y < tilesPerColumn; y++) {
-        for (int x = 0; x < tilesPerRow; x++) {
-            tileArr[index].x = x * size;
-            tileArr[index].y = y * size;
-            tileArr[index].width = 32;
-            tileArr[index].height = 32;
-            tileArr[index].id = mapArr[index];
-            index++;
-        }
-    }
+void initTileArr(Tile *tileArr) {
+  for(int i = 0; i < MAXTILES; i++){
+    tileArr[i] = createTile();
+  }
 }
 
 void loadTileTextures(Texture2D *tileTexturesArr){
