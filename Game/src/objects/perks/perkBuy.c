@@ -11,8 +11,8 @@ PerkBuy createPerkBuy(){
   PerkBuy perkBuy;
   perkBuy.x = 0;
   perkBuy.y = 0;
-  perkBuy.width = 32;
-  perkBuy.height = 32;
+  perkBuy.width = 64;
+  perkBuy.height = 64;
   perkBuy.perk = NULL;
   perkBuy.cost = 0;
   return perkBuy;
@@ -38,7 +38,7 @@ void drawPerkBuy(PerkBuy *perkBuy, Texture2D *perkTexture){
     perkBuy->x + (perkBuy->width / 2.0f) - (perkBuy->width / 2.0f),
     perkBuy->y + (perkBuy->height / 2.0f) - (perkBuy->height / 2.0f)
   };
-  DrawTextureRec(texture, rect, drawPos, WHITE);
+  DrawTextureEx(texture, drawPos, 0.0f, 2.0f, WHITE);
 }
 
 
@@ -46,7 +46,7 @@ void drawPerkBuy(PerkBuy *perkBuy, Texture2D *perkTexture){
 int checkCollisionWithPerkPlayer(PerkBuy *perkBuyArr, Player *player){
    for(int i = 0; i < AMOUNTOFPERKMACHINES; i++){
     if(!perkBuyArr[i].perk->consumed){
-      Rectangle perkMachineRect = {perkBuyArr[i].x, perkBuyArr[i].y, 40, 80};
+      Rectangle perkMachineRect = {perkBuyArr[i].x, perkBuyArr[i].y, perkBuyArr[i].width, perkBuyArr[i].height};
       Rectangle playerRect = {player->x, player->y, player->width, player->height};
       if(CheckCollisionRecs(perkMachineRect, playerRect)){
         return i;
