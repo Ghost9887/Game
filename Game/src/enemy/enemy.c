@@ -50,18 +50,52 @@ void initEnemyArr(Enemy *enemyArr) {
   }
 }
 
-void enemyMovement(Enemy *enemy, Player *player) {
-  float deltaTime = GetFrameTime();
-  float dx = player->x - enemy->x;
-  float dy = player->y - enemy->y;
-  float length = sqrtf(dx * dx + dy * dy);
-  if (length < 0.1f)
-    return;
-  float dirX = dx / length;
-  float dirY = dy / length;
-  enemy->x += dirX * enemy->speed * deltaTime;
-  enemy->y += dirY * enemy->speed * deltaTime;
+void enemyMovement(Enemy *enemy, Player *player, Tile *solidTileArr) {
+    float deltaTime = GetFrameTime();
+    float dx = player->x - enemy->x;
+    float dy = player->y - enemy->y;
+    float length = sqrtf(dx * dx + dy * dy);
+
+    if (length < 0.1f)
+        return;
+
+    float dirX = dx / length;
+    float dirY = dy / length;
+
+    float proposedX = enemy->x + dirX * enemy->speed * deltaTime;
+    float proposedY = enemy->y + dirY * enemy->speed * deltaTime;
+    Rectangle futureX = { proposedX, enemy->y, enemy->width, enemy->height };
+    bool xBlocked = false;
+    for (int i = 0; i < AMOUNTOFSOLIDBLOCKS; i++) {
+        Rectangle tile = {
+            solidTileArr[i].x,
+            solidTileArr[i].y,
+            solidTileArr[i].width,
+            solidTileArr[i].height
+        };
+        if (CheckCollisionRecs(futureX, tile)) {
+            xBlocked = true;
+            break;
+        }
+    }
+    if (!xBlocked) enemy->x = proposedX;
+    Rectangle futureY = { enemy->x, proposedY, enemy->width, enemy->height };
+    bool yBlocked = false;
+    for (int i = 0; i < AMOUNTOFSOLIDBLOCKS; i++) {
+        Rectangle tile = {
+            solidTileArr[i].x,
+            solidTileArr[i].y,
+            solidTileArr[i].width,
+            solidTileArr[i].height
+        };
+        if (CheckCollisionRecs(futureY, tile)) {
+            yBlocked = true;
+            break;
+        }
+    }
+    if (!yBlocked) enemy->y = proposedY;
 }
+
 
 
 void destroyEnemy(Enemy *enemy, Player *player, Pickup *pickupArr) {
@@ -91,17 +125,6 @@ bool checkCollisionWithPlayer(Enemy *enemy, Player *player) {
   Rectangle enemyRect = {enemy->x, enemy->y, enemy->width, enemy->height};
   Rectangle playerRect = {player->x, player->y, player->width, player->height};
   return CheckCollisionRecs(enemyRect, playerRect);
-}
-
-bool checkCollisionWithTile(Tile *solidTileArr, Enemy *enemy){
-  for(int i = 0; i < AMOUNTOFSOLIDBLOCKS; i++){
-    Rectangle enemyRect = {enemy->x, enemy->y, enemy->width, enemy->height};
-    Rectangle tile = {solidTileArr[i].x, solidTileArr[i].y, solidTileArr[i].width, solidTileArr[i].height};
-    if(CheckCollisionRecs(enemyRect, tile)){
-      return true;
-    }
-  }
-  return false;
 }
 
 //checks how many enemies are spawned
@@ -173,15 +196,13 @@ void updateEnemy(Enemy *enemyArr, Player *player, Pickup *pickupArr, Texture2D *
     if (!enemyArr[i].active)
       continue;
 
-    enemyMovement(&enemyArr[i], player);
+    enemyMovement(&enemyArr[i], player, solidTileArr);
     updateEnemyAnimation(&enemyArr[i]);
     drawEnemy(&enemyArr[i], enemyTexturesArr);
 
     //checks if the enemy should die (bad naming)
     destroyEnemy(&enemyArr[i], player, pickupArr);
     
-    checkCollisionWithTile(solidTileArr, &enemyArr[i]);
-
     // checks collision with player
     if (!isPlayerInvulnerable(player) &&
         checkCollisionWithPlayer(&enemyArr[i], player)) {

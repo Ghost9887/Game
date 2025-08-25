@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include <string.h>
 
+extern unsigned int AMOUNTOFSOLIDBLOCKS;
+
 Projectile createProjectile(Player *player, Weapon *weapon, float offset) {
     Projectile projectile;
     float angleDeg = player->weapon->rotation + offset;
@@ -72,8 +74,9 @@ void initProjectileArray(Projectile *projectileArr) {
   }
 }
 
-int checkForCollisionWithEnemy(Projectile *projectile, Enemy *enemyArr) {
+int checkForCollisionWithEnemy(Projectile *projectile, Enemy *enemyArr, Tile *solidTileArr) {
     Vector2 currentPos = {projectile->x, projectile->y};
+    //enemies
     for (int i = 0; i < MAXSPAWNENEMIES; i++) {
         if (!enemyArr[i].active) continue;
         Rectangle enemyRect = {enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height};
@@ -81,18 +84,31 @@ int checkForCollisionWithEnemy(Projectile *projectile, Enemy *enemyArr) {
             return i;
         }
     }
+    //tiles
+    for (int i = 0; i < AMOUNTOFSOLIDBLOCKS; i++) {
+        Rectangle tileRect = {
+            solidTileArr[i].x,
+            solidTileArr[i].y,
+            solidTileArr[i].width,
+            solidTileArr[i].height
+        };
+        if (CheckCollisionPointRec(currentPos, tileRect)) {
+            return -2;  
+        }
+    }
     return -1;
 }
 
-void updateProjectiles(Projectile *projectileArr, Enemy *enemyArr, Player *player) {
+
+void updateProjectiles(Projectile *projectileArr, Enemy *enemyArr, Player *player, Tile *solidTileArr) {
   for (int i = 0; i < MAXPROJECTILES; i++) {
     if (!projectileArr[i].active) continue;
 
     moveProjectile(&projectileArr[i]);
 
-    int indexOfEnemy = checkForCollisionWithEnemy(&projectileArr[i], enemyArr);
+    int indexOfEnemy = checkForCollisionWithEnemy(&projectileArr[i], enemyArr, solidTileArr);
 
-    if (indexOfEnemy != -1) {
+    if (indexOfEnemy > -1) {
       destroyProjectile(&projectileArr[i]);
       addMoney(player, 20);
 
@@ -103,6 +119,11 @@ void updateProjectiles(Projectile *projectileArr, Enemy *enemyArr, Player *playe
         enemyLoseHealth(projectileArr[i].damage, &enemyArr[indexOfEnemy]);
       }
       continue; 
+    }
+  
+    //hit wall
+    if(indexOfEnemy == -2){
+      destroyProjectile(&projectileArr[i]);
     }
     
     //only do these if the projectile hasnt hit anything

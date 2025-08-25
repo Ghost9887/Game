@@ -185,10 +185,10 @@ void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
   if (checkIfPlayerCanShoot(player) && !isReloading(player->weapon)) {
     playerShoot(player, projectileArr);
   }
-  updateProjectiles(projectileArr, enemyArr, player);
+  updateProjectiles(projectileArr, enemyArr, player, solidTilesArr);
 
   
-  if(false){
+  if(true){
   // only do these if there are enemies or the round hasn't ended yet
   if (!inBreak(rnd)) {
     // only call this if there are more enemies that need to be spawned druring
