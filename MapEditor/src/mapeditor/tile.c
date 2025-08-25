@@ -127,20 +127,30 @@ void placeTile(Tile *tileArr, Texture2D *tileTexturesArr, Camera2D *camera, User
   } 
 }
 
-void checkInput(Texture2D *tileTextureArr, User *user){
-  if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-    int size = 32;
-    Vector2 pos = GetMousePosition();
-      Rectangle rec1 = {pos.x, pos.y, 32, 32};
-      for(int i = 1; i <= 30; i++){
-        Rectangle rec2 = {i * size, SCREENHEIGHT - 100, tileTextureArr[i].width, tileTextureArr[i].height};
-        if(CheckCollisionRecs(rec1, rec2)){
-          user->textureId = i;
-          break;
+void checkInput(Texture2D *tileTextureArr, User *user) {
+    const int tileSize = 32;
+    const int barHeight = 150;
+    const int rows = 5;
+    const int columns = 40;
+    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+        Vector2 mousePos = GetMousePosition();
+        Rectangle mouseRect = { mousePos.x, mousePos.y, tileSize, tileSize };
+        int index = 1;
+        for (int row = 0; row < rows; row++) {
+            int yPos = SCREENHEIGHT - barHeight + row * tileSize;
+            for (int col = 0; col < columns; col++) {
+                int xPos = col * tileSize;
+                Rectangle tileRect = { (float)xPos, (float)yPos, (float)tileSize, (float)tileSize };
+                if (CheckCollisionRecs(mouseRect, tileRect)) {
+                    user->textureId = index;
+                    return;
+                }
+                index++;
+            }
         }
-      }
-  }
+    }
 }
+
 
 void drawTile(Tile *tileArr, Texture2D *tileTexturesArr){
   int size = 32;

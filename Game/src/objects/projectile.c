@@ -74,10 +74,9 @@ void initProjectileArray(Projectile *projectileArr) {
   }
 }
 
-int checkForCollisionWithEnemy(Projectile *projectile, Enemy *enemyArr, Tile *solidTileArr) {
-    Vector2 currentPos = {projectile->x, projectile->y};
-    
-      //tiles
+bool checkForCollisionWithTile(Projectile *projectile, Tile *solidTileArr){
+  //make it larger so the bullet doesnt faze through the wall
+  Vector2 currentPos = {projectile->x + projectile->size, projectile->y + projectile->size};
     for (int i = 0; i < AMOUNTOFSOLIDBLOCKS; i++) {
         Rectangle tileRect = {
             solidTileArr[i].x,
@@ -89,8 +88,10 @@ int checkForCollisionWithEnemy(Projectile *projectile, Enemy *enemyArr, Tile *so
             return -2;  
         }
     }
+}
 
-    //enemies
+int checkForCollisionWithEnemy(Projectile *projectile, Enemy *enemyArr) {
+    Vector2 currentPos = {projectile->x, projectile->y};
     for (int i = 0; i < MAXSPAWNENEMIES; i++) {
         if (!enemyArr[i].active) continue;
         Rectangle enemyRect = {enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height};
@@ -108,7 +109,7 @@ void updateProjectiles(Projectile *projectileArr, Enemy *enemyArr, Player *playe
 
     moveProjectile(&projectileArr[i]);
 
-    int indexOfEnemy = checkForCollisionWithEnemy(&projectileArr[i], enemyArr, solidTileArr);
+    int indexOfEnemy = checkForCollisionWithEnemy(&projectileArr[i], enemyArr);
 
     if (indexOfEnemy > -1) {
       destroyProjectile(&projectileArr[i]);
@@ -124,7 +125,7 @@ void updateProjectiles(Projectile *projectileArr, Enemy *enemyArr, Player *playe
     }
   
     //hit wall
-    if(indexOfEnemy == -2){
+    if(checkForCollisionWithTile(&projectileArr[i], solidTileArr)){
       destroyProjectile(&projectileArr[i]);
     }
     

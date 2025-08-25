@@ -1,21 +1,26 @@
 #include "ui.h"
 #include "exportMap.h"
 
-void drawBottomBar(Texture2D *tileTextureArr){
-  int size = 32;
-  int height = 150;
-  DrawRectangle(0, SCREENHEIGHT - 150, SCREENWIDTH, SCREENHEIGHT, BLUE);
-  Rectangle src = {0, 0, 32, 32};
-  int index = 1;
-  for(int j = 0; j < 5; j++){
-    height -= size * j;
-    for(int i = 1; i <= 30; i++){
-      Vector2 pos = {i * size, SCREENHEIGHT - height};
-      DrawTextureRec(tileTextureArr[index], src, pos, WHITE);
-      index++;
+void drawBottomBar(Texture2D *tileTextureArr) {
+    const int tileSize = 32;
+    const int barHeight = 150;
+    const int rows = 5;
+    const int columns = 40;
+    const int startIndex = 1;
+    DrawRectangle(0, SCREENHEIGHT - barHeight, SCREENWIDTH, barHeight, BLUE);
+    Rectangle src = { 0, 0, tileSize, tileSize };
+    int index = startIndex;
+    for (int row = 0; row < rows; row++) {
+        int yPos = SCREENHEIGHT - barHeight + row * tileSize;
+        for (int col = 0; col < columns; col++) {
+            int xPos = col * tileSize;
+            Vector2 pos = { (float)xPos, (float)yPos };
+            DrawTextureRec(tileTextureArr[index], src, pos, WHITE);
+            index++;
+        }
     }
-  }
 }
+
 
 
 void drawSaveButton(){
