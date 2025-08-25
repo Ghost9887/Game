@@ -10,11 +10,13 @@ void exportMap(Tile *tileArr) {
         return;
     }
     for (int i = 0; i < MAXTILES; i++) {
-        fprintf(file, "%d{%d,%d,%d}", 
+        fprintf(file, "%d{%d,%d{%d},%d{%d}}", 
             tileArr[i].id, 
             tileArr[i].walkable, 
             tileArr[i].weaponBuy, 
-            tileArr[i].perkBuy
+            tileArr[i].weaponId,
+            tileArr[i].perkBuy,
+            tileArr[i].perkId
         );
         if (i < MAXTILES - 1) {
             fprintf(file, ";");

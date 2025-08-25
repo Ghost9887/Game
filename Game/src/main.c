@@ -182,7 +182,8 @@ void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
   }
   updateProjectiles(projectileArr, enemyArr, player);
 
-
+  
+  if(false){
   // only do these if there are enemies or the round hasn't ended yet
   if (!inBreak(rnd)) {
     // only call this if there are more enemies that need to be spawned druring
@@ -200,4 +201,5 @@ void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
   }
 
   updateEnemy(enemyArr, player, pickupArr, enemyTexturesArr);
+  }
 }

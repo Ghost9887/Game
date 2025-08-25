@@ -14,7 +14,9 @@ Tile createTile(){
   tile.height = 32;
   tile.walkable = false;
   tile.weaponBuy = false;
+  tile.weaponId = -1;
   tile.perkBuy = false;
+  tile.perkId = -1;
   tile.texture;
   return tile;
 }
@@ -52,7 +54,7 @@ void loadFile(Tile *tileArr) {
         perror("Failed to open file");
         return;
     }
-    char buffer[500000];
+    char buffer[1000000];
     if (fgets(buffer, sizeof(buffer), file) == NULL) {
         perror("Failed to read file");
         fclose(file);
@@ -62,12 +64,14 @@ void loadFile(Tile *tileArr) {
     char *token = strtok(buffer, ";");  
     int index = 0;
     while (token != NULL && index < MAXTILES) {
-        int id, walkable, weaponBuy, perkBuy;
-        sscanf(token, "%d{%d,%d,%d}", &id, &walkable, &weaponBuy, &perkBuy);
+        int id, walkable, weaponBuy, weaponId, perkBuy, perkId;
+        sscanf(token, "%d{%d,%d{%d},%d{%d}}", &id, &walkable, &weaponBuy, &weaponId, &perkBuy, &perkId);
         tileArr[index].id = id;
         tileArr[index].walkable = walkable;
         tileArr[index].weaponBuy = weaponBuy;
+        tileArr[index].weaponId = weaponId;
         tileArr[index].perkBuy = perkBuy;
+        tileArr[index].perkId = perkId;
         token = strtok(NULL, ";");  
         printf("Parsing index %d: %s\n", index, token);
         index++;
@@ -100,13 +104,16 @@ void placeTile(Tile *tileArr, Texture2D *tileTexturesArr, Camera2D *camera, User
     for(int i = 0; i < MAXTILES; i++){
       Rectangle rec2 = {tileArr[i].x, tileArr[i].y, tileArr[i].width, tileArr[i].height};
       if(CheckCollisionRecs(rec1, rec2)){
-        tileArr[i].texture = tileTexturesArr[user->textureId];
-        tileArr[i].id = user->textureId;
-        if(tileArr[i].id >= 10 && tileArr[i].id <= 19){
+        if(user->textureId >= WEAPONSTART && user->textureId < PERKSTART){
           tileArr[i].weaponBuy = true;
+          tileArr[i].weaponId = user->textureId - WEAPONSTART;
         }
-        else if(tileArr[i].id >= 20 && tileArr[i].id <= 29){
+        else if(user->textureId >= PERKSTART && user->textureId <= 29){
           tileArr[i].perkBuy = true;
+          tileArr[i].perkId = user->textureId - PERKSTART;
+        }else{
+          tileArr[i].id = user->textureId;
+          tileArr[i].texture = tileTexturesArr[tileArr[i].id];
         }
         break;
       }
@@ -135,6 +142,12 @@ void drawTile(Tile *tileArr, Texture2D *tileTexturesArr){
     Rectangle rect = {0, 0, (float)tileArr[i].width, (float)tileArr[i].height};
     Vector2 pos = {tileArr[i].x, tileArr[i].y};
     DrawTextureRec(tileTexturesArr[tileArr[i].id], rect, pos, WHITE);
+    if(tileArr[i].weaponBuy){
+      DrawTextureRec(tileTexturesArr[tileArr[i].weaponId + WEAPONSTART], rect, pos, WHITE);
+    }
+    else if(tileArr[i].perkBuy){
+      DrawTextureRec(tileTexturesArr[tileArr[i].perkId + PERKSTART], rect, pos, WHITE);
+    }
     if(tileArr[i].id > 0){
       DrawText(TextFormat("%d", tileArr[i].id), pos.x + size / 2, pos.y + size / 2, 10, RED);
     }
@@ -152,7 +165,9 @@ void deleteTile(Tile *tileArr, Texture2D texture, Camera2D *camera){
         tileArr[i].id = 0;
         tileArr[i].walkable = false;
         tileArr[i].weaponBuy = false;
+        tileArr[i].weaponId = -1;
         tileArr[i].perkBuy = false;
+        tileArr[i].perkId = -1;
         break;
       }
     }

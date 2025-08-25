@@ -23,12 +23,14 @@ void loadMap(Tile *tileArr) {
     char *token = strtok(buffer, ";");  
     int index = 0;
     while (token != NULL && index < MAXTILES) {
-        int id, walkable, weaponBuy, perkBuy;
-        sscanf(token, "%d{%d,%d,%d}", &id, &walkable, &weaponBuy, &perkBuy);
+        int id, walkable, weaponBuy, weaponId, perkBuy, perkId;
+        sscanf(token, "%d{%d,%d{%d},%d{%d}}", &id, &walkable, &weaponBuy, &weaponId, &perkBuy, &perkId);
         tileArr[index].id = id;
         tileArr[index].walkable = walkable;
         tileArr[index].weaponBuy = weaponBuy;
+        tileArr[index].weaponId = weaponId;
         tileArr[index].perkBuy = perkBuy;
+        tileArr[index].perkId = perkId;
         token = strtok(NULL, ";");  
         index++;
     }
@@ -74,16 +76,16 @@ void drawMap(Tile *tileArr, Texture2D *tileTexturesArr, Chunk *chunkArr, Camera2
 }
 
 void spawnObjects(WeaponBuy *weaponBuyArr, Weapon *weaponArr, PerkBuy *perkBuyArr, Perk *perkArr, Tile *tileArr){
-  printf("in spawn objects\n");
   for(int i = 0; i < MAXTILES; i++){
+    printf("In spawn objects\n");
     if(tileArr[i].weaponBuy){
-      spawnWeaponBuy(weaponBuyArr, &weaponArr[tileArr[i].id - 10], (int)tileArr[i].x, (int)tileArr[i].y);
+      spawnWeaponBuy(weaponBuyArr, &weaponArr[tileArr[i].weaponId], (int)tileArr[i].x, (int)tileArr[i].y);
     }
     else if(tileArr[i].perkBuy){
-      printf("before spawn perk\n");
-      spawnPerkBuy(perkBuyArr, &perkArr[tileArr[i].id - 20], (int)tileArr[i].x, (int)tileArr[i].y);
-      printf("after spawn perk\n");
+
+      spawnPerkBuy(perkBuyArr, &perkArr[tileArr[i].perkId], (int)tileArr[i].x, (int)tileArr[i].y);
     }
+    printf("spawned\n");
   }
 }
 

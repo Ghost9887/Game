@@ -9,6 +9,8 @@
 #define SCREENWIDTH 1200
 #define SCREENHEIGHT 900
 #define MAXWEAPONBUYS 50
+#define WEAPONSTART 10 //index in the texture array of where the weaponbuys start
+#define PERKSTART 20 //same thing here
 
 typedef struct{
   int id;
@@ -18,7 +20,9 @@ typedef struct{
   int height;
   bool walkable;
   bool weaponBuy;
+  int weaponId;
   bool perkBuy;
+  int perkId;
   Texture2D texture;
 }Tile;
 
