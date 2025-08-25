@@ -3,11 +3,17 @@
 
 void drawBottomBar(Texture2D *tileTextureArr){
   int size = 32;
-  DrawRectangle(0, SCREENHEIGHT - 100, SCREENWIDTH, SCREENHEIGHT, BLUE);
+  int height = 150;
+  DrawRectangle(0, SCREENHEIGHT - 150, SCREENWIDTH, SCREENHEIGHT, BLUE);
   Rectangle src = {0, 0, 32, 32};
-  for(int i = 1; i <= 30; i++){
-    Vector2 pos = {i * size, SCREENHEIGHT - 100};
-    DrawTextureRec(tileTextureArr[i], src, pos, WHITE);
+  int index = 0;
+  for(int j = 0; j < 5; j++){
+    height -= size * j;
+    for(int i = 1; i <= 30; i++){
+      Vector2 pos = {i * size, SCREENHEIGHT - height};
+      DrawTextureRec(tileTextureArr[index], src, pos, WHITE);
+      index++;
+    }
   }
 }
 
