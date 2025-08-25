@@ -76,15 +76,8 @@ void initProjectileArray(Projectile *projectileArr) {
 
 int checkForCollisionWithEnemy(Projectile *projectile, Enemy *enemyArr, Tile *solidTileArr) {
     Vector2 currentPos = {projectile->x, projectile->y};
-    //enemies
-    for (int i = 0; i < MAXSPAWNENEMIES; i++) {
-        if (!enemyArr[i].active) continue;
-        Rectangle enemyRect = {enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height};
-        if (CheckCollisionPointRec(currentPos, enemyRect)) {
-            return i;
-        }
-    }
-    //tiles
+    
+      //tiles
     for (int i = 0; i < AMOUNTOFSOLIDBLOCKS; i++) {
         Rectangle tileRect = {
             solidTileArr[i].x,
@@ -94,6 +87,15 @@ int checkForCollisionWithEnemy(Projectile *projectile, Enemy *enemyArr, Tile *so
         };
         if (CheckCollisionPointRec(currentPos, tileRect)) {
             return -2;  
+        }
+    }
+
+    //enemies
+    for (int i = 0; i < MAXSPAWNENEMIES; i++) {
+        if (!enemyArr[i].active) continue;
+        Rectangle enemyRect = {enemyArr[i].x, enemyArr[i].y, enemyArr[i].width, enemyArr[i].height};
+        if (CheckCollisionPointRec(currentPos, enemyRect)) {
+            return i;
         }
     }
     return -1;
