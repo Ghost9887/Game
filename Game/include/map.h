@@ -9,6 +9,6 @@ void initTileArr(Tile *tileArr);
 void drawGrid(Tile *tileArr, int size);
 void drawMap(Tile *tileArr, Texture2D *tileTextureArr, Chunk *chunkArr, Camera2D *camera);
 void loadTileTextures(Texture2D *tileTexturesArr);
-void spawnObjects(WeaponBuy *weaponBuyArr, Weapon *weaponArr, PerkBuy *perkBuyArr, Perk *perkArr, Tile *tileArr);
+void spawnObjects(WeaponBuy *weaponBuyArr, Weapon *weaponArr, PerkBuy *perkBuyArr, Perk *perkArr, Tile *tileArr, Tile *solidTileArr);
 
 #endif

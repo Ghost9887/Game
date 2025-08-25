@@ -9,6 +9,7 @@
 #include <stdio.h>
 
 extern unsigned int CURRENTSPAWNEDENEMIES;
+extern unsigned int AMOUNTOFSOLIDBLOCKS;
 
 Texture2D playerTexture;
 
@@ -76,17 +77,47 @@ void updatePlayerAnimation(Player *player) {
     }
 }
 
-void playerMovement(Player *player) {
-  float deltaTime = GetFrameTime();
-  if (IsKeyDown(KEY_A))
-    player->x -= player->speed * deltaTime;
-  if (IsKeyDown(KEY_D))
-    player->x += player->speed * deltaTime;
-  if (IsKeyDown(KEY_S))
-    player->y += player->speed * deltaTime;
-  if (IsKeyDown(KEY_W))
-    player->y -= player->speed * deltaTime;
+void playerMovement(Player *player, Tile *solidTileArr) {
+    float deltaTime = GetFrameTime();
+    float newX = player->x;
+    float newY = player->y;
+    if (IsKeyDown(KEY_A)) newX -= player->speed * deltaTime;
+    if (IsKeyDown(KEY_D)) newX += player->speed * deltaTime;
+    if (IsKeyDown(KEY_W)) newY -= player->speed * deltaTime;
+    if (IsKeyDown(KEY_S)) newY += player->speed * deltaTime;
+
+    Rectangle futureX = { newX, player->y, player->width, player->height };
+    bool xBlocked = false;
+    for (int i = 0; i < AMOUNTOFSOLIDBLOCKS; i++) {
+        Rectangle tile = {
+            solidTileArr[i].x,
+            solidTileArr[i].y,
+            solidTileArr[i].width,
+            solidTileArr[i].height
+        };
+        if (CheckCollisionRecs(futureX, tile)) {
+            xBlocked = true;
+            break;
+        }
+    }
+    if (!xBlocked) player->x = newX;
+    Rectangle futureY = { player->x, newY, player->width, player->height };
+    bool yBlocked = false;
+    for (int i = 0; i < AMOUNTOFSOLIDBLOCKS; i++) {
+        Rectangle tile = {
+            solidTileArr[i].x,
+            solidTileArr[i].y,
+            solidTileArr[i].width,
+            solidTileArr[i].height
+        };
+        if (CheckCollisionRecs(futureY, tile)) {
+            yBlocked = true;
+            break;
+        }
+    }
+    if (!yBlocked) player->y = newY;
 }
+
 
 void playerShoot(Player *player, Projectile *projectileArr) {
   if(IsMouseButtonDown(MOUSE_LEFT_BUTTON)){
@@ -212,8 +243,8 @@ void addMoney(Player *player, int money){
   player->money += money;
 }
 
-void updatePlayer(Player *player, Enemy *enemyArr, Camera2D *camera) {
-  playerMovement(player);
+void updatePlayer(Player *player, Enemy *enemyArr, Camera2D *camera, Tile *solidTileArr) {
+  playerMovement(player, solidTileArr);
   ADS(player, enemyArr);
   updatePlayerAnimation(player);
   drawPlayer(player, camera);

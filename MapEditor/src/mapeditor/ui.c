@@ -6,7 +6,7 @@ void drawBottomBar(Texture2D *tileTextureArr){
   int height = 150;
   DrawRectangle(0, SCREENHEIGHT - 150, SCREENWIDTH, SCREENHEIGHT, BLUE);
   Rectangle src = {0, 0, 32, 32};
-  int index = 0;
+  int index = 1;
   for(int j = 0; j < 5; j++){
     height -= size * j;
     for(int i = 1; i <= 30; i++){

@@ -10,7 +10,9 @@ Tile createTile(){
   tile.height = 32;
   tile.walkable = false;
   tile.weaponBuy = false;
+  tile.weaponId = -1;
   tile.perkBuy = false; 
+  tile.perkId = -1;
   tile.texture;
   return tile;
 }

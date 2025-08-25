@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+extern unsigned int AMOUNTOFSOLIDBLOCKS;
 
 void loadMap(Tile *tileArr) {
     FILE *file = fopen("assets/map.mp", "r");
@@ -27,6 +28,9 @@ void loadMap(Tile *tileArr) {
         sscanf(token, "%d{%d,%d{%d},%d{%d}}", &id, &walkable, &weaponBuy, &weaponId, &perkBuy, &perkId);
         tileArr[index].id = id;
         tileArr[index].walkable = walkable;
+        if(tileArr[index].walkable){
+          AMOUNTOFSOLIDBLOCKS++;
+        }
         tileArr[index].weaponBuy = weaponBuy;
         tileArr[index].weaponId = weaponId;
         tileArr[index].perkBuy = perkBuy;
@@ -64,9 +68,7 @@ void drawMap(Tile *tileArr, Texture2D *tileTexturesArr, Chunk *chunkArr, Camera2
       int index = chunkArr[i].startIndex;
       for(int y = 0; y < 74; y++){
         for(int x = 0; x < 74; x++){
-          if(tileArr[index].id < 10){
-            DrawTexture(tileTexturesArr[tileArr[index].id], tileArr[index].x, tileArr[index].y, WHITE);
-          }
+          DrawTexture(tileTexturesArr[tileArr[index].id], tileArr[index].x, tileArr[index].y, WHITE);
           index++;
         }
         index += 222 - chunkArr[i].rec.width / 32;
@@ -75,20 +77,22 @@ void drawMap(Tile *tileArr, Texture2D *tileTexturesArr, Chunk *chunkArr, Camera2
   }
 }
 
-void spawnObjects(WeaponBuy *weaponBuyArr, Weapon *weaponArr, PerkBuy *perkBuyArr, Perk *perkArr, Tile *tileArr){
+void spawnObjects(WeaponBuy *weaponBuyArr, Weapon *weaponArr, PerkBuy *perkBuyArr, Perk *perkArr, Tile *tileArr, Tile *solidTilesArr){
+  int index = 0;
   for(int i = 0; i < MAXTILES; i++){
-    printf("In spawn objects\n");
-    if(tileArr[i].weaponBuy){
+    if(tileArr[i].walkable){
+      solidTilesArr[index] = tileArr[i]; 
+      index++;
+    }
+    else if(tileArr[i].weaponBuy){
       spawnWeaponBuy(weaponBuyArr, &weaponArr[tileArr[i].weaponId], (int)tileArr[i].x, (int)tileArr[i].y);
     }
     else if(tileArr[i].perkBuy){
 
       spawnPerkBuy(perkBuyArr, &perkArr[tileArr[i].perkId], (int)tileArr[i].x, (int)tileArr[i].y);
     }
-    printf("spawned\n");
   }
 }
-
 
 void initTileArr(Tile *tileArr) {
   for(int i = 0; i < MAXTILES; i++){
@@ -101,8 +105,9 @@ void loadTileTextures(Texture2D *tileTexturesArr){
   tileTexturesArr[1] = LoadTexture("assets/tiles/tile1.png");
   tileTexturesArr[2] = LoadTexture("assets/tiles/tile2.png");
 
+  
+  tileTexturesArr[10] = LoadTexture("assets/tiles/stone.png");
   /*
-  tileTexturesArr[10] = LoadTexture("assets/weapons/pistol/pistol.png");
   tileTexturesArr[11] = LoadTexture("assets/weapons/ar/ar.png");
   tileTexturesArr[12] = LoadTexture("assets/weapons/rpg/rpg.png");
   tileTexturesArr[13] = LoadTexture("assets/weapons/shotgun/shotgun.png");

@@ -26,11 +26,13 @@ unsigned int BIGENEMYCOUNTER = 0;
 unsigned int AMOUNTOFWEAPONS = 6;
 unsigned int AMOUNTOFWEAPONBUYS = 0;
 unsigned int AMOUNTOFPERKMACHINES = 0;
+unsigned int AMOUNTOFSOLIDBLOCKS = 0;
 
 void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
                      Round *rnd, Weapon *weaponArr, Pickup *pickupArr, WeaponBuy *weaponBuyArr,
                      int *weaponHolster, Texture2D *weaponTextureArr,
-                     Texture2D *enemyTexturesArr, Camera2D *camera, PerkBuy *perkBuyArr, Texture2D *perkTexturesArr);
+                     Texture2D *enemyTexturesArr, Camera2D *camera, PerkBuy *perkBuyArr, Texture2D *perkTexturesArr,
+                     Tile *solidTilesArr);
 
 int main(void) {
 
@@ -108,8 +110,10 @@ int main(void) {
   // start the first round
   startRound(&rnd, enemyArr);
 
-  spawnObjects(weaponBuyArr, weaponArr, perkBuyArr, perkArr, tileArr);
+  
+  Tile solidTilesArr[AMOUNTOFSOLIDBLOCKS];
 
+  spawnObjects(weaponBuyArr, weaponArr, perkBuyArr, perkArr, tileArr, solidTilesArr);
   // MAIN GAME LOOP
   
   while (!WindowShouldClose()) {
@@ -143,7 +147,7 @@ int main(void) {
       // UPDATE ALL OF THE GAME STATES
         updateGameState(&player, enemyArr, projectileArr, &rnd, weaponArr, 
                     pickupArr, weaponBuyArr, weaponHolster, weaponTextureArr,
-                    enemyTexturesArr, &camera, perkBuyArr, perkTexturesArr);
+                    enemyTexturesArr, &camera, perkBuyArr, perkTexturesArr, solidTilesArr);
       EndMode2D();
 
         drawUI(player.health, ENEMYCOUNTER, player.invTime, rnd.round, player.money,
@@ -160,9 +164,10 @@ int main(void) {
 void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
                      Round *rnd, Weapon *weaponArr, Pickup *pickupArr, WeaponBuy *weaponBuyArr,
                      int *weaponHolster, Texture2D *weaponTextureArr, 
-                     Texture2D *enemyTexturesArr, Camera2D *camera, PerkBuy *perkBuyArr, Texture2D *perkTexturesArr) {
+                     Texture2D *enemyTexturesArr, Camera2D *camera, PerkBuy *perkBuyArr, Texture2D *perkTexturesArr,
+                     Tile *solidTilesArr) {
   
-  updatePlayer(player, enemyArr, camera);
+  updatePlayer(player, enemyArr, camera, solidTilesArr);
 
   // checks if the round should end
   updateRound(rnd, enemyArr);
@@ -200,6 +205,6 @@ void updateGameState(Player *player, Enemy *enemyArr, Projectile *projectileArr,
     resetBigEnemyCounter();
   }
 
-  updateEnemy(enemyArr, player, pickupArr, enemyTexturesArr);
+  updateEnemy(enemyArr, player, pickupArr, enemyTexturesArr, solidTilesArr);
   }
 }

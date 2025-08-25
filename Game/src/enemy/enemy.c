@@ -12,6 +12,7 @@
 extern unsigned int ENEMYCOUNTER;
 extern unsigned int CURRENTSPAWNEDENEMIES;
 extern unsigned int BIGENEMYCOUNTER;
+extern unsigned int AMOUNTOFSOLIDBLOCKS;
 
 void drawEnemy(Enemy *enemy, Texture2D *enemyTexturesArr){
   Vector2 pos = {
@@ -92,6 +93,17 @@ bool checkCollisionWithPlayer(Enemy *enemy, Player *player) {
   return CheckCollisionRecs(enemyRect, playerRect);
 }
 
+bool checkCollisionWithTile(Tile *solidTileArr, Enemy *enemy){
+  for(int i = 0; i < AMOUNTOFSOLIDBLOCKS; i++){
+    Rectangle enemyRect = {enemy->x, enemy->y, enemy->width, enemy->height};
+    Rectangle tile = {solidTileArr[i].x, solidTileArr[i].y, solidTileArr[i].width, solidTileArr[i].height};
+    if(CheckCollisionRecs(enemyRect, tile)){
+      return true;
+    }
+  }
+  return false;
+}
+
 //checks how many enemies are spawned
 int getActiveEnemyCount(Enemy *enemyArr) {
   int count = 0;
@@ -156,7 +168,7 @@ bool checkIfAllEnemiesAreDestroyed(Enemy *enemy) {
 
 void enemyLoseHealth(float damage, Enemy *enemy) { enemy->health -= damage; }
 
-void updateEnemy(Enemy *enemyArr, Player *player, Pickup *pickupArr, Texture2D *enemyTexturesArr) {
+void updateEnemy(Enemy *enemyArr, Player *player, Pickup *pickupArr, Texture2D *enemyTexturesArr, Tile *solidTileArr) {
   for (int i = 0; i < MAXSPAWNENEMIES; i++) {
     if (!enemyArr[i].active)
       continue;
@@ -167,6 +179,8 @@ void updateEnemy(Enemy *enemyArr, Player *player, Pickup *pickupArr, Texture2D *
 
     //checks if the enemy should die (bad naming)
     destroyEnemy(&enemyArr[i], player, pickupArr);
+    
+    checkCollisionWithTile(solidTileArr, &enemyArr[i]);
 
     // checks collision with player
     if (!isPlayerInvulnerable(player) &&

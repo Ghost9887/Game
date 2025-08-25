@@ -32,20 +32,21 @@ void loadTileTextures(Texture2D *tileTexturesArr){
   tileTexturesArr[1] = LoadTexture("assets/tiles/tile1.png");
   tileTexturesArr[2] = LoadTexture("assets/tiles/tile2.png");
 
-  //figure out a way to place weaponbuys on top of tiles
+  tileTexturesArr[10] = LoadTexture("../Game/assets/tiles/stone.png");
+
   //pistol id = 0 tile id = 10 - 10
   //ar id = 1 tile id = 11 - 10; MAYBE???
-  tileTexturesArr[10] = LoadTexture("../Game/assets/weapons/pistol/pistol.png");
-  tileTexturesArr[11] = LoadTexture("../Game/assets/weapons/ar/ar.png");
-  tileTexturesArr[12] = LoadTexture("../Game/assets/weapons/rpg/rpg.png");
-  tileTexturesArr[13] = LoadTexture("../Game/assets/weapons/shotgun/shotgun.png");
-  tileTexturesArr[14] = LoadTexture("../Game/assets/weapons/smg/smg.png");
-  tileTexturesArr[15] = LoadTexture("../Game/assets/weapons/rpg/rpg.png");
+  tileTexturesArr[20] = LoadTexture("../Game/assets/weapons/pistol/pistol.png");
+  tileTexturesArr[21] = LoadTexture("../Game/assets/weapons/ar/ar.png");
+  tileTexturesArr[22] = LoadTexture("../Game/assets/weapons/rpg/rpg.png");
+  tileTexturesArr[23] = LoadTexture("../Game/assets/weapons/shotgun/shotgun.png");
+  tileTexturesArr[24] = LoadTexture("../Game/assets/weapons/smg/smg.png");
+  tileTexturesArr[25] = LoadTexture("../Game/assets/weapons/rpg/rpg.png");
 
 
   //perks
-  tileTexturesArr[20] = LoadTexture("../Game/assets/perks/health.png");
-  tileTexturesArr[21] = LoadTexture("../Game/assets/perks/speed.png");
+  tileTexturesArr[30] = LoadTexture("../Game/assets/perks/health.png");
+  tileTexturesArr[31] = LoadTexture("../Game/assets/perks/speed.png");
 }
 
 void loadFile(Tile *tileArr) {
@@ -104,11 +105,16 @@ void placeTile(Tile *tileArr, Texture2D *tileTexturesArr, Camera2D *camera, User
     for(int i = 0; i < MAXTILES; i++){
       Rectangle rec2 = {tileArr[i].x, tileArr[i].y, tileArr[i].width, tileArr[i].height};
       if(CheckCollisionRecs(rec1, rec2)){
-        if(user->textureId >= WEAPONSTART && user->textureId < PERKSTART){
+        if(user->textureId >= SOLIDBLOCKSSTART && user->textureId < WEAPONSTART){
+          tileArr[i].id = user->textureId;
+          tileArr[i].texture = tileTexturesArr[tileArr[i].id];
+          tileArr[i].walkable = true;
+        }
+        else if(user->textureId >= WEAPONSTART && user->textureId < PERKSTART){
           tileArr[i].weaponBuy = true;
           tileArr[i].weaponId = user->textureId - WEAPONSTART;
         }
-        else if(user->textureId >= PERKSTART && user->textureId <= 29){
+        else if(user->textureId >= PERKSTART && user->textureId <= 39){
           tileArr[i].perkBuy = true;
           tileArr[i].perkId = user->textureId - PERKSTART;
         }else{
